@@ -1,7 +1,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.4.7
-Release: 7
+Release: 7.90.1
 Group: Applications/System
 Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-2.4.7-now-ss010824.tar.gz
 Source1: ip.8
@@ -13,7 +13,7 @@ Patch5: iproute2-makefile.patch
 Patch7: iproute2-2.4.7-crosscompile.patch
 Patch8: iproute2-2.4.7-hex.patch
 Patch9: iproute2-2.4.7-config.patch
-Patch10: iproute2-2.4.7-htb3-tc.patch
+Patch10: iproute2-2.4.7-netlink.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-root
 BuildPrereq: tetex-latex tetex-dvips psutils
@@ -25,15 +25,15 @@ capabilities of the Linux 2.2.x kernel.
 
 %prep
 %setup -q -n iproute2
-%patch0 -p1 -b .doc
+%patch0 -p1 -b .docmake
 %patch1 -p1 -b .misc
 %patch2 -p1
-%patch4 -p1 -b .glibc22
-%patch5 -p1 -b .kernel
+%patch4 -p1 -b .in_port_t
+%patch5 -p1 -b .makefile
 %patch7 -p1 -b .crosscompile
 %patch8 -p1 -b .hex
 %patch9 -p1 -b .config
-%patch10 -p1 -b .config
+%patch10 -p1 -b .netlink
 
 %build
 %define optflags -ggdb
@@ -69,8 +69,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
-* Thu Jan 16 2003 Phil Knirsch <pknirsch@redhat.com> 2.4.7-7
-- Added htb3-tc patch from http://luxik.cdi.cz/~devik/qos/htb/ (#75486).
+* Mon Nov 03 2003 Phil Knirsch <pknirsch@redhat.com> 2.4.7-7.90.1
+- Security errata for netlink (CAN-2003-0856).
 
 * Fri Oct 11 2002 Bill Nottingham <notting@redhat.com> 2.4.7-6
 - remove flags patch at author's request
