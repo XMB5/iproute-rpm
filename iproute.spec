@@ -1,7 +1,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.4.7
-Release: 14
+Release: 15
 Group: Applications/System
 Source: http://ftp.sunet.se/pub/os/Linux/ip-routing/iproute2-2.4.7-now-ss020116-try.tar.gz
 Source1: ip.8
@@ -32,7 +32,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %setup -q -n iproute2
 %patch0 -p1 -b .docmake
 %patch1 -p1 -b .misc
-%patch2 -p1
+%patch2 -p1 -b .rt_config
 %patch4 -p1 -b .glibc22
 %patch5 -p1 -b .kernel
 %patch6 -p1 -b .hex
@@ -77,6 +77,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Thu May 06 2004 Phil Knirsch <pknirsch@redhat.com> 2.4.7-15
+- rebuilt
+
+* Thu May 06 2004 Phil Knirsch <pknirsch@redhat.com> 2.4.7-13.2
+- Built security errata version for FC1.
+
 * Wed Apr 21 2004 Phil Knirsch <pknirsch@redhat.com> 2.4.7-14
 - Fixed -f option for ss (#118355).
 - Small description fix (#110997).
