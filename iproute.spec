@@ -1,7 +1,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.4.7
-Release: 5
+Release: 7
 Group: Applications/System
 Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-2.4.7-now-ss010824.tar.gz
 Source1: ip.8
@@ -10,10 +10,10 @@ Patch1: iproute2-misc.patch
 Patch2: iproute2-config.patch
 Patch4:	iproute2-in_port_t.patch
 Patch5: iproute2-makefile.patch
-Patch6: iproute2-flags.patch
 Patch7: iproute2-2.4.7-crosscompile.patch
 Patch8: iproute2-2.4.7-hex.patch
 Patch9: iproute2-2.4.7-config.patch
+Patch10: iproute2-2.4.7-htb3-tc.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-root
 BuildPrereq: tetex-latex tetex-dvips psutils
@@ -30,10 +30,10 @@ capabilities of the Linux 2.2.x kernel.
 %patch2 -p1
 %patch4 -p1 -b .glibc22
 %patch5 -p1 -b .kernel
-%patch6 -p1 -b .flags
 %patch7 -p1 -b .crosscompile
 %patch8 -p1 -b .hex
 %patch9 -p1 -b .config
+%patch10 -p1 -b .config
 
 %build
 %define optflags -ggdb
@@ -69,6 +69,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Thu Jan 16 2003 Phil Knirsch <pknirsch@redhat.com> 2.4.7-7
+- Added htb3-tc patch from http://luxik.cdi.cz/~devik/qos/htb/ (#75486).
+
+* Fri Oct 11 2002 Bill Nottingham <notting@redhat.com> 2.4.7-6
+- remove flags patch at author's request
+
 * Fri Jun 21 2002 Tim Powers <timp@redhat.com>
 - automated rebuild
 
