@@ -1,13 +1,13 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
-Version: 2.2.4
-Release: 14
+Version: 2.4.7
+Release: 1
 Group: Applications/System
-Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-current.tar.bz2
+Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-2.4.7-now-ss010824.tar.gz
+Source1: ip.8
 Patch0: iproute2-2.2.4-docmake.patch
 Patch1: iproute2-misc.patch
 Patch2: iproute2-config.patch
-Patch3: iproute2-echo.patch
 Patch4:	iproute2-in_port_t.patch
 Patch5: iproute2-makefile.patch
 Patch6: iproute2-flags.patch
@@ -25,7 +25,6 @@ capabilities of the Linux 2.2.x kernel.
 %patch0 -p1 -b .doc
 %patch1 -p1 -b .misc
 %patch2 -p1
-%patch3 -p1
 %patch4 -p1 -b .glibc22
 %patch5 -p1 -b .kernel
 %patch6 -p1 -b .flags
@@ -41,10 +40,12 @@ rm -rf $RPM_BUILD_ROOT
 
 mkdir -p $RPM_BUILD_ROOT/sbin \
  	 $RPM_BUILD_ROOT%{_sbindir} \
+         $RPM_BUILD_ROOT%{_mandir}/man8 \
          $RPM_BUILD_ROOT/etc/iproute2
 
 install -s -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -s -m 755 ip/rtacct $RPM_BUILD_ROOT%{_sbindir}
+install -s -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_mandir}/man8
 
 cp -f etc/iproute2/* $RPM_BUILD_ROOT/etc/iproute2
 
@@ -57,10 +58,15 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.decnet README.iproute2+tc RELNOTES
 %doc doc/*.ps examples
 /sbin/*
+%{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) /etc/iproute2/*
 %{_sbindir}/*
 
 %changelog
+* Fri Mar 15 2002 Phil Knirsch <pknirsch@redhat.com>
+- Update to latest stable release 2.4.7-now-ss010824.
+- Added simple man page for ip.
+
 * Wed Aug  8 2001 Bill Nottingham <notting@redhat.com>
 - allow setting of allmulti & promisc flags (#48669)
 
