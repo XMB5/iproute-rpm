@@ -1,9 +1,10 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.9
-Release: 5
+Release: 6
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-041019.tar.gz
+URL:    http://developer.osdl.org/dev/iproute2/
 Source1: ip.8
 Source2: tc.8
 Source3: tc-cbq.8
@@ -58,7 +59,7 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
 	 $RPM_BUILD_ROOT%{_libdir}/tc
 
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
-install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat $RPM_BUILD_ROOT%{_sbindir}
+install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
 install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 tc/normal.dist tc/pareto.dist tc/paretonormal.dist $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_mandir}/man8
@@ -92,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT/%{_libdir}/debug/*
 %{_libdir}/tc/*
 
 %changelog
+* Thu Dec 23 2004 Radek Vokal <rvokal@redhat.com> 2.6.9-6
+- added arpd into sbin
+
 * Mon Nov 29 2004 Radek Vokal <rvokal@redhat.com> 2.6.9-5
 - debug info removed from makefile and from spec (#140891)
 
