@@ -1,9 +1,9 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.9
-Release: 3
+Release: 4
 Group: Applications/System
-Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-ss040831.tar.gz
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-041019.tar.gz
 Source1: ip.8
 Source2: tc.8
 Source3: tc-cbq.8
@@ -18,9 +18,10 @@ Source11: tc-tbf.8
 Patch0: iproute2-2.4.7-docmake.patch
 Patch1: iproute2-2.4.7-rt_config.patch
 Patch2: iproute2-2.6.9-kernel.patch
-Patch3: iproute2-2.6.9-ss.patch
+#Patch3: iproute2-2.6.9-ss.patch
 Patch4: iproute2-2.4.7-initvar.patch
-Patch5: iproute2-2.6.9-owl-nstat-bound.patch
+#Patch5: iproute2-2.6.9-owl-nstat-bound.patch
+Patch6: iproute2-2.6.9-endian.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
@@ -35,9 +36,10 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch0 -p1 -b .docmake
 %patch1 -p1 -b .rt_config
 %patch2 -p1 -b .kernel
-%patch3 -p1 -b .ss
+#%patch3 -p1 -b .ss
 %patch4 -p1 -b .initvar
-%patch5 -p1 -b .bound
+#%patch5 -p1 -b .bound
+%patch6 -p1 -b .endian
 
 %build
 make
@@ -53,7 +55,7 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
 	 $RPM_BUILD_ROOT%{_libdir}/tc
 
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
-install -m 755 misc/ss misc/nstat misc/rtacct misc/rtstat $RPM_BUILD_ROOT%{_sbindir}
+install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat $RPM_BUILD_ROOT%{_sbindir}
 install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 tc/normal.dist tc/pareto.dist tc/paretonormal.dist $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_mandir}/man8
@@ -85,6 +87,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*
 
 %changelog
+* Tue Nov 16 2004 Radek Vokal <rvokal@redhat.com> 2.6.9-4
+- source file updated from snapshot version
+- endian patch adding <endian.h> 
+
 * Sat Sep 18 2004 Joshua Blanton <jblanton@cs.ohiou.edu> 2.6.9-3
 - added installation of netem module for tc
 
