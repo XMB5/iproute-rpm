@@ -1,7 +1,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.4.7
-Release: 11
+Release: 13
 Group: Applications/System
 Source: http://ftp.sunet.se/pub/os/Linux/ip-routing/iproute2-2.4.7-now-ss020116-try.tar.gz
 Source1: ip.8
@@ -15,6 +15,7 @@ Patch7: iproute2-2.4.7-config.patch
 Patch8: iproute2-2.4.7-htb3-tc.patch
 Patch9: iproute2-2.4.7-ss.patch
 Patch10: iproute2-2.4.7-db.patch
+Patch11: iproute2-2.4.7-netlink.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-root
 BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools
@@ -36,6 +37,7 @@ capabilities of the Linux 2.2.x kernel.
 %patch8 -p1 -b .htb3-tc
 %patch9 -p1 -b .ss
 %patch10 -p1 -b .db
+%patch11 -p1 -b .netlink
 
 %build
 make
@@ -69,6 +71,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Wed Nov 05 2003 Phil Knirsch <pknirsch@redhat.com> 2.4.7-12
+- Security errata for netlink (CAN-2003-0856).
+
 * Thu Oct 23 2003 Phil Knirsch <pknirsch@redhat.com>
 - Updated to latest version. Used by other distros, so seems stable. ;-)
 - Quite a few patches needed updating in that turn.
