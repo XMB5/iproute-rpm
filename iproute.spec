@@ -1,7 +1,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.10
-Release: 1
+Release: 2
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-050209.tar.gz
 URL:    http://developer.osdl.org/dev/iproute2/
@@ -87,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT/%{_libdir}/debug/*
 %{_libdir}/tc/*
 
 %changelog
+* Fri Mar 04 2005 Radek Vokal <rvokal@redhat.com> 2.6.10-2
+- gcc4 rebuilt
+
 * Wed Feb 16 2005 Radek Vokal <rvokal@redhat.com> 2.6.10-1
 - update to iproute-2.6.10
 
