@@ -1,10 +1,20 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.4.7
-Release: 15
+Release: 16
 Group: Applications/System
 Source: http://ftp.sunet.se/pub/os/Linux/ip-routing/iproute2-2.4.7-now-ss020116-try.tar.gz
 Source1: ip.8
+Source2: tc.8
+Source3: tc-cbq.8
+Source4: tc-cbq-details.8
+Source5: tc-htb.8
+Source6: tc-pbfifo.8
+Source7: tc-pfifo_fast.8
+Source8: tc-prio.8
+Source9: tc-red.8
+Source10: tc-sfq.8
+Source11: tc-tbf.8
 Patch0: iproute2-2.4.7-docmake.patch
 Patch1: iproute2-2.4.7-misc.patch
 Patch2: iproute2-2.4.7-rt_config.patch
@@ -60,6 +70,16 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/rtstat $RPM_BUILD_ROOT%{_sbindir}
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 644 %{SOURCE2} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 644 %{SOURCE3} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 644 %{SOURCE4} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 644 %{SOURCE5} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 644 %{SOURCE6} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 644 %{SOURCE8} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 644 %{SOURCE9} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 644 %{SOURCE10} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 644 %{SOURCE11} $RPM_BUILD_ROOT/%{_mandir}/man8
 
 cp -f etc/iproute2/* $RPM_BUILD_ROOT/etc/iproute2
 
@@ -77,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Wed May 26 2004 Phil Knirsch <pknirsch@redhat.com> 2.4.7-16
+- Took tons of manpages from debian, much more complete (#123952).
+
 * Thu May 06 2004 Phil Knirsch <pknirsch@redhat.com> 2.4.7-15
 - rebuilt
 
