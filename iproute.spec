@@ -1,7 +1,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.9
-Release: 2
+Release: 3
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-ss040831.tar.gz
 Source1: ip.8
@@ -49,10 +49,13 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/sbin \
  	 $RPM_BUILD_ROOT%{_sbindir} \
          $RPM_BUILD_ROOT%{_mandir}/man8 \
-         $RPM_BUILD_ROOT/etc/iproute2
+         $RPM_BUILD_ROOT/etc/iproute2 \
+	 $RPM_BUILD_ROOT%{_libdir}/tc
 
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/rtstat $RPM_BUILD_ROOT%{_sbindir}
+install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
+install -m 644 tc/normal.dist tc/pareto.dist tc/paretonormal.dist $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_mandir}/man8
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT/%{_mandir}/man8
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT/%{_mandir}/man8
@@ -79,8 +82,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) /etc/iproute2/*
 %{_sbindir}/*
+%{_libdir}/*
 
 %changelog
+* Sat Sep 18 2004 Joshua Blanton <jblanton@cs.ohiou.edu> 2.6.9-3
+- added installation of netem module for tc
+
 * Mon Sep 06 2004 Radek Vokal <rvokal@redhat.com> 2.6.9-2
 - fixed possible buffer owerflow, path by Steve Grubb <linux_4ever@yahoo.com>
 
