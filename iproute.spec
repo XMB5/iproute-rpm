@@ -1,22 +1,23 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.4.7
-Release: 7.90.1
+Release: 11
 Group: Applications/System
-Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-2.4.7-now-ss010824.tar.gz
+Source: http://ftp.sunet.se/pub/os/Linux/ip-routing/iproute2-2.4.7-now-ss020116-try.tar.gz
 Source1: ip.8
-Patch0: iproute2-2.2.4-docmake.patch
-Patch1: iproute2-misc.patch
-Patch2: iproute2-config.patch
-Patch4:	iproute2-in_port_t.patch
-Patch5: iproute2-makefile.patch
-Patch7: iproute2-2.4.7-crosscompile.patch
-Patch8: iproute2-2.4.7-hex.patch
-Patch9: iproute2-2.4.7-config.patch
-Patch10: iproute2-2.4.7-netlink.patch
+Patch0: iproute2-2.4.7-docmake.patch
+Patch1: iproute2-2.4.7-misc.patch
+Patch2: iproute2-2.4.7-rt_config.patch
+Patch4:	iproute2-2.4.7-in_port_t.patch
+Patch5: iproute2-2.4.7-kernel.patch
+Patch6: iproute2-2.4.7-hex.patch
+Patch7: iproute2-2.4.7-config.patch
+Patch8: iproute2-2.4.7-htb3-tc.patch
+Patch9: iproute2-2.4.7-ss.patch
+Patch10: iproute2-2.4.7-db.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-root
-BuildPrereq: tetex-latex tetex-dvips psutils
+BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for
@@ -28,16 +29,15 @@ capabilities of the Linux 2.2.x kernel.
 %patch0 -p1 -b .docmake
 %patch1 -p1 -b .misc
 %patch2 -p1
-%patch4 -p1 -b .in_port_t
-%patch5 -p1 -b .makefile
-%patch7 -p1 -b .crosscompile
-%patch8 -p1 -b .hex
-%patch9 -p1 -b .config
-%patch10 -p1 -b .netlink
+%patch4 -p1 -b .glibc22
+%patch5 -p1 -b .kernel
+%patch6 -p1 -b .hex
+%patch7 -p1 -b .config
+%patch8 -p1 -b .htb3-tc
+%patch9 -p1 -b .ss
+%patch10 -p1 -b .db
 
 %build
-%define optflags -ggdb
-
 make
 make -C doc
 
@@ -50,7 +50,7 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
          $RPM_BUILD_ROOT/etc/iproute2
 
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
-install -m 755 ip/rtacct $RPM_BUILD_ROOT%{_sbindir}
+install -m 755 misc/ss misc/nstat misc/rtacct misc/rtstat $RPM_BUILD_ROOT%{_sbindir}
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_mandir}/man8
 
 cp -f etc/iproute2/* $RPM_BUILD_ROOT/etc/iproute2
@@ -69,8 +69,22 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
-* Mon Nov 03 2003 Phil Knirsch <pknirsch@redhat.com> 2.4.7-7.90.1
-- Security errata for netlink (CAN-2003-0856).
+* Thu Oct 23 2003 Phil Knirsch <pknirsch@redhat.com>
+- Updated to latest version. Used by other distros, so seems stable. ;-)
+- Quite a few patches needed updating in that turn.
+- Added ss (#107363) and several other new nifty tools.
+
+* Tue Jun 17 2003 Phil Knirsch <pknirsch@redhat.com>
+- rebuilt
+
+* Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Wed Jan 22 2003 Tim Powers <timp@redhat.com>
+- rebuilt
+
+* Thu Jan 16 2003 Phil Knirsch <pknirsch@redhat.com> 2.4.7-7
+- Added htb3-tc patch from http://luxik.cdi.cz/~devik/qos/htb/ (#75486).
 
 * Fri Oct 11 2002 Bill Nottingham <notting@redhat.com> 2.4.7-6
 - remove flags patch at author's request
