@@ -1,7 +1,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.4.7
-Release: 13
+Release: 14
 Group: Applications/System
 Source: http://ftp.sunet.se/pub/os/Linux/ip-routing/iproute2-2.4.7-now-ss020116-try.tar.gz
 Source1: ip.8
@@ -16,14 +16,17 @@ Patch8: iproute2-2.4.7-htb3-tc.patch
 Patch9: iproute2-2.4.7-ss.patch
 Patch10: iproute2-2.4.7-db.patch
 Patch11: iproute2-2.4.7-netlink.patch
+Patch12: iproute2-2.4.7-optarg.patch
+Patch13: iproute2-2.4.7-initvar.patch
+Patch14: iproute2-2.4.7-default.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-root
-BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools
+BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for
 example) which are designed to use the advanced networking
-capabilities of the Linux 2.2.x kernel.
+capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
 %setup -q -n iproute2
@@ -38,6 +41,9 @@ capabilities of the Linux 2.2.x kernel.
 %patch9 -p1 -b .ss
 %patch10 -p1 -b .db
 %patch11 -p1 -b .netlink
+%patch12 -p1 -b .optarg
+%patch13 -p1 -b .initvar
+%patch14 -p1 -b .default
 
 %build
 make
@@ -71,6 +77,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Wed Apr 21 2004 Phil Knirsch <pknirsch@redhat.com> 2.4.7-14
+- Fixed -f option for ss (#118355).
+- Small description fix (#110997).
+- Added initialization of some vars (#74961). 
+- Added patch to initialize "default" rule as well (#60693).
+
 * Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
