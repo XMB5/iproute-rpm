@@ -1,7 +1,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.4.7
-Release: 1
+Release: 4
 Group: Applications/System
 Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-2.4.7-now-ss010824.tar.gz
 Source1: ip.8
@@ -11,6 +11,9 @@ Patch2: iproute2-config.patch
 Patch4:	iproute2-in_port_t.patch
 Patch5: iproute2-makefile.patch
 Patch6: iproute2-flags.patch
+Patch7: iproute2-2.4.7-crosscompile.patch
+Patch8: iproute2-2.4.7-hex.patch
+Patch9: iproute2-2.4.7-config.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-root
 BuildPrereq: tetex-latex tetex-dvips psutils
@@ -28,6 +31,9 @@ capabilities of the Linux 2.2.x kernel.
 %patch4 -p1 -b .glibc22
 %patch5 -p1 -b .kernel
 %patch6 -p1 -b .flags
+%patch7 -p1 -b .crosscompile
+%patch8 -p1 -b .hex
+%patch9 -p1 -b .config
 
 %build
 %define optflags -ggdb
@@ -43,9 +49,9 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
          $RPM_BUILD_ROOT%{_mandir}/man8 \
          $RPM_BUILD_ROOT/etc/iproute2
 
-install -s -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
-install -s -m 755 ip/rtacct $RPM_BUILD_ROOT%{_sbindir}
-install -s -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
+install -m 755 ip/rtacct $RPM_BUILD_ROOT%{_sbindir}
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_mandir}/man8
 
 cp -f etc/iproute2/* $RPM_BUILD_ROOT/etc/iproute2
 
@@ -63,7 +69,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
-* Fri Mar 15 2002 Phil Knirsch <pknirsch@redhat.com>
+* Wed Jun 19 2002 Phil Knirsch <pknirsch@redhat.com> 2.4.7-4
+- Don't forcibly strip binaries
+
+* Mon May 27 2002 Phil Knirsch <pknirsch@redhat.com> 2.4.7-3
+- Fixed missing diffserv and atm support in config (#57278).
+- Fixed inconsistent numeric base problem for command line (#65473).
+
+* Tue May 14 2002 Phil Knirsch <pknirsch@redhat.com> 2.4.7-2
+- Added patch to fix crosscompiling by Adrian Linkins.
+
+* Fri Mar 15 2002 Phil Knirsch <pknirsch@redhat.com> 2.4.7-1
 - Update to latest stable release 2.4.7-now-ss010824.
 - Added simple man page for ip.
 
