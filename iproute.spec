@@ -1,7 +1,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.4.7
-Release: 4
+Release: 5
 Group: Applications/System
 Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-2.4.7-now-ss010824.tar.gz
 Source1: ip.8
@@ -69,6 +69,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Fri Jun 21 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
 * Wed Jun 19 2002 Phil Knirsch <pknirsch@redhat.com> 2.4.7-4
 - Don't forcibly strip binaries
 
