@@ -1,7 +1,7 @@
 Summary: Enhanced IP routing and network devices configuration tools
 Name: iproute
 Version: 2.2.4
-Release: 8
+Release: 10
 Group: Applications/System
 Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-current.tar.gz
 Patch0: iproute2-2.2.4-docmake.patch
@@ -25,7 +25,13 @@ utilities (/sbin/ip, /sbin/rtmon).
 %patch3 -p1
 
 %build
-make
+if [ -d /usr/src/linux-2.4 ]; then
+    make KERNEL_INCLUDE=/usr/src/linux-2.4/include
+elif [ -d /usr/src/linux ]; then
+    make KERNEL_INCLUDE=/usr/src/linux/include
+else
+    make
+fi
 make -C doc
 
 %install
@@ -53,6 +59,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Sat Jan  6 2001 Jeff Johnson <jbj@redhat.com>
+- test for specific KERNEL_INCLUDE directories.
+
+* Thu Oct 12 2000 Than Ngo <than@redhat.com>
+- rebuild for 7.1
+
 * Thu Oct 12 2000 Than Ngo <than@redhat.com>
 - add default configuration files for iproute (Bug #10549, #18887)
 
