@@ -1,7 +1,7 @@
-Summary: Enhanced IP routing and network devices configuration tools
+Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.2.4
-Release: 13
+Release: 14
 Group: Applications/System
 Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-current.tar.bz2
 Patch0: iproute2-2.2.4-docmake.patch
@@ -10,15 +10,15 @@ Patch2: iproute2-config.patch
 Patch3: iproute2-echo.patch
 Patch4:	iproute2-in_port_t.patch
 Patch5: iproute2-makefile.patch
+Patch6: iproute2-flags.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-root
 BuildPrereq: tetex-latex tetex-dvips psutils
 
 %description
-Linux 2.2 maintains compatibility with the basic configuration utilities of
-the network (ifconfig, route) but a new utility is required to exploit the new
-characteristics and features of the kernel. This package includes the new
-utilities (/sbin/ip, /sbin/rtmon).
+The iproute package contains networking utilities (ip and rtmon, for
+example) which are designed to use the advanced networking
+capabilities of the Linux 2.2.x kernel.
 
 %prep
 %setup -q -n iproute2
@@ -28,6 +28,7 @@ utilities (/sbin/ip, /sbin/rtmon).
 %patch3 -p1
 %patch4 -p1 -b .glibc22
 %patch5 -p1 -b .kernel
+%patch6 -p1 -b .flags
 
 %build
 %define optflags -ggdb
@@ -60,6 +61,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Wed Aug  8 2001 Bill Nottingham <notting@redhat.com>
+- allow setting of allmulti & promisc flags (#48669)
+
 * Mon Jul 02 2001 Than Ngo <than@redhat.com>
 - fix build problem in beehive if kernel-sources is not installed
 
