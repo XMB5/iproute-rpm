@@ -1,7 +1,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.9
-Release: 4
+Release: 5
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-041019.tar.gz
 Source1: ip.8
@@ -22,6 +22,7 @@ Patch2: iproute2-2.6.9-kernel.patch
 Patch4: iproute2-2.4.7-initvar.patch
 #Patch5: iproute2-2.6.9-owl-nstat-bound.patch
 Patch6: iproute2-2.6.9-endian.patch
+Patch7: iproute-debug.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
@@ -40,13 +41,15 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch4 -p1 -b .initvar
 #%patch5 -p1 -b .bound
 %patch6 -p1 -b .endian
+%patch7 -p1 -b .debug
 
 %build
 make
 make -C doc
 
 %install
-rm -rf $RPM_BUILD_ROOT
+#rm -rf $RPM_BUILD_ROOT
+[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 mkdir -p $RPM_BUILD_ROOT/sbin \
  	 $RPM_BUILD_ROOT%{_sbindir} \
@@ -71,9 +74,11 @@ install -m 644 %{SOURCE10} $RPM_BUILD_ROOT/%{_mandir}/man8
 install -m 644 %{SOURCE11} $RPM_BUILD_ROOT/%{_mandir}/man8
 
 cp -f etc/iproute2/* $RPM_BUILD_ROOT/etc/iproute2
+rm -rf $RPM_BUILD_ROOT/%{_libdir}/debug/*
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+#rm -rf $RPM_BUILD_ROOT
+[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
@@ -84,9 +89,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) /etc/iproute2/*
 %{_sbindir}/*
-%{_libdir}/*
+%{_libdir}/tc/*
 
 %changelog
+* Mon Nov 29 2004 Radek Vokal <rvokal@redhat.com> 2.6.9-5
+- debug info removed from makefile and from spec (#140891)
+
 * Tue Nov 16 2004 Radek Vokal <rvokal@redhat.com> 2.6.9-4
 - source file updated from snapshot version
 - endian patch adding <endian.h> 
