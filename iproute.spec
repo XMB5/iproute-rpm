@@ -1,9 +1,9 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
-Version: 2.4.7
-Release: 17
+Version: 2.6.9
+Release: 1
 Group: Applications/System
-Source: http://ftp.sunet.se/pub/os/Linux/ip-routing/iproute2-2.4.7-now-ss020116-try.tar.gz
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-ss040831.tar.gz
 Source1: ip.8
 Source2: tc.8
 Source3: tc-cbq.8
@@ -16,21 +16,12 @@ Source9: tc-red.8
 Source10: tc-sfq.8
 Source11: tc-tbf.8
 Patch0: iproute2-2.4.7-docmake.patch
-Patch1: iproute2-2.4.7-misc.patch
-Patch2: iproute2-2.4.7-rt_config.patch
-Patch4:	iproute2-2.4.7-in_port_t.patch
-Patch5: iproute2-2.4.7-kernel.patch
-Patch6: iproute2-2.4.7-hex.patch
-Patch7: iproute2-2.4.7-config.patch
-Patch8: iproute2-2.4.7-htb3-tc.patch
-Patch9: iproute2-2.4.7-ss.patch
-Patch10: iproute2-2.4.7-db.patch
-Patch11: iproute2-2.4.7-netlink.patch
-Patch12: iproute2-2.4.7-optarg.patch
-Patch13: iproute2-2.4.7-initvar.patch
-Patch14: iproute2-2.4.7-default.patch
+Patch1: iproute2-2.4.7-rt_config.patch
+Patch2: iproute2-2.6.9-kernel.patch
+Patch3: iproute2-2.6.9-ss.patch
+Patch4: iproute2-2.4.7-initvar.patch
 License: GNU GPL
-BuildRoot: %{_tmppath}/%{name}-root
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
 
 %description
@@ -39,21 +30,12 @@ example) which are designed to use the advanced networking
 capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
-%setup -q -n iproute2
+%setup -q -n iproute2-2.6.9
 %patch0 -p1 -b .docmake
-%patch1 -p1 -b .misc
-%patch2 -p1 -b .rt_config
-%patch4 -p1 -b .glibc22
-%patch5 -p1 -b .kernel
-%patch6 -p1 -b .hex
-%patch7 -p1 -b .config
-%patch8 -p1 -b .htb3-tc
-%patch9 -p1 -b .ss
-%patch10 -p1 -b .db
-%patch11 -p1 -b .netlink
-%patch12 -p1 -b .optarg
-%patch13 -p1 -b .initvar
-%patch14 -p1 -b .default
+%patch1 -p1 -b .rt_config
+%patch2 -p1 -b .kernel
+%patch3 -p1 -b .ss
+%patch4 -p1 -b .initvar
 
 %build
 make
@@ -97,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Wed Sep 01 2004 Radek Vokal <rvokal@redhat.com> 2.6.9-1
+- updated to iproute-2.6.9, spec file change, patches cleared
+
 * Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
