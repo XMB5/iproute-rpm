@@ -1,7 +1,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.9
-Release: 1
+Release: 2
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-ss040831.tar.gz
 Source1: ip.8
@@ -20,6 +20,7 @@ Patch1: iproute2-2.4.7-rt_config.patch
 Patch2: iproute2-2.6.9-kernel.patch
 Patch3: iproute2-2.6.9-ss.patch
 Patch4: iproute2-2.4.7-initvar.patch
+Patch5: iproute2-2.6.9-owl-nstat-bound.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
@@ -36,6 +37,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch2 -p1 -b .kernel
 %patch3 -p1 -b .ss
 %patch4 -p1 -b .initvar
+%patch5 -p1 -b .bound
 
 %build
 make
@@ -79,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Mon Sep 06 2004 Radek Vokal <rvokal@redhat.com> 2.6.9-2
+- fixed possible buffer owerflow, path by Steve Grubb <linux_4ever@yahoo.com>
+
 * Wed Sep 01 2004 Radek Vokal <rvokal@redhat.com> 2.6.9-1
 - updated to iproute-2.6.9, spec file change, patches cleared
 
