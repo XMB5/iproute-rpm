@@ -1,16 +1,18 @@
 Summary: Enhanced IP routing and network devices configuration tools
 Name: iproute
 Version: 2.2.4
-Release: 11
+Release: 13
 Group: Applications/System
-Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-current.tar.gz
+Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-current.tar.bz2
 Patch0: iproute2-2.2.4-docmake.patch
-Patch1: iproute2-2.2.4-glibc22.patch
-Patch2: iproute2-misc.patch
-Patch3: iproute2-config.patch
-Patch4: iproute2-echo.patch
-Copyright: GPL
+Patch1: iproute2-misc.patch
+Patch2: iproute2-config.patch
+Patch3: iproute2-echo.patch
+Patch4:	iproute2-in_port_t.patch
+Patch5: iproute2-makefile.patch
+License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-root
+BuildPrereq: tetex-latex tetex-dvips psutils
 
 %description
 Linux 2.2 maintains compatibility with the basic configuration utilities of
@@ -21,21 +23,16 @@ utilities (/sbin/ip, /sbin/rtmon).
 %prep
 %setup -q -n iproute2
 %patch0 -p1 -b .doc
-%patch1 -p1 -b .glibc22
-%patch2 -p1 -b .misc
+%patch1 -p1 -b .misc
+%patch2 -p1
 %patch3 -p1
-%patch4 -p1
+%patch4 -p1 -b .glibc22
+%patch5 -p1 -b .kernel
 
 %build
 %define optflags -ggdb
 
-if [ -d /usr/src/linux-2.4 ]; then
-    make KERNEL_INCLUDE=/usr/src/linux-2.4/include
-elif [ -d /usr/src/linux ]; then
-    make KERNEL_INCLUDE=/usr/src/linux/include
-else
-    make
-fi
+make
 make -C doc
 
 %install
@@ -63,6 +60,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Mon Jul 02 2001 Than Ngo <than@redhat.com>
+- fix build problem in beehive if kernel-sources is not installed
+
+* Fri May 25 2001 Helge Deller <hdeller@redhat.de>
+- updated to iproute2-2.2.4-now-ss001007.tar.gz 
+- bzip2 source tar file
+- "License" replaces "Copyright"
+- added "BuildPrereq: tetex-latex tetex-dvips psutils"
+- rebuilt for 7.2
+
 * Tue May  1 2001 Bill Nottingham <notting@redhat.com>
 - use the system headers - the included ones are broken
 - ETH_P_ECHO went away
