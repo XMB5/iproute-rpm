@@ -1,9 +1,9 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
-Version: 2.6.10
-Release: 2
+Version: 2.6.11
+Release: 1
 Group: Applications/System
-Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-050209.tar.gz
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-050314.tar.gz
 URL:    http://developer.osdl.org/dev/iproute2/
 Source1: ip.8
 Source2: tc.8
@@ -16,11 +16,9 @@ Source8: tc-prio.8
 Source9: tc-red.8
 Source10: tc-sfq.8
 Source11: tc-tbf.8
-Patch0: iproute2-2.4.7-docmake.patch
 Patch1: iproute2-2.4.7-rt_config.patch
 Patch2: iproute2-2.6.9-kernel.patch
 Patch4: iproute2-2.4.7-initvar.patch
-Patch7: iproute-debug.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
@@ -32,11 +30,9 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
 %setup -q -n iproute2-%{version}
-%patch0 -p1 -b .docmake
 %patch1 -p1 -b .rt_config
 %patch2 -p1 -b .kernel
 %patch4 -p1 -b .initvar
-%patch7 -p1 -b .debug
 
 %build
 make
@@ -87,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT/%{_libdir}/debug/*
 %{_libdir}/tc/*
 
 %changelog
+* Tue Mar 15 2005 Radek Vokal <rvokal@redhat.com> 2.6.11-1
+- update to iproute-2.6.11
+
 * Fri Mar 04 2005 Radek Vokal <rvokal@redhat.com> 2.6.10-2
 - gcc4 rebuilt
 
