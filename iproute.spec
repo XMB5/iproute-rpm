@@ -1,13 +1,14 @@
 Summary: Enhanced IP routing and network devices configuration tools
 Name: iproute
 Version: 2.2.4
-Release: 10
+Release: 11
 Group: Applications/System
 Source: ftp://ftp.inr.ac.ru/ip-routing/iproute2-current.tar.gz
 Patch0: iproute2-2.2.4-docmake.patch
 Patch1: iproute2-2.2.4-glibc22.patch
 Patch2: iproute2-misc.patch
 Patch3: iproute2-config.patch
+Patch4: iproute2-echo.patch
 Copyright: GPL
 BuildRoot: %{_tmppath}/%{name}-root
 
@@ -23,8 +24,11 @@ utilities (/sbin/ip, /sbin/rtmon).
 %patch1 -p1 -b .glibc22
 %patch2 -p1 -b .misc
 %patch3 -p1
+%patch4 -p1
 
 %build
+%define optflags -ggdb
+
 if [ -d /usr/src/linux-2.4 ]; then
     make KERNEL_INCLUDE=/usr/src/linux-2.4/include
 elif [ -d /usr/src/linux ]; then
@@ -59,6 +63,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/*
 
 %changelog
+* Tue May  1 2001 Bill Nottingham <notting@redhat.com>
+- use the system headers - the included ones are broken
+- ETH_P_ECHO went away
+
 * Sat Jan  6 2001 Jeff Johnson <jbj@redhat.com>
 - test for specific KERNEL_INCLUDE directories.
 
