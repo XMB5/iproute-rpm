@@ -1,9 +1,11 @@
+%define date_version 050816
+
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.13
-Release: 1
+Release: 2
 Group: Applications/System
-Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-050808.tar.bz2
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{date_version}.tar.gz
 URL:    http://developer.osdl.org/dev/iproute2/
 Source1: ip.8
 Source2: tc.8
@@ -29,7 +31,7 @@ example) which are designed to use the advanced networking
 capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
-%setup -q -n iproute2-%{version}
+%setup -q -n iproute2-%{date_version}
 %patch1 -p1 -b .rt_config
 %patch2 -p1 -b .kernel
 #%patch4 -p1 -b .initvar
@@ -83,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT/%{_libdir}/debug/*
 %{_libdir}/tc/*
 
 %changelog
+* Fri Aug 19 2005 Radek Vokal <rvokal@redhat.com> 2.6.13-2
+- upgrade to iproute2-050816
+
 * Thu Aug 11 2005 Radek Vokal <rvokal@redhat.com> 2.6.13-1
 - update to snapshot for 2.6.13+ kernel
 
