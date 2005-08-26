@@ -1,9 +1,10 @@
 %define date_version 050816
+%define cbq_version v0.7.3
 
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.13
-Release: 2
+Release: 3
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{date_version}.tar.gz
 URL:    http://developer.osdl.org/dev/iproute2/
@@ -18,9 +19,13 @@ Source8: tc-prio.8
 Source9: tc-red.8
 Source10: tc-sfq.8
 Source11: tc-tbf.8
+Source12: http://easynews.dl.sourceforge.net/sourceforge/cbqinit/cbq.init-%{cbq_version}
+Source13: README.cbq
+
 Patch1: iproute2-2.4.7-rt_config.patch
 Patch2: iproute2-2.6.9-kernel.patch
-#Patch4: iproute2-2.4.7-initvar.patch
+Patch3: cbq-0.7.1-avpkt-enhancement.patch
+
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
@@ -32,9 +37,10 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
 %setup -q -n iproute2-%{date_version}
+cp %{SOURCE12} $RPM_BUILD_DIR/iproute2-%{date_version}
 %patch1 -p1 -b .rt_config
 %patch2 -p1 -b .kernel
-#%patch4 -p1 -b .initvar
+%patch3 -p0 -b .avpkt-enhancment
 
 %build
 make
@@ -65,9 +71,25 @@ install -m 644 %{SOURCE8} $RPM_BUILD_ROOT/%{_mandir}/man8
 install -m 644 %{SOURCE9} $RPM_BUILD_ROOT/%{_mandir}/man8
 install -m 644 %{SOURCE10} $RPM_BUILD_ROOT/%{_mandir}/man8
 install -m 644 %{SOURCE11} $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 755 %{SOURCE12} $RPM_BUILD_ROOT/sbin/cbq
+install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig/cbq
 
 cp -f etc/iproute2/* $RPM_BUILD_ROOT/etc/iproute2
 rm -rf $RPM_BUILD_ROOT/%{_libdir}/debug/*
+
+#create example avpkt file
+cat <<EOF > $RPM_BUILD_ROOT/etc/sysconfig/cbq/cbq-0000.example
+DEVICE=eth0,10Mbit,1Mbit
+RATE=128Kbit
+WEIGHT=10Kbit
+PRIO=5
+RULE=192.168.1.0/24
+EOF
+
+cat <<EOF > $RPM_BUILD_ROOT/etc/sysconfig/cbq/avpkt
+AVPKT=3000
+EOF
+
 
 %clean
 #rm -rf $RPM_BUILD_ROOT
@@ -76,15 +98,21 @@ rm -rf $RPM_BUILD_ROOT/%{_libdir}/debug/*
 %files
 %defattr(-,root,root)
 %dir /etc/iproute2
-%doc README.decnet README.iproute2+tc RELNOTES
+%doc README.decnet README.iproute2+tc RELNOTES $RPM_SOURCE_DIR/README.cbq
 %doc doc/*.ps examples
 /sbin/*
 %{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) /etc/iproute2/*
 %{_sbindir}/*
 %{_libdir}/tc/*
+/sbin/cbq
+%dir /etc/sysconfig/cbq
+%config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Fri Aug 26 2005 Radek Vokal <rvokal@redhat.com> 2.6.13-3
+- added /sbin/cbq script and sample configuration files (#166301)
+
 * Fri Aug 19 2005 Radek Vokal <rvokal@redhat.com> 2.6.13-2
 - upgrade to iproute2-050816
 
