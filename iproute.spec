@@ -1,12 +1,12 @@
-%define date_version 050816
+%define date_version ss050901
 %define cbq_version v0.7.3
 
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
-Version: 2.6.13
-Release: 3
+Version: 2.6.14
+Release: 1
 Group: Applications/System
-Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{date_version}.tar.gz
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{date_version}.tar.bz2
 URL:    http://developer.osdl.org/dev/iproute2/
 Source1: ip.8
 Source2: tc.8
@@ -110,6 +110,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Wed Sep 14 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-1
+- upgrade to ss050901 for 2.6.14 kernel headers
+
 * Fri Aug 26 2005 Radek Vokal <rvokal@redhat.com> 2.6.13-3
 - added /sbin/cbq script and sample configuration files (#166301)
 
