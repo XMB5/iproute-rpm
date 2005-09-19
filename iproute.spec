@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.14
-Release: 1
+Release: 2
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{date_version}.tar.bz2
 URL:    http://developer.osdl.org/dev/iproute2/
@@ -25,6 +25,7 @@ Source13: README.cbq
 Patch1: iproute2-2.4.7-rt_config.patch
 Patch2: iproute2-2.6.9-kernel.patch
 Patch3: cbq-0.7.1-avpkt-enhancement.patch
+Patch4:	iproute2-ss050901-help.patch
 
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -110,6 +111,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Mon Sep 19 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-2
+- make ip help work again (#168449)
+
 * Wed Sep 14 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-1
 - upgrade to ss050901 for 2.6.14 kernel headers
 
