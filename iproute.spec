@@ -1,12 +1,12 @@
-%define date_version ss050901
+%define date_version 050929
 %define cbq_version v0.7.3
 
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.14
-Release: 4
+Release: 5
 Group: Applications/System
-Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{date_version}.tar.bz2
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{date_version}.tar.gz
 URL:    http://developer.osdl.org/dev/iproute2/
 Source1: ip.8
 Source2: tc.8
@@ -25,8 +25,8 @@ Source13: README.cbq
 Patch1: iproute2-2.4.7-rt_config.patch
 Patch2: iproute2-2.6.9-kernel.patch
 Patch3: cbq-0.7.1-avpkt-enhancement.patch
-Patch4:	iproute2-ss050901-help.patch
 Patch5: iproute2-ss050901-opt_flags.patch
+Patch6: iproute2-ss050901-host_len.patch
 
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -43,8 +43,8 @@ cp %{SOURCE12} $RPM_BUILD_DIR/iproute2-%{date_version}
 %patch1 -p1 -b .rt_config
 %patch2 -p1 -b .kernel
 %patch3 -p0 -b .avpkt-enhancment
-%patch4 -p1 -b .help
 %patch5 -p1 -b .opt_flags
+%patch6 -p1 -b .host_len
 
 %build
 make
@@ -114,6 +114,10 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Fri Oct 07 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-5
+- update from upstream
+- fixed host_len size for memcpy (#168903) <Matt_Domsch@dell.com>
+
 * Fri Sep 23 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-4
 - add RPM_OPT_FLAGS
 
