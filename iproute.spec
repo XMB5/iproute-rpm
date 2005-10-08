@@ -1,10 +1,10 @@
-%define date_version 050929
+%define date_version 051007
 %define cbq_version v0.7.3
 
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.14
-Release: 5
+Release: 6
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{date_version}.tar.gz
 URL:    http://developer.osdl.org/dev/iproute2/
@@ -114,6 +114,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Fri Oct 07 2005 Bill Nottingham <notting@redhat.com> 2.6.14-6
+- update from upstream (appears to fix #170111)
+
 * Fri Oct 07 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-5
 - update from upstream
 - fixed host_len size for memcpy (#168903) <Matt_Domsch@dell.com>
