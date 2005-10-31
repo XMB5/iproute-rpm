@@ -4,10 +4,10 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.14
-Release: 6
+Release: 7
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{date_version}.tar.gz
-URL:    http://developer.osdl.org/dev/iproute2/
+URL:	http://linux-net.osdl.org/index.php/Iproute2
 Source1: ip.8
 Source2: tc.8
 Source3: tc-cbq.8
@@ -27,6 +27,7 @@ Patch2: iproute2-2.6.9-kernel.patch
 Patch3: cbq-0.7.1-avpkt-enhancement.patch
 Patch5: iproute2-ss050901-opt_flags.patch
 Patch6: iproute2-ss050901-host_len.patch
+Patch7: iproute2-051007-add_tunnel.patch
 
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -45,6 +46,7 @@ cp %{SOURCE12} $RPM_BUILD_DIR/iproute2-%{date_version}
 %patch3 -p0 -b .avpkt-enhancment
 %patch5 -p1 -b .opt_flags
 %patch6 -p1 -b .host_len
+%patch7 -p1 -b .tunnel_add
 
 %build
 make
@@ -114,6 +116,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Mon Oct 31 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-7
+- add warning to ip tunnel add command (#128107)
+
 * Fri Oct 07 2005 Bill Nottingham <notting@redhat.com> 2.6.14-6
 - update from upstream (appears to fix #170111)
 
