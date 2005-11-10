@@ -1,12 +1,12 @@
-%define date_version 051007
+%define date_version 051107
 %define cbq_version v0.7.3
 
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.14
-Release: 7
+Release: 8
 Group: Applications/System
-Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{date_version}.tar.gz
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
 Source1: ip.8
 Source2: tc.8
@@ -26,7 +26,6 @@ Patch1: iproute2-2.4.7-rt_config.patch
 Patch2: iproute2-2.6.9-kernel.patch
 Patch3: cbq-0.7.1-avpkt-enhancement.patch
 Patch5: iproute2-ss050901-opt_flags.patch
-Patch6: iproute2-ss050901-host_len.patch
 Patch7: iproute2-051007-add_tunnel.patch
 
 License: GNU GPL
@@ -39,13 +38,12 @@ example) which are designed to use the advanced networking
 capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
-%setup -q -n iproute2-%{date_version}
-cp %{SOURCE12} $RPM_BUILD_DIR/iproute2-%{date_version}
+%setup -q -n iproute2-%{version}-%{date_version}
+cp %{SOURCE12} $RPM_BUILD_DIR/iproute2-%{version}-%{date_version}
 %patch1 -p1 -b .rt_config
 %patch2 -p1 -b .kernel
 %patch3 -p0 -b .avpkt-enhancment
 %patch5 -p1 -b .opt_flags
-%patch6 -p1 -b .host_len
 %patch7 -p1 -b .tunnel_add
 
 %build
@@ -116,6 +114,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Thu Nov 10 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-8
+- new upstream source 
+
 * Mon Oct 31 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-7
 - add warning to ip tunnel add command (#128107)
 
