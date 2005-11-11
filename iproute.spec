@@ -73,7 +73,7 @@ EOF
 %files
 %defattr(-,root,root)
 %dir /etc/iproute2
-%doc README.decnet README.iproute2+tc RELNOTES $RPM_SOURCE_DIR/README.cbq
+%doc README.decnet README.iproute2+tc RELNOTES examples/README.cbq
 %doc doc/*.ps examples
 /sbin/*
 %{_mandir}/man8/*
