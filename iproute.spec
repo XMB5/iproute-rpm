@@ -4,27 +4,12 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.14
-Release: 8
+Release: 9
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
-Source1: ip.8
-Source2: tc.8
-Source3: tc-cbq.8
-Source4: tc-cbq-details.8
-Source5: tc-htb.8
-Source6: tc-pbfifo.8
-Source7: tc-pfifo_fast.8
-Source8: tc-prio.8
-Source9: tc-red.8
-Source10: tc-sfq.8
-Source11: tc-tbf.8
-Source12: http://easynews.dl.sourceforge.net/sourceforge/cbqinit/cbq.init-%{cbq_version}
-Source13: README.cbq
-
 Patch1: iproute2-2.4.7-rt_config.patch
 Patch2: iproute2-2.6.9-kernel.patch
-Patch3: cbq-0.7.1-avpkt-enhancement.patch
 Patch5: iproute2-ss050901-opt_flags.patch
 Patch7: iproute2-051007-add_tunnel.patch
 
@@ -39,10 +24,8 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
 %setup -q -n iproute2-%{version}-%{date_version}
-cp %{SOURCE12} $RPM_BUILD_DIR/iproute2-%{version}-%{date_version}
 %patch1 -p1 -b .rt_config
 %patch2 -p1 -b .kernel
-%patch3 -p0 -b .avpkt-enhancment
 %patch5 -p1 -b .opt_flags
 %patch7 -p1 -b .tunnel_add
 
@@ -51,7 +34,6 @@ make
 make -C doc
 
 %install
-#rm -rf $RPM_BUILD_ROOT
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 mkdir -p $RPM_BUILD_ROOT/sbin \
@@ -64,18 +46,8 @@ install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
 install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 netem/normal.dist netem/pareto.dist netem/paretonormal.dist $RPM_BUILD_ROOT%{_libdir}/tc
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_mandir}/man8
-install -m 644 %{SOURCE2} $RPM_BUILD_ROOT/%{_mandir}/man8
-install -m 644 %{SOURCE3} $RPM_BUILD_ROOT/%{_mandir}/man8
-install -m 644 %{SOURCE4} $RPM_BUILD_ROOT/%{_mandir}/man8
-install -m 644 %{SOURCE5} $RPM_BUILD_ROOT/%{_mandir}/man8
-install -m 644 %{SOURCE6} $RPM_BUILD_ROOT/%{_mandir}/man8
-install -m 644 %{SOURCE7} $RPM_BUILD_ROOT/%{_mandir}/man8
-install -m 644 %{SOURCE8} $RPM_BUILD_ROOT/%{_mandir}/man8
-install -m 644 %{SOURCE9} $RPM_BUILD_ROOT/%{_mandir}/man8
-install -m 644 %{SOURCE10} $RPM_BUILD_ROOT/%{_mandir}/man8
-install -m 644 %{SOURCE11} $RPM_BUILD_ROOT/%{_mandir}/man8
-install -m 755 %{SOURCE12} $RPM_BUILD_ROOT/sbin/cbq
+install -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
+install -m 755 examples/cbq.init-%{cbq_version} $RPM_BUILD_ROOT/sbin/cbq
 install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig/cbq
 
 cp -f etc/iproute2/* $RPM_BUILD_ROOT/etc/iproute2
@@ -96,7 +68,6 @@ EOF
 
 
 %clean
-#rm -rf $RPM_BUILD_ROOT
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 %files
@@ -114,6 +85,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Fri Nov 11 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-9
+- use tc manpages and cbq.init from source tarball (#172851)
+
 * Thu Nov 10 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-8
 - new upstream source 
 
