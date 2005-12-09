@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.14
-Release: 9
+Release: 10
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -85,6 +85,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Fri Dec 09 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-10
+- remove backup of config files (#175302)
+
 * Fri Nov 11 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-9
 - use tc manpages and cbq.init from source tarball (#172851)
 
