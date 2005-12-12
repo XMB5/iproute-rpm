@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.14
-Release: 10
+Release: 11
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -24,7 +24,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
 %setup -q -n iproute2-%{version}-%{date_version}
-%patch1 -p1 -b .rt_config
+%patch1 -p1
 %patch2 -p1 -b .kernel
 %patch5 -p1 -b .opt_flags
 %patch7 -p1 -b .tunnel_add
@@ -85,6 +85,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Mon Dec 12 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-11
+- rebuilt
+
 * Fri Dec 09 2005 Radek Vokal <rvokal@redhat.com> 2.6.14-10
 - remove backup of config files (#175302)
 
