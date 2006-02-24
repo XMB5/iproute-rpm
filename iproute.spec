@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.15
-Release: 1.2
+Release: 2
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -16,6 +16,7 @@ Patch7: iproute2-051007-add_tunnel.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
+Obsoletes: /sbin/cbq
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for
@@ -79,12 +80,17 @@ EOF
 %{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) /etc/iproute2/*
 %{_sbindir}/*
+%dir %{_libdir}/tc
 %{_libdir}/tc/*
 /sbin/cbq
 %dir /etc/sysconfig/cbq
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Wed Feb 22 2006 Radek Vokál <rvokal@redhat.com> - 2.6.15-2
+- own /usr/lib/tc (#181953)
+- obsoletes shapecfg (#182284)
+
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 2.6.15-1.2
 - bump again for double-long bug on ppc(64)
 
