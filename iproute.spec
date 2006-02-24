@@ -16,7 +16,7 @@ Patch7: iproute2-051007-add_tunnel.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
-Obsoletes: /sbin/cbq
+Obsoletes: shapecfg
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for
