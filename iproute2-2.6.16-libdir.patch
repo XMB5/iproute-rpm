@@ -1,0 +1,53 @@
+--- iproute2-2.6.16-060323/tc/Makefile.libdir	2005-07-06 00:11:37.000000000 +0200
++++ iproute2-2.6.16-060323/tc/Makefile	2006-03-27 07:09:28.000000000 +0200
+@@ -42,7 +42,7 @@
+ TCLIB += tc_cbq.o
+ TCLIB += tc_estimator.o
+ 
+-CFLAGS += -DCONFIG_GACT -DCONFIG_GACT_PROB
++CFLAGS += -DCONFIG_GACT -DCONFIG_GACT_PROB -DLIBDIR=\"$(LIBDIR)\"
+ 
+ TCSO :=
+ TCSO += q_netem.so
+--- iproute2-2.6.16-060323/tc/q_netem.c.libdir	2005-12-10 01:01:02.000000000 +0100
++++ iproute2-2.6.16-060323/tc/q_netem.c	2006-03-27 07:09:28.000000000 +0200
+@@ -60,7 +60,11 @@
+ 	char *line = NULL;
+ 	char name[128];
+ 
++	#ifdef LIBDIR
++	snprintf(name, sizeof(name), "%s/tc/%s.dist", LIBDIR, type);
++	#else
+ 	snprintf(name, sizeof(name), "/usr/lib/tc/%s.dist", type);
++	#endif
+ 	if ((f = fopen(name, "r")) == NULL) {
+ 		fprintf(stderr, "No distribution data for %s (%s: %s)\n", 
+ 			type, name, strerror(errno));
+--- iproute2-2.6.16-060323/tc/tc.c.libdir	2005-10-07 18:33:21.000000000 +0200
++++ iproute2-2.6.16-060323/tc/tc.c	2006-03-27 07:11:53.000000000 +0200
+@@ -98,8 +98,11 @@
+ 	for (q = qdisc_list; q; q = q->next)
+ 		if (strcmp(q->id, str) == 0)
+ 			return q;
+-
++	#ifdef LIBDIR
++	snprintf(buf, sizeof(buf), "%s/tc/q_%s.so", LIBDIR, str);
++	#else
+ 	snprintf(buf, sizeof(buf), "/usr/lib/tc/q_%s.so", str);
++	#endif
+ 	dlh = dlopen(buf, RTLD_LAZY);
+ 	if (!dlh) {
+ 		/* look in current binary, only open once */
+@@ -144,8 +147,11 @@
+ 	for (q = filter_list; q; q = q->next)
+ 		if (strcmp(q->id, str) == 0)
+ 			return q;
+-
++	#ifdef LIBDIR
++	snprintf(buf, sizeof(buf), "%s/tc/f_%s.so", LIBDIR, str);
++	#else
+ 	snprintf(buf, sizeof(buf), "/usr/lib/tc/f_%s.so", str);
++	#endif
+ 	dlh = dlopen(buf, RTLD_LAZY);
+ 	if (dlh == NULL) {
+ 		dlh = BODY;

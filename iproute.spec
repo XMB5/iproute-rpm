@@ -1,17 +1,18 @@
-%define date_version 060110
+%define date_version 060323
 %define cbq_version v0.7.3
 
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
-Version: 2.6.15
-Release: 2
+Version: 2.6.16
+Release: 1
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
-Patch1: iproute2-2.4.7-rt_config.patch
+#Patch1: iproute2-2.4.7-rt_config.patch
 Patch2: iproute2-2.6.9-kernel.patch
 Patch5: iproute2-ss050901-opt_flags.patch
 Patch7: iproute2-051007-add_tunnel.patch
+Patch8: iproute2-2.6.16-libdir.patch
 
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -25,12 +26,15 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
 %setup -q -n iproute2-%{version}-%{date_version}
-%patch1 -p1
+#%patch1 -p1
 %patch2 -p1 -b .kernel
 %patch5 -p1 -b .opt_flags
 %patch7 -p1 -b .tunnel_add
+%patch8 -p1 -b .libdir
 
 %build
+export LIBDIR=%{_libdir}
+
 make
 make -C doc
 
@@ -87,6 +91,10 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Sun Mar 26 2006 Radek Vokál <rvokal@redhat.com> - 2.6.16-1
+- upgrade to 2.6.16-060323
+- don't hardcode /usr/lib in tc (#186607)
+
 * Wed Feb 22 2006 Radek Vokál <rvokal@redhat.com> - 2.6.15-2
 - own /usr/lib/tc (#181953)
 - obsoletes shapecfg (#182284)
