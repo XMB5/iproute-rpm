@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.16
-Release: 1
+Release: 2
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -17,6 +17,7 @@ Patch8: iproute2-2.6.16-libdir.patch
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
+BuildRequires: flex
 Obsoletes: shapecfg
 
 %description
@@ -91,6 +92,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Sun May 28 2006 Radek Vokál <rvokal@redhat.com> - 2.6.16-2
+- fix BuildRequires: flex (#193403)
+
 * Sun Mar 26 2006 Radek Vokál <rvokal@redhat.com> - 2.6.16-1
 - upgrade to 2.6.16-060323
 - don't hardcode /usr/lib in tc (#186607)
