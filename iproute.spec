@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.16
-Release: 2
+Release: 3
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -13,6 +13,7 @@ Patch2: iproute2-2.6.9-kernel.patch
 Patch5: iproute2-ss050901-opt_flags.patch
 Patch7: iproute2-051007-add_tunnel.patch
 Patch8: iproute2-2.6.16-libdir.patch
+Patch9:	iproute2-2.6.16-initcwnd-correct-order.patch
 
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -32,6 +33,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch5 -p1 -b .opt_flags
 %patch7 -p1 -b .tunnel_add
 %patch8 -p1 -b .libdir
+%patch9 -p1 -b .initcwnd
 
 %build
 export LIBDIR=%{_libdir}
@@ -92,6 +94,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Mon Jun 26 2006 Radek Vokál <rvokal@redhat.com> - 2.6.16-3
+- improve handling of initcwnd value (#179719)
+
 * Sun May 28 2006 Radek Vokál <rvokal@redhat.com> - 2.6.16-2
 - fix BuildRequires: flex (#193403)
 
