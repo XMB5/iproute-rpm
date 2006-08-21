@@ -1,0 +1,11 @@
+--- iproute2-2.6.17-000000/ip/ipaddress.c.old	2006-08-21 13:31:30.000000000 +0200
++++ iproute2-2.6.17-000000/ip/ipaddress.c	2006-08-21 13:41:33.000000000 +0200
+@@ -97,6 +97,8 @@
+ 	_PF(PORTSEL);
+ 	_PF(NOTRAILERS);
+ 	_PF(UP);
++	_PF(LOWER_UP);
++	_PF(DORMANT);
+ #undef _PF
+         if (flags)
+ 		fprintf(fp, "%x", flags);

@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.16
-Release: 3.1
+Release: 4%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -14,6 +14,7 @@ Patch5: iproute2-ss050901-opt_flags.patch
 Patch7: iproute2-051007-add_tunnel.patch
 Patch8: iproute2-2.6.16-libdir.patch
 Patch9:	iproute2-2.6.16-initcwnd-correct-order.patch
+Patch10: iproute2-2.6.16-flags.patch
 
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -34,6 +35,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch7 -p1 -b .tunnel_add
 %patch8 -p1 -b .libdir
 %patch9 -p1 -b .initcwnd
+%patch10 -p1 -b .flags
 
 %build
 export LIBDIR=%{_libdir}
@@ -94,6 +96,10 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Mon Aug 21 2006 Radek Vokál <rvokal@redhat.com> - 2.6.16-4
+- add LOWER_UP and DORMANT flags (#202199)
+- use dist tag
+
 * Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 2.6.16-3.1
 - rebuild
 
