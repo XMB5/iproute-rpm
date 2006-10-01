@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.16
-Release: 5%{?dist}
+Release: 6%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -98,6 +98,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Sun Oct 01 2006 Jesse Keating <jkeating@redhat.com> - 2.6.16-6
+- rebuilt for unwind info generation, broken in gcc-4.1.1-21
+
 * Tue Sep 19 2006 Radek Vokal <rvokal@redhat.com> - 2.6.16-5
 - fix crash when resolving ip address
 
