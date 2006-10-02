@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
 Version: 2.6.16
-Release: 6%{?dist}
+Release: 7%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -16,6 +16,7 @@ Patch8: iproute2-2.6.16-libdir.patch
 Patch9:	iproute2-2.6.16-initcwnd-correct-order.patch
 Patch10: iproute2-2.6.16-flags.patch
 Patch11: iproute2-2.6.16-ip_resolve_crash.patch
+Patch12: iproute-ip-man.patch
 
 License: GNU GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
@@ -38,6 +39,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch9 -p1 -b .initcwnd
 %patch10 -p1 -b .flags
 %patch11 -p1 -b .ip_resolve
+%patch12 -p1
 
 %build
 export LIBDIR=%{_libdir}
@@ -98,6 +100,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Mon Oct  2 2006 Radek Vokal <rvokal@redhat.com> - 2.6.16-7
+- fix ip.8 man page, add initcwnd option
+
 * Sun Oct 01 2006 Jesse Keating <jkeating@redhat.com> - 2.6.16-6
 - rebuilt for unwind info generation, broken in gcc-4.1.1-21
 
