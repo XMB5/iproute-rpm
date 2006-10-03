@@ -1,10 +1,10 @@
-%define date_version 060323
+%define date_version 061002
 %define cbq_version v0.7.3
 
 Summary: Advanced IP routing and network device configuration tools.
 Name: iproute
-Version: 2.6.16
-Release: 7%{?dist}
+Version: 2.6.18
+Release: 1%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -13,7 +13,6 @@ Patch2: iproute2-2.6.9-kernel.patch
 Patch5: iproute2-ss050901-opt_flags.patch
 Patch7: iproute2-051007-add_tunnel.patch
 Patch8: iproute2-2.6.16-libdir.patch
-Patch9:	iproute2-2.6.16-initcwnd-correct-order.patch
 Patch10: iproute2-2.6.16-flags.patch
 Patch11: iproute2-2.6.16-ip_resolve_crash.patch
 Patch12: iproute-ip-man.patch
@@ -36,7 +35,6 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch5 -p1 -b .opt_flags
 %patch7 -p1 -b .tunnel_add
 %patch8 -p1 -b .libdir
-%patch9 -p1 -b .initcwnd
 %patch10 -p1 -b .flags
 %patch11 -p1 -b .ip_resolve
 %patch12 -p1
@@ -100,6 +98,13 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Tue Oct  3 2006 Radek Vokal <rvokal@redhat.com> - 2.6.18-1
+- upgrade to upstream 2.6.18
+- initcwnd patch merged
+- bug fix for xfrm monitor
+- alignment fixes for cris
+- documentation corrections
+        
 * Mon Oct  2 2006 Radek Vokal <rvokal@redhat.com> - 2.6.16-7
 - fix ip.8 man page, add initcwnd option
 
