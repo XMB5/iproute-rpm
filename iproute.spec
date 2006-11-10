@@ -18,7 +18,7 @@ Patch11: iproute2-2.6.16-ip_resolve_crash.patch
 Patch12: iproute-ip-man.patch
 
 License: GNU GPL
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
 BuildRequires: flex
 Obsoletes: shapecfg
