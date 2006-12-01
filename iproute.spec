@@ -1,13 +1,13 @@
 %define date_version 061002
 %define cbq_version v0.7.3
 
-Summary: Advanced IP routing and network device configuration tools.
+Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.18
 Release: 3%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
-URL:	http://linux-net.osdl.org/index.php/Iproute2
+URL:    http://linux-net.osdl.org/index.php/Iproute2
 #Patch1: iproute2-2.4.7-rt_config.patch
 Patch2: iproute2-2.6.9-kernel.patch
 Patch5: iproute2-ss050901-opt_flags.patch
@@ -17,9 +17,9 @@ Patch10: iproute2-2.6.16-flags.patch
 Patch11: iproute2-2.6.16-ip_resolve_crash.patch
 Patch12: iproute-ip-man.patch
 
-License: GNU GPL
+License: GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildPrereq: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
+BuildRequires(pre): tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
 BuildRequires: flex
 Obsoletes: shapecfg
 
@@ -49,10 +49,10 @@ make -C doc
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 mkdir -p $RPM_BUILD_ROOT/sbin \
- 	 $RPM_BUILD_ROOT%{_sbindir} \
-         $RPM_BUILD_ROOT%{_mandir}/man8 \
-         $RPM_BUILD_ROOT/etc/iproute2 \
-	 $RPM_BUILD_ROOT%{_libdir}/tc
+	$RPM_BUILD_ROOT%{_sbindir} \
+	$RPM_BUILD_ROOT%{_mandir}/man8 \
+	$RPM_BUILD_ROOT/etc/iproute2 \
+	$RPM_BUILD_ROOT%{_libdir}/tc
 
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
