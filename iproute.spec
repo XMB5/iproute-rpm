@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.18
-Release: 3%{?dist}
+Release: 4%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:    http://linux-net.osdl.org/index.php/Iproute2
@@ -103,6 +103,10 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Fri Dec  1 2006 Radek Vokál <rvokal@redhat.com> - 2.6.18-4
+- spec file cleanup
+- one more rebuilt against db4
+
 * Thu Nov 16 2006 Radek Vokál <rvokal@redhat.com> - 2.6.18-3
 - fix defective manpage for tc-pfifo (#215399)
 
