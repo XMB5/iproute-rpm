@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.18
-Release: 4%{?dist}
+Release: 5%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:    http://linux-net.osdl.org/index.php/Iproute2
@@ -16,6 +16,7 @@ Patch8: iproute2-2.6.16-libdir.patch
 Patch10: iproute2-2.6.16-flags.patch
 Patch11: iproute2-2.6.16-ip_resolve_crash.patch
 Patch12: iproute-ip-man.patch
+Patch13: iproute2-2.6.18-correct-snapshot.patch
 
 License: GPL
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -38,6 +39,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch10 -p1 -b .flags
 %patch11 -p1 -b .ip_resolve
 %patch12 -p1
+%patch13 -p1
 
 %build
 export LIBDIR=%{_libdir}
@@ -103,6 +105,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Mon Dec 11 2006 Radek Vokál <rvokal@redhat.com> - 2.6.18-5
+- fix snapshot version
+
 * Fri Dec  1 2006 Radek Vokál <rvokal@redhat.com> - 2.6.18-4
 - spec file cleanup
 - one more rebuilt against db4
