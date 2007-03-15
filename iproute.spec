@@ -1,9 +1,9 @@
-%define date_version 061214
+%define date_version 070313
 %define cbq_version v0.7.3
 
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
-Version: 2.6.19
+Version: 2.6.20
 Release: 1%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
@@ -27,7 +27,7 @@ example) which are designed to use the advanced networking
 capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
-%setup -q -n iproute2-%{version}-%{date_version}
+%setup -q -n iproute-%{version}-%{date_version}
 #%patch1 -p1
 %patch2 -p1 -b .kernel
 %patch5 -p1 -b .opt_flags
@@ -100,6 +100,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Thu Mar 15 2007 Radek Vokál <rvokal@redhat.com> - 2.6.20-1
+- upgrade to 2.6.20
+
 * Fri Dec 15 2006 Radek Vokál <rvokal@redhat.com> - 2.6.19-1
 - upgrade to 2.6.19
 
