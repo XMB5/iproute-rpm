@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.20
-Release: 1%{?dist}
+Release: 2%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:    http://linux-net.osdl.org/index.php/Iproute2
@@ -56,11 +56,6 @@ install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_R
 install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 netem/normal.dist netem/pareto.dist netem/paretonormal.dist $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
-# tc-pfifo is empty, symlink to pbfifo
-pushd $RPM_BUILD_ROOT/%{_mandir}/man8
-    rm -f tc-pfifo.8
-    ln -s tc-pbfifo.8 tc-pfifo.8
-popd
 install -m 755 examples/cbq.init-%{cbq_version} $RPM_BUILD_ROOT/sbin/cbq
 install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig/cbq
 
@@ -100,6 +95,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Mon Mar 19 2007 Radek Vokál <rvokal@redhat.com> - 2.6.20-2
+- fix broken tc-pfifo man page (#232891)
+
 * Thu Mar 15 2007 Radek Vokál <rvokal@redhat.com> - 2.6.20-1
 - upgrade to 2.6.20
 
