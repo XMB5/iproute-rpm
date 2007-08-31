@@ -4,16 +4,16 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.22
-Release: 2%{?dist}
+Release: 3%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
-URL:    http://linux-net.osdl.org/index.php/Iproute2
-Patch2: iproute2-2.6.9-kernel.patch
-Patch5: iproute2-ss050901-opt_flags.patch
-Patch11: iproute2-2.6.16-ip_resolve_crash.patch
-Patch12: iproute-ip-man.patch
+URL:	http://linux-net.osdl.org/index.php/Iproute2
+Patch1: iproute2-2.6.9-kernel.patch
+Patch2: iproute2-ss050901-opt_flags.patch
+Patch3: iproute2-2.6.16-ip_resolve_crash.patch
+Patch4: iproute-ip-man.patch
 
-License: GPL
+License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires(pre): tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
 BuildRequires: flex
@@ -26,10 +26,10 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
 %setup -q -c iproute-%{version}-%{date_version}
-%patch2 -p1 -b .kernel
-%patch5 -p1 -b .opt_flags
-%patch11 -p1 -b .ip_resolve
-%patch12 -p1
+%patch1 -p1 -b .kernel
+%patch2 -p1 -b .opt_flags
+%patch3 -p1 -b .ip_resolve
+%patch4 -p1
 
 %build
 export LIBDIR=%{_libdir}
@@ -46,11 +46,14 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
 	$RPM_BUILD_ROOT/etc/iproute2 \
 	$RPM_BUILD_ROOT%{_libdir}/tc
 
+iconv -f latin1 -t utf8 < man/man8/* > $RPM_BUILD_ROOT/%{_mandir}/man8/*
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
 #install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 netem/normal.dist netem/pareto.dist netem/paretonormal.dist $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
+rm -r $RPM_BUILD_ROOT/%{_mandir}/man8/ss.8
+iconv -f latin1 -t utf8 < man/man8/ss.8 > $RPM_BUILD_ROOT/%{_mandir}/man8/ss.8
 install -m 755 examples/cbq.init-%{cbq_version} $RPM_BUILD_ROOT/sbin/cbq
 install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig/cbq
 
@@ -75,7 +78,7 @@ EOF
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %dir /etc/iproute2
 %doc README.decnet README.iproute2+tc RELNOTES examples/README.cbq
 %doc doc/*.ps examples
@@ -90,6 +93,9 @@ EOF
 %config(noreplace) /etc/sysconfig/cbq/*
 
 %changelog
+* Fri Aug 30 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.22-3
+- package review #225903
+
 * Mon Aug 27 2007 Jeremy Katz <katzj@redhat.com> - 2.6.22-2
 - rebuild for new db4
 
