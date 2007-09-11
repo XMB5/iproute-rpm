@@ -17,7 +17,6 @@ License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires(pre): tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
 BuildRequires: flex
-Obsoletes: shapecfg
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for
@@ -46,7 +45,6 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
 	$RPM_BUILD_ROOT/etc/iproute2 \
 	$RPM_BUILD_ROOT%{_libdir}/tc
 
-iconv -f latin1 -t utf8 < man/man8/* > $RPM_BUILD_ROOT/%{_mandir}/man8/*
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
 #install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
@@ -72,7 +70,6 @@ EOF
 cat <<EOF > $RPM_BUILD_ROOT/etc/sysconfig/cbq/avpkt
 AVPKT=3000
 EOF
-
 
 %clean
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
