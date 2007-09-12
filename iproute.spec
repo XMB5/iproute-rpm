@@ -15,7 +15,7 @@ Patch4: iproute-ip-man.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires(pre): tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
+BuildRequires: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
 BuildRequires: flex
 
 %description
@@ -33,7 +33,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %build
 export LIBDIR=%{_libdir}
 
-make
+make %{?_smp_mflags}
 make -C doc
 
 %install
@@ -42,7 +42,7 @@ make -C doc
 mkdir -p $RPM_BUILD_ROOT/sbin \
 	$RPM_BUILD_ROOT%{_sbindir} \
 	$RPM_BUILD_ROOT%{_mandir}/man8 \
-	$RPM_BUILD_ROOT/etc/iproute2 \
+	$RPM_BUILD_ROOT/%{_sysconfdir}/iproute2 \
 	$RPM_BUILD_ROOT%{_libdir}/tc
 
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
@@ -53,13 +53,13 @@ install -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
 rm -r $RPM_BUILD_ROOT/%{_mandir}/man8/ss.8
 iconv -f latin1 -t utf8 < man/man8/ss.8 > $RPM_BUILD_ROOT/%{_mandir}/man8/ss.8
 install -m 755 examples/cbq.init-%{cbq_version} $RPM_BUILD_ROOT/sbin/cbq
-install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig/cbq
+install -d -m 755 $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/cbq
 
-cp -f etc/iproute2/* $RPM_BUILD_ROOT/etc/iproute2
+cp -f etc/iproute2/* $RPM_BUILD_ROOT/%{_sysconfdir}/iproute2
 rm -rf $RPM_BUILD_ROOT/%{_libdir}/debug/*
 
 #create example avpkt file
-cat <<EOF > $RPM_BUILD_ROOT/etc/sysconfig/cbq/cbq-0000.example
+cat <<EOF > $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/cbq/cbq-0000.example
 DEVICE=eth0,10Mbit,1Mbit
 RATE=128Kbit
 WEIGHT=10Kbit
@@ -67,7 +67,7 @@ PRIO=5
 RULE=192.168.1.0/24
 EOF
 
-cat <<EOF > $RPM_BUILD_ROOT/etc/sysconfig/cbq/avpkt
+cat <<EOF > $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/cbq/avpkt
 AVPKT=3000
 EOF
 
@@ -76,18 +76,18 @@ EOF
 
 %files
 %defattr(-,root,root,-)
-%dir /etc/iproute2
+%dir %{_sysconfdir}/iproute2
 %doc README.decnet README.iproute2+tc RELNOTES examples/README.cbq
 %doc doc/*.ps examples
 /sbin/*
 %{_mandir}/man8/*
-%attr(644,root,root) %config(noreplace) /etc/iproute2/*
+%attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
 %{_sbindir}/*
 %dir %{_libdir}/tc
 %{_libdir}/tc/*
 /sbin/cbq
-%dir /etc/sysconfig/cbq
-%config(noreplace) /etc/sysconfig/cbq/*
+%dir %{_sysconfdir}/sysconfig/cbq
+%config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
 * Fri Aug 30 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.22-3
