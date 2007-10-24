@@ -1,0 +1,28 @@
+diff -up iproute-2.6.22/netem/Makefile.old iproute-2.6.22/netem/Makefile
+--- iproute-2.6.22/netem/Makefile.old	2007-07-11 03:34:14.000000000 +0200
++++ iproute-2.6.22/netem/Makefile	2007-10-23 09:11:25.000000000 +0200
+@@ -19,9 +19,9 @@ stats: stats.c
+ 	$(HOSTCC) $(CCOPTS) -I../include -o $@ $@.c -lm
+ 
+ install: all
+-	mkdir -p $(DESTDIR)/usr/lib/tc
++	mkdir -p $(DESTDIR)/usr/share/tc
+ 	for i in $(DISTDATA); \
+-	do install -m 755 $$i $(DESTDIR)/usr/lib/tc; \
++	do install -m 755 $$i $(DESTDIR)/usr/share/tc; \
+ 	done
+ 
+ clean:
+diff -up iproute-2.6.22/tc/q_netem.c.old iproute-2.6.22/tc/q_netem.c
+diff -up iproute-2.6.22/tc/tc_util.c.old iproute-2.6.22/tc/tc_util.c
+--- iproute-2.6.22/tc/tc_util.c.old	2007-07-11 03:34:14.000000000 +0200
++++ iproute-2.6.22/tc/tc_util.c	2007-10-23 10:47:29.000000000 +0200
+@@ -30,7 +30,7 @@ const char *get_tc_lib(void)
+ 
+ 	lib_dir = getenv("TC_LIB_DIR");
+ 	if (!lib_dir)
+-		lib_dir = "/usr/lib/tc";
++		lib_dir = "/usr/share/tc";
+ 
+ 	return lib_dir;
+ }

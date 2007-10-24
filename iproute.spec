@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.22
-Release: 3%{?dist}
+Release: 4%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -12,6 +12,7 @@ Patch1: iproute2-2.6.9-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute2-2.6.16-ip_resolve_crash.patch
 Patch4: iproute-ip-man.patch
+Patch5: iproute2-movelib.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -29,6 +30,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch2 -p1 -b .opt_flags
 %patch3 -p1 -b .ip_resolve
 %patch4 -p1
+%patch5 -p1 -b .movelib
 
 %build
 export LIBDIR=%{_libdir}
@@ -43,12 +45,12 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
 	$RPM_BUILD_ROOT%{_sbindir} \
 	$RPM_BUILD_ROOT%{_mandir}/man8 \
 	$RPM_BUILD_ROOT/%{_sysconfdir}/iproute2 \
-	$RPM_BUILD_ROOT%{_libdir}/tc
+	$RPM_BUILD_ROOT%{_datadir}/tc
 
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
 #install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
-install -m 644 netem/normal.dist netem/pareto.dist netem/paretonormal.dist $RPM_BUILD_ROOT%{_libdir}/tc
+install -m 644 netem/normal.dist netem/pareto.dist netem/paretonormal.dist $RPM_BUILD_ROOT%{_datadir}/tc
 install -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
 rm -r $RPM_BUILD_ROOT/%{_mandir}/man8/ss.8
 iconv -f latin1 -t utf8 < man/man8/ss.8 > $RPM_BUILD_ROOT/%{_mandir}/man8/ss.8
@@ -83,13 +85,16 @@ EOF
 %{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
 %{_sbindir}/*
-%dir %{_libdir}/tc
-%{_libdir}/tc/*
+%dir %{_datadir}/tc
+%{_datadir}/tc/*
 /sbin/cbq
 %dir %{_sysconfdir}/sysconfig/cbq
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Tue Oct 23 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.22-4
+- move files from /usr/lib/tc to /usr/share/tc
+
 * Fri Aug 30 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.22-3
 - package review #225903
 
