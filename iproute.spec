@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.22
-Release: 4%{?dist}
+Release: 5%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -87,13 +87,13 @@ EOF
 %{_sbindir}/*
 %dir %{_datadir}/tc
 %{_datadir}/tc/*
-/sbin/cbq
 %dir %{_sysconfdir}/sysconfig/cbq
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
-* Tue Oct 23 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.22-4
+* Tue Oct 23 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.22-5
 - move files from /usr/lib/tc to /usr/share/tc
+- remove listing files twice
 
 * Fri Aug 30 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.22-3
 - package review #225903
