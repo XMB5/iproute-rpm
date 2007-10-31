@@ -1,5 +1,6 @@
---- iproute2-2.6.16-060323/man/man8/ip.8.old	2006-01-03 20:25:29.000000000 +0100
-+++ iproute2-2.6.16-060323/man/man8/ip.8	2006-10-02 15:13:05.000000000 +0200
+diff -up iproute-2.6.23/iproute2-2.6.23/man/man8/ip.8.ua iproute-2.6.23/iproute2-2.6.23/man/man8/ip.8
+--- iproute-2.6.23/iproute2-2.6.23/man/man8/ip.8.ua	2007-10-16 23:27:42.000000000 +0200
++++ iproute-2.6.23/iproute2-2.6.23/man/man8/ip.8	2007-10-31 09:29:10.000000000 +0100
 @@ -176,6 +176,8 @@ replace " | " monitor " } "
  .IR NUMBER " ] [ "
  .B  cwnd
@@ -9,11 +10,11 @@
  .B  ssthresh
  .IR REALM " ] [ "
  .B  realms
-@@ -1080,6 +1079,11 @@ the clamp for congestion window.  It is 
+@@ -1102,6 +1104,11 @@ the clamp for congestion window.  It is 
  flag is not used.
  
  .TP
-+.BI initcwnd " NUMBER " 
++.BI initcwnd " NUMBER "
 +The maximum initial congestion window (cwnd) size in MSS of a
 +TCP connection.
 +

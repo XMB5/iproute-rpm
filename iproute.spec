@@ -1,18 +1,19 @@
-%define date_version 070710
+##%define date_version 070710
 %define cbq_version v0.7.3
 
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
-Version: 2.6.22
-Release: 5%{?dist}
+Version: 2.6.23
+Release: 1%{?dist}
 Group: Applications/System
-Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}-%{date_version}.tar.gz
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 URL:	http://linux-net.osdl.org/index.php/Iproute2
 Patch1: iproute2-2.6.9-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute2-2.6.16-ip_resolve_crash.patch
 Patch4: iproute-ip-man.patch
 Patch5: iproute2-movelib.patch
+Patch6: TCP_RTO_MIN.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -25,16 +26,18 @@ example) which are designed to use the advanced networking
 capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
-%setup -q -c iproute-%{version}-%{date_version}
+%setup -q -c iproute-%{version}
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
 %patch3 -p1 -b .ip_resolve
 %patch4 -p1
 %patch5 -p1 -b .movelib
+%patch6 -p1 -b .tcprtomin
 
 %build
 export LIBDIR=%{_libdir}
 
+cd iproute2-%{version}
 make %{?_smp_mflags}
 make -C doc
 
@@ -47,6 +50,7 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
 	$RPM_BUILD_ROOT/%{_sysconfdir}/iproute2 \
 	$RPM_BUILD_ROOT%{_datadir}/tc
 
+cd iproute2-%{version}
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
 #install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
@@ -79,8 +83,8 @@ EOF
 %files
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/iproute2
-%doc README.decnet README.iproute2+tc RELNOTES examples/README.cbq
-%doc doc/*.ps examples
+%doc iproute2-%{version}/README.decnet iproute2-%{version}/README.iproute2+tc iproute2-%{version}/RELNOTES iproute2-%{version}/examples/README.cbq
+%doc iproute2-%{version}/doc/*.ps iproute2-%{version}/examples
 /sbin/*
 %{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
@@ -91,6 +95,9 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Tue Oct 31 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-1
+- new version from upstrem 2.3.23
+
 * Tue Oct 23 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.22-5
 - move files from /usr/lib/tc to /usr/share/tc
 - remove listing files twice
