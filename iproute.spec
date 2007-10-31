@@ -13,7 +13,6 @@ Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute2-2.6.16-ip_resolve_crash.patch
 Patch4: iproute-ip-man.patch
 Patch5: iproute2-movelib.patch
-Patch6: TCP_RTO_MIN.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -32,7 +31,6 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch3 -p1 -b .ip_resolve
 %patch4 -p1
 %patch5 -p1 -b .movelib
-%patch6 -p1 -b .tcprtomin
 
 %build
 export LIBDIR=%{_libdir}
