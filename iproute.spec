@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.23
-Release: 1%{?dist}
+Release: 2%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -17,7 +17,7 @@ Patch5: iproute2-movelib.patch
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
-BuildRequires: flex
+BuildRequires: flex linux-atm-libs-devel
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for
@@ -46,12 +46,14 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
 	$RPM_BUILD_ROOT%{_sbindir} \
 	$RPM_BUILD_ROOT%{_mandir}/man8 \
 	$RPM_BUILD_ROOT/%{_sysconfdir}/iproute2 \
-	$RPM_BUILD_ROOT%{_datadir}/tc
+	$RPM_BUILD_ROOT%{_datadir}/tc \
+	$RPM_BUILD_ROOT%{_libdir}/tc
 
 cd iproute2-%{version}
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
-#install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
+install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
+install -m 755 tc/q_atm.so $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 netem/normal.dist netem/pareto.dist netem/paretonormal.dist $RPM_BUILD_ROOT%{_datadir}/tc
 install -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
 rm -r $RPM_BUILD_ROOT/%{_mandir}/man8/ss.8
@@ -89,10 +91,17 @@ EOF
 %{_sbindir}/*
 %dir %{_datadir}/tc
 %{_datadir}/tc/*
+%dir %{_libdir}/tc/
+%{_libdir}/tc/*
 %dir %{_sysconfdir}/sysconfig/cbq
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Mon Jan 21 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-2
+- rebuild with fix tetex and linuxdoc-tools -> manual pdf
+- clean unnecessary patches
+- add into spec *.so objects, new BR linux-atm-libs-devel
+
 * Tue Oct 31 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-1
 - new version from upstrem 2.3.23
 
