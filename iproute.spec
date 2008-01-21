@@ -52,7 +52,8 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
 cd iproute2-%{version}
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
-install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
+#netem is static
+#install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 755 tc/q_atm.so $RPM_BUILD_ROOT%{_libdir}/tc
 install -m 644 netem/normal.dist netem/pareto.dist netem/paretonormal.dist $RPM_BUILD_ROOT%{_datadir}/tc
 install -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
