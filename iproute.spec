@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.23
-Release: 2%{?dist}
+Release: 3%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 URL:	http://linux-net.osdl.org/index.php/Iproute2
@@ -18,6 +18,7 @@ License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
 BuildRequires: flex linux-atm-libs-devel
+Conflicts: kernel < 2.6.23
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for
@@ -98,6 +99,9 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Fri Feb  1 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-3
+- iproute doesn't cooperate with lower kernel->add Conflicts
+
 * Mon Jan 21 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-2
 - rebuild with fix tetex and linuxdoc-tools -> manual pdf
 - clean unnecessary patches
