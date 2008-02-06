@@ -7,18 +7,20 @@ Version: 2.6.23
 Release: 3%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
+Source1: iproute-doc-2.6.22.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
 Patch1: iproute2-2.6.9-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute2-2.6.16-ip_resolve_crash.patch
 Patch4: iproute-ip-man.patch
 Patch5: iproute2-movelib.patch
+Patch6: iproute2-tex.patch
+Patch7: iproute2-backwardcompat.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: tetex-latex tetex-dvips psutils linuxdoc-tools db4-devel bison
-BuildRequires: flex linux-atm-libs-devel
-Conflicts: kernel < 2.6.23
+#BuildRequires: tetex-latex tetex-dvips linuxdoc-tools
+BuildRequires: flex linux-atm-libs-devel psutils db4-devel bison
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for
@@ -32,13 +34,16 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch3 -p1 -b .ip_resolve
 %patch4 -p1
 %patch5 -p1 -b .movelib
+#remove tex for the while
+%patch6 -p1 -b .wotex
+%patch7 -p1 -b .backw
 
 %build
 export LIBDIR=%{_libdir}
 
 cd iproute2-%{version}
 make %{?_smp_mflags}
-make -C doc
+#make -C doc
 
 %install
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
@@ -66,6 +71,15 @@ install -d -m 755 $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/cbq
 cp -f etc/iproute2/* $RPM_BUILD_ROOT/%{_sysconfdir}/iproute2
 rm -rf $RPM_BUILD_ROOT/%{_libdir}/debug/*
 
+#copy the tex file from source
+
+tar -xvzf %{SOURCE1}
+mkdir -p $RPM_BUILD_ROOT/%{_defaultdocdir}/%{name}-%{version}
+pwd
+cd %{name}-doc-2.6.22
+pwd
+cp -pR *.ps ../doc
+
 #create example avpkt file
 cat <<EOF > $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/cbq/cbq-0000.example
 DEVICE=eth0,10Mbit,1Mbit
@@ -86,7 +100,8 @@ EOF
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/iproute2
 %doc iproute2-%{version}/README.decnet iproute2-%{version}/README.iproute2+tc iproute2-%{version}/RELNOTES iproute2-%{version}/examples/README.cbq
-%doc iproute2-%{version}/doc/*.ps iproute2-%{version}/examples
+%doc iproute2-%{version}/doc/*.ps 
+%doc iproute2-%{version}/examples
 /sbin/*
 %{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
@@ -99,8 +114,10 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
-* Fri Feb  1 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-3
-- iproute doesn't cooperate with lower kernel->add Conflicts
+* Wed Feb  6 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-3
+- rebuild without tetex files. It isn't working in rawhide yet. Added
+	new source for ps files. 
+- #431179 backward compatibility for previous iproute versions
 
 * Mon Jan 21 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-2
 - rebuild with fix tetex and linuxdoc-tools -> manual pdf
