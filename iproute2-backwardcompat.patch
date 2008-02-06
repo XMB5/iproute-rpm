@@ -1,5 +1,5 @@
---- a/ip/iplink.c
-+++ b/ip/iplink.c
+--- iproute-2.6.23/iproute2-2.6.23/ip/iplink.c
++++ iproute-2.6.23/iproute2-2.6.23/ip/iplink.c
 @@ -107,7 +107,8 @@ static int accept_msg(const struct sockaddr_nl *who,
  {
  	struct nlmsgerr *err = (struct nlmsgerr *)NLMSG_DATA(n);
