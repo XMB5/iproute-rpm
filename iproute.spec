@@ -7,7 +7,7 @@ Version: 2.6.23
 Release: 3%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
-Source1: iproute-doc-2.6.22.tar.gz
+#Source1: iproute-doc-2.6.22.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
 Patch1: iproute2-2.6.9-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
@@ -19,7 +19,7 @@ Patch7: iproute2-backwardcompat.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-#BuildRequires: tetex-latex tetex-dvips linuxdoc-tools
+BuildRequires: tetex-latex tetex-dvips linuxdoc-tools
 BuildRequires: flex linux-atm-libs-devel psutils db4-devel bison
 
 %description
@@ -35,7 +35,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch4 -p1
 %patch5 -p1 -b .movelib
 #remove tex for the while
-%patch6 -p1 -b .wotex
+#%patch6 -p1 -b .wotex
 %patch7 -p1 -b .backw
 
 %build
@@ -43,7 +43,7 @@ export LIBDIR=%{_libdir}
 
 cd iproute2-%{version}
 make %{?_smp_mflags}
-#make -C doc
+make -C doc
 
 %install
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
@@ -71,14 +71,12 @@ install -d -m 755 $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/cbq
 cp -f etc/iproute2/* $RPM_BUILD_ROOT/%{_sysconfdir}/iproute2
 rm -rf $RPM_BUILD_ROOT/%{_libdir}/debug/*
 
-#copy the tex file from source
-
-tar -xvzf %{SOURCE1}
-mkdir -p $RPM_BUILD_ROOT/%{_defaultdocdir}/%{name}-%{version}
-pwd
-cd %{name}-doc-2.6.22
-pwd
-cp -pR *.ps ../doc
+#copy the tex file from source for time when tex was broken
+#source1 was created from last functional version
+#tar -xvzf %{SOURCE1}
+#mkdir -p $RPM_BUILD_ROOT/%{_defaultdocdir}/%{name}-%{version}
+#cd %{name}-doc-2.6.22
+#cp -pR *.ps ../doc
 
 #create example avpkt file
 cat <<EOF > $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/cbq/cbq-0000.example
@@ -114,6 +112,9 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Thu Feb 21 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-4
+- add creating ps file again. Fix was done in texlive
+
 * Wed Feb  6 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-3
 - rebuild without tetex files. It isn't working in rawhide yet. Added
 	new source for ps files. 
