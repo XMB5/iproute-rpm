@@ -1,6 +1,6 @@
-diff -up iproute-2.6.23/iproute2-2.6.23/lib/utils.c.ee iproute-2.6.23/iproute2-2.6.23/lib/utils.c
---- iproute-2.6.23/iproute2-2.6.23/lib/utils.c.ee	2007-10-16 23:27:42.000000000 +0200
-+++ iproute-2.6.23/iproute2-2.6.23/lib/utils.c	2007-10-31 09:26:20.000000000 +0100
+diff -up iproute-2.6.25/iproute2-2.6.25/lib/utils.c.ee iproute-2.6.25/iproute2-2.6.25/lib/utils.c
+--- iproute-2.6.25/iproute2-2.6.25/lib/utils.c.ee	2007-10-16 23:27:42.000000000 +0200
++++ iproute-2.6.25/iproute2-2.6.25/lib/utils.c	2007-10-31 09:26:20.000000000 +0100
 @@ -503,8 +503,8 @@ char *resolve_address(const char *addr, 
  		len = 4;
  	}

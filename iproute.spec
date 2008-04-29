@@ -3,8 +3,8 @@
 
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
-Version: 2.6.23
-Release: 4%{?dist}
+Version: 2.6.25
+Release: 1%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 #Source1: iproute-doc-2.6.22.tar.gz
@@ -15,7 +15,7 @@ Patch3: iproute2-2.6.16-ip_resolve_crash.patch
 Patch4: iproute-ip-man.patch
 Patch5: iproute2-movelib.patch
 Patch6: iproute2-tex.patch
-Patch7: iproute2-backwardcompat.patch
+Patch7: iproute2-2.6.25-aead.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -36,7 +36,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch5 -p1 -b .movelib
 #remove tex for the while
 #%patch6 -p1 -b .wotex
-%patch7 -p1 -b .backw
+%patch7 -p1 -b .aead
 
 %build
 export LIBDIR=%{_libdir}
@@ -112,6 +112,11 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Mon Apr 21 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.25-1
+- update
+- remove patch for backward compatibility
+- add patch for AEAD compatibility
+
 * Thu Feb 21 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-4
 - add creating ps file again. Fix was done in texlive
 

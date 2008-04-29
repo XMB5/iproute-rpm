@@ -1,6 +1,6 @@
-diff -up iproute-2.6.23/iproute2-2.6.23/man/man8/ip.8.ua iproute-2.6.23/iproute2-2.6.23/man/man8/ip.8
---- iproute-2.6.23/iproute2-2.6.23/man/man8/ip.8.ua	2007-10-16 23:27:42.000000000 +0200
-+++ iproute-2.6.23/iproute2-2.6.23/man/man8/ip.8	2007-10-31 09:29:10.000000000 +0100
+diff -up iproute-2.6.25/iproute2-2.6.25/man/man8/ip.8.ua iproute-2.6.25/iproute2-2.6.25/man/man8/ip.8
+--- iproute-2.6.25/iproute2-2.6.25/man/man8/ip.8.ua	2007-10-16 23:27:42.000000000 +0200
++++ iproute-2.6.25/iproute2-2.6.25/man/man8/ip.8	2007-10-31 09:29:10.000000000 +0100
 @@ -176,6 +176,8 @@ replace " | " monitor " } "
  .IR NUMBER " ] [ "
  .B  cwnd

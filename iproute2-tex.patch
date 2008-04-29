@@ -1,7 +1,7 @@
-diff -up iproute-2.6.23/iproute2-2.6.23/Makefile.old iproute-2.6.23/iproute2-2.6.23/Makefile
-diff -up iproute-2.6.23/iproute2-2.6.23/doc/Makefile.old iproute-2.6.23/iproute2-2.6.23/doc/Makefile
---- iproute-2.6.23/iproute2-2.6.23/doc/Makefile.old	2007-10-16 23:27:42.000000000 +0200
-+++ iproute-2.6.23/iproute2-2.6.23/doc/Makefile	2008-02-06 13:22:59.000000000 +0100
+diff -up iproute-2.6.23/iproute2-2.6.25/Makefile.old iproute-2.6.23/iproute2-2.6.25/Makefile
+diff -up iproute-2.6.23/iproute2-2.6.25/doc/Makefile.old iproute-2.6.23/iproute2-2.6.25/doc/Makefile
+--- iproute-2.6.23/iproute2-2.6.25/doc/Makefile.old	2007-10-16 23:27:42.000000000 +0200
++++ iproute-2.6.23/iproute2-2.6.25/doc/Makefile	2008-02-06 13:22:59.000000000 +0100
 @@ -1,55 +0,0 @@
 -PSFILES=ip-cref.ps ip-tunnels.ps api-ip6-flowlabels.ps ss.ps nstat.ps arpd.ps rtstat.ps
 -# tc-cref.ps

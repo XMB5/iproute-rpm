@@ -1,6 +1,6 @@
-diff -up iproute-2.6.23/iproute2-2.6.23/netem/Makefile.lib iproute-2.6.23/iproute2-2.6.23/netem/Makefile
---- iproute-2.6.23/iproute2-2.6.23/netem/Makefile.lib	2007-10-16 23:27:42.000000000 +0200
-+++ iproute-2.6.23/iproute2-2.6.23/netem/Makefile	2007-10-31 09:31:07.000000000 +0100
+diff -up iproute-2.6.25/iproute2-2.6.25/netem/Makefile.lib iproute-2.6.25/iproute2-2.6.25/netem/Makefile
+--- iproute-2.6.25/iproute2-2.6.25/netem/Makefile.lib	2007-10-16 23:27:42.000000000 +0200
++++ iproute-2.6.25/iproute2-2.6.25/netem/Makefile	2007-10-31 09:31:07.000000000 +0100
 @@ -19,9 +19,9 @@ stats: stats.c
  	$(HOSTCC) $(CCOPTS) -I../include -o $@ $@.c -lm
  
@@ -13,9 +13,9 @@ diff -up iproute-2.6.23/iproute2-2.6.23/netem/Makefile.lib iproute-2.6.23/iprout
  	done
  
  clean:
-diff -up iproute-2.6.23/iproute2-2.6.23/tc/tc_util.c.lib iproute-2.6.23/iproute2-2.6.23/tc/tc_util.c
---- iproute-2.6.23/iproute2-2.6.23/tc/tc_util.c.lib	2007-10-16 23:27:42.000000000 +0200
-+++ iproute-2.6.23/iproute2-2.6.23/tc/tc_util.c	2007-10-31 09:33:00.000000000 +0100
+diff -up iproute-2.6.25/iproute2-2.6.25/tc/tc_util.c.lib iproute-2.6.25/iproute2-2.6.25/tc/tc_util.c
+--- iproute-2.6.25/iproute2-2.6.25/tc/tc_util.c.lib	2007-10-16 23:27:42.000000000 +0200
++++ iproute-2.6.25/iproute2-2.6.25/tc/tc_util.c	2007-10-31 09:33:00.000000000 +0100
 @@ -30,7 +30,7 @@ const char *get_tc_lib(void)
  
  	lib_dir = getenv("TC_LIB_DIR");
