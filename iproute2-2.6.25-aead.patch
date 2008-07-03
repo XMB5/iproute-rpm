@@ -1,15 +1,6 @@
 diff -up iproute-2.6.25/iproute2-2.6.25/include/linux/xfrm.h.aead iproute-2.6.25/iproute2-2.6.25/include/linux/xfrm.h
 --- iproute-2.6.25/iproute2-2.6.25/include/linux/xfrm.h.aead	2008-04-17 19:12:54.000000000 +0200
 +++ iproute-2.6.25/iproute2-2.6.25/include/linux/xfrm.h	2008-04-22 08:38:15.000000000 +0200
-@@ -277,7 +277,7 @@ enum xfrm_attr_type_t {
- 	XFRMA_LASTUSED,
- 	XFRMA_POLICY_TYPE,	/* struct xfrm_userpolicy_type */
- 	XFRMA_MIGRATE,
--	XFRMA_ALG_AEAD,		/* struct xfrm_algo_aead */
-+	XFRMA_ALG_AEAD,		/* struct xfrm_algo_aead */
- 	__XFRMA_MAX
- 
- #define XFRMA_MAX (__XFRMA_MAX - 1)
 @@ -426,12 +426,14 @@ struct xfrm_user_migrate {
  	__u16				new_family;
  };

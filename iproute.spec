@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.25
-Release: 1%{?dist}
+Release: 3%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 #Source1: iproute-doc-2.6.22.tar.gz
@@ -16,6 +16,7 @@ Patch4: iproute-ip-man.patch
 Patch5: iproute2-movelib.patch
 Patch6: iproute2-tex.patch
 Patch7: iproute2-2.6.25-aead.patch
+Patch8: iproute2-2.6.25-xfrmsegfault.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -31,12 +32,13 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %setup -q -c iproute-%{version}
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
-%patch3 -p1 -b .ip_resolve
+#%patch3 -p1 -b .ip_resolve
 %patch4 -p1
 %patch5 -p1 -b .movelib
 #remove tex for the while
 #%patch6 -p1 -b .wotex
 %patch7 -p1 -b .aead
+%patch8 -p1 -b .seg
 
 %build
 export LIBDIR=%{_libdir}
@@ -112,6 +114,12 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Thu Jul  3 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.25-3
+- 49933 fix segfault after non-existent combination of commands
+
+* Wed May 14 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.25-2
+- allow replay setting, solve also 444724
+
 * Mon Apr 21 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.25-1
 - update
 - remove patch for backward compatibility
