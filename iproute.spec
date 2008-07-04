@@ -115,7 +115,7 @@ EOF
 
 %changelog
 * Thu Jul  3 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.25-3
-- 49933 fix segfault after non-existent combination of commands
+- 449933 fix segfault after non-existent combination of commands
 
 * Wed May 14 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.25-2
 - allow replay setting, solve also 444724

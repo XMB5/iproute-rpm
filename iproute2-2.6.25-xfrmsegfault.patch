@@ -1,13 +1,15 @@
-diff -up iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c.oprava iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c
---- iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c.oprava	2008-07-03 16:00:13.000000000 +0200
-+++ iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c	2008-07-03 16:08:43.000000000 +0200
-@@ -162,7 +162,8 @@ static int xfrm_algo_parse(struct xfrm_a
+diff -up iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c.seg iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c
+--- iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c.seg	2008-07-04 13:22:13.000000000 +0200
++++ iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c	2008-07-04 13:30:51.000000000 +0200
+@@ -162,8 +162,9 @@ static int xfrm_algo_parse(struct xfrm_a
  		if (len > 0) {
  			if (len > max)
  				invarg("\"ALGOKEY\" makes buffer overflow\n", key);
 -
+-			strncpy(buf, key, len);
 +			else
 +				invarg("\"ALGOKEY\" is invalid", key);
- 			strncpy(buf, key, len);
++			/* strncpy(buf, key, len); */
  		}
  	}
+ 
