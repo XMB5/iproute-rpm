@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.25
-Release: 3%{?dist}
+Release: 4%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 #Source1: iproute-doc-2.6.22.tar.gz
@@ -114,6 +114,9 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Thu Jul 10 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 2.6.25-4
+- rebuild for new db4-4.7
+
 * Thu Jul  3 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.25-3
 - 449933 fix segfault after non-existent combination of commands
 
