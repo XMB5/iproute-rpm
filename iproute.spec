@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.25
-Release: 4%{?dist}
+Release: 5%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 #Source1: iproute-doc-2.6.22.tar.gz
@@ -16,7 +16,7 @@ Patch4: iproute-ip-man.patch
 Patch5: iproute2-movelib.patch
 Patch6: iproute2-tex.patch
 Patch7: iproute2-2.6.25-aead.patch
-Patch8: iproute2-2.6.25-xfrmsegfault.patch
+Patch8: iproute2-2.6.25-segfault.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -114,11 +114,14 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Tue Jul 22 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.25-5
+- fix iproute2-2.6.25-segfault.patch
+
 * Thu Jul 10 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 2.6.25-4
 - rebuild for new db4-4.7
 
 * Thu Jul  3 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.25-3
-- 449933 fix segfault after non-existent combination of commands
+- 449933 instead of failing strncpy use copying byte after byte
 
 * Wed May 14 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.25-2
 - allow replay setting, solve also 444724
