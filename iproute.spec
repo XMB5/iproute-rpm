@@ -3,20 +3,18 @@
 
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
-Version: 2.6.25
-Release: 5%{?dist}
+Version: 2.6.26
+Release: 1%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 #Source1: iproute-doc-2.6.22.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
 Patch1: iproute2-2.6.9-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
-Patch3: iproute2-2.6.16-ip_resolve_crash.patch
-Patch4: iproute-ip-man.patch
-Patch5: iproute2-movelib.patch
-Patch6: iproute2-tex.patch
-Patch7: iproute2-2.6.25-aead.patch
-Patch8: iproute2-2.6.25-segfault.patch
+Patch3: iproute-ip-man.patch
+Patch4: iproute2-movelib.patch
+Patch5: iproute2-2.6.25-aead.patch
+Patch6: iproute2-2.6.25-segfault.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -32,13 +30,10 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %setup -q -c iproute-%{version}
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
-#%patch3 -p1 -b .ip_resolve
-%patch4 -p1
-%patch5 -p1 -b .movelib
-#remove tex for the while
-#%patch6 -p1 -b .wotex
-%patch7 -p1 -b .aead
-%patch8 -p1 -b .seg
+%patch3 -p1
+%patch4 -p1 -b .movelib
+%patch5 -p1 -b .aead
+%patch6 -p1 -b .seg
 
 %build
 export LIBDIR=%{_libdir}
@@ -114,6 +109,10 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Tue Aug 12 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.26-1
+- update to 2.6.26
+- clean patches
+
 * Tue Jul 22 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.25-5
 - fix iproute2-2.6.25-segfault.patch
 

@@ -1,10 +1,10 @@
-diff -up iproute-2.6.25/iproute2-2.6.25/Makefile.old iproute-2.6.25/iproute2-2.6.25/Makefile
---- iproute-2.6.25/iproute2-2.6.25/Makefile.old	2007-10-16 23:27:42.000000000 +0200
-+++ iproute-2.6.25/iproute2-2.6.25/Makefile	2007-10-31 09:22:41.000000000 +0100
-@@ -3,6 +3,7 @@ SBINDIR=/usr/sbin
+diff -up iproute-2.6.26/iproute2-2.6.26/Makefile.kernel iproute-2.6.26/iproute2-2.6.26/Makefile
+--- iproute-2.6.26/iproute2-2.6.26/Makefile.kernel	2008-07-25 22:46:07.000000000 +0200
++++ iproute-2.6.26/iproute2-2.6.26/Makefile	2008-08-12 14:19:58.000000000 +0200
+@@ -3,6 +3,7 @@ SBINDIR=/sbin
  CONFDIR=/etc/iproute2
- DOCDIR=/usr/share/doc/iproute2
- MANDIR=/usr/share/man
+ DOCDIR=/share/doc/iproute2
+ MANDIR=/share/man
 +KERNEL_INCLUDE=/usr/include
  
  # Path to db_185.h include

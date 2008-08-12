@@ -1,6 +1,6 @@
-diff -up iproute-2.6.25/iproute2-2.6.25/include/linux/xfrm.h.aead iproute-2.6.25/iproute2-2.6.25/include/linux/xfrm.h
---- iproute-2.6.25/iproute2-2.6.25/include/linux/xfrm.h.aead	2008-04-17 19:12:54.000000000 +0200
-+++ iproute-2.6.25/iproute2-2.6.25/include/linux/xfrm.h	2008-04-22 08:38:15.000000000 +0200
+diff -up iproute-2.6.25/iproute2-2.6.26/include/linux/xfrm.h.aead iproute-2.6.26/iproute2-2.6.26/include/linux/xfrm.h
+--- iproute-2.6.26/iproute2-2.6.26/include/linux/xfrm.h.aead	2008-04-17 19:12:54.000000000 +0200
++++ iproute-2.6.26/iproute2-2.6.26/include/linux/xfrm.h	2008-04-22 08:38:15.000000000 +0200
 @@ -426,12 +426,14 @@ struct xfrm_user_migrate {
  	__u16				new_family;
  };
@@ -16,9 +16,9 @@ diff -up iproute-2.6.25/iproute2-2.6.25/include/linux/xfrm.h.aead iproute-2.6.25
  
  enum xfrm_nlgroups {
  	XFRMNLGRP_NONE,
-diff -up iproute-2.6.25/iproute2-2.6.25/ip/ipxfrm.c.aead iproute-2.6.25/iproute2-2.6.25/ip/ipxfrm.c
---- iproute-2.6.25/iproute2-2.6.25/ip/ipxfrm.c.aead	2008-04-17 19:12:54.000000000 +0200
-+++ iproute-2.6.25/iproute2-2.6.25/ip/ipxfrm.c	2008-04-21 14:40:16.000000000 +0200
+diff -up iproute-2.6.26/iproute2-2.6.26/ip/ipxfrm.c.aead iproute-2.6.26/iproute2-2.6.26/ip/ipxfrm.c
+--- iproute-2.6.26/iproute2-2.6.26/ip/ipxfrm.c.aead	2008-04-17 19:12:54.000000000 +0200
++++ iproute-2.6.26/iproute2-2.6.26/ip/ipxfrm.c	2008-04-21 14:40:16.000000000 +0200
 @@ -154,7 +154,8 @@ const char *strxf_xfrmproto(__u8 proto)
  
  static const struct typeent algo_types[]= {
@@ -86,9 +86,9 @@ diff -up iproute-2.6.25/iproute2-2.6.25/ip/ipxfrm.c.aead iproute-2.6.25/iproute2
  	if (tb[XFRMA_ALG_CRYPT]) {
  		struct rtattr *rta = tb[XFRMA_ALG_CRYPT];
  		xfrm_algo_print((struct xfrm_algo *) RTA_DATA(rta),
-diff -up iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c.aead iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c
---- iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c.aead	2008-04-17 19:12:54.000000000 +0200
-+++ iproute-2.6.25/iproute2-2.6.25/ip/xfrm_state.c	2008-04-21 14:40:16.000000000 +0200
+diff -up iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c.aead iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c
+--- iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c.aead	2008-04-17 19:12:54.000000000 +0200
++++ iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c	2008-04-21 14:40:16.000000000 +0200
 @@ -88,8 +88,10 @@ static void usage(void)
          fprintf(stderr, "ENCAP-TYPE := espinudp | espinudp-nonike\n");
  
