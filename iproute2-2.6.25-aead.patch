@@ -1,7 +1,7 @@
-diff -up iproute-2.6.25/iproute2-2.6.26/include/linux/xfrm.h.aead iproute-2.6.26/iproute2-2.6.26/include/linux/xfrm.h
---- iproute-2.6.26/iproute2-2.6.26/include/linux/xfrm.h.aead	2008-04-17 19:12:54.000000000 +0200
-+++ iproute-2.6.26/iproute2-2.6.26/include/linux/xfrm.h	2008-04-22 08:38:15.000000000 +0200
-@@ -426,12 +426,14 @@ struct xfrm_user_migrate {
+diff -up iproute-2.6.26/iproute2-2.6.26/include/linux/xfrm.h.aead iproute-2.6.26/iproute2-2.6.26/include/linux/xfrm.h
+--- iproute-2.6.26/iproute2-2.6.26/include/linux/xfrm.h.aead	2008-07-25 22:46:07.000000000 +0200
++++ iproute-2.6.26/iproute2-2.6.26/include/linux/xfrm.h	2008-08-12 15:16:13.000000000 +0200
+@@ -428,12 +428,14 @@ struct xfrm_user_migrate {
  	__u16				new_family;
  };
  
@@ -17,8 +17,8 @@ diff -up iproute-2.6.25/iproute2-2.6.26/include/linux/xfrm.h.aead iproute-2.6.26
  enum xfrm_nlgroups {
  	XFRMNLGRP_NONE,
 diff -up iproute-2.6.26/iproute2-2.6.26/ip/ipxfrm.c.aead iproute-2.6.26/iproute2-2.6.26/ip/ipxfrm.c
---- iproute-2.6.26/iproute2-2.6.26/ip/ipxfrm.c.aead	2008-04-17 19:12:54.000000000 +0200
-+++ iproute-2.6.26/iproute2-2.6.26/ip/ipxfrm.c	2008-04-21 14:40:16.000000000 +0200
+--- iproute-2.6.26/iproute2-2.6.26/ip/ipxfrm.c.aead	2008-07-25 22:46:07.000000000 +0200
++++ iproute-2.6.26/iproute2-2.6.26/ip/ipxfrm.c	2008-08-12 15:16:13.000000000 +0200
 @@ -154,7 +154,8 @@ const char *strxf_xfrmproto(__u8 proto)
  
  static const struct typeent algo_types[]= {
@@ -87,9 +87,9 @@ diff -up iproute-2.6.26/iproute2-2.6.26/ip/ipxfrm.c.aead iproute-2.6.26/iproute2
  		struct rtattr *rta = tb[XFRMA_ALG_CRYPT];
  		xfrm_algo_print((struct xfrm_algo *) RTA_DATA(rta),
 diff -up iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c.aead iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c
---- iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c.aead	2008-04-17 19:12:54.000000000 +0200
-+++ iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c	2008-04-21 14:40:16.000000000 +0200
-@@ -88,8 +88,10 @@ static void usage(void)
+--- iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c.aead	2008-07-25 22:46:07.000000000 +0200
++++ iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c	2008-08-12 15:16:13.000000000 +0200
+@@ -89,8 +89,10 @@ static void usage(void)
          fprintf(stderr, "ENCAP-TYPE := espinudp | espinudp-nonike\n");
  
  	fprintf(stderr, "ALGO-LIST := [ ALGO-LIST ] | [ ALGO ]\n");
@@ -101,7 +101,7 @@ diff -up iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c.aead iproute-2.6.26/ipro
  	fprintf(stderr, "%s | ", strxf_algotype(XFRMA_ALG_CRYPT));
  	fprintf(stderr, "%s | ", strxf_algotype(XFRMA_ALG_AUTH));
  	fprintf(stderr, "%s ", strxf_algotype(XFRMA_ALG_COMP));
-@@ -112,7 +114,7 @@ static void usage(void)
+@@ -113,7 +115,7 @@ static void usage(void)
  }
  
  static int xfrm_algo_parse(struct xfrm_algo *alg, enum xfrm_attr_type_t type,
@@ -110,7 +110,7 @@ diff -up iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c.aead iproute-2.6.26/ipro
  {
  	int len;
  	int slen = strlen(key);
-@@ -152,7 +154,7 @@ static int xfrm_algo_parse(struct xfrm_a
+@@ -153,7 +155,7 @@ static int xfrm_algo_parse(struct xfrm_a
  			if (get_u8(&val, vbuf, 16))
  				invarg("\"ALGOKEY\" is invalid", key);
  
@@ -119,7 +119,7 @@ diff -up iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c.aead iproute-2.6.26/ipro
  		}
  	} else {
  		len = slen;
-@@ -160,7 +162,7 @@ static int xfrm_algo_parse(struct xfrm_a
+@@ -161,7 +163,7 @@ static int xfrm_algo_parse(struct xfrm_a
  			if (len > max)
  				invarg("\"ALGOKEY\" makes buffer overflow\n", key);
  
@@ -128,15 +128,15 @@ diff -up iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c.aead iproute-2.6.26/ipro
  		}
  	}
  
-@@ -233,6 +235,7 @@ static int xfrm_state_modify(int cmd, un
- 		char   			buf[RTA_BUF_SIZE];
+@@ -235,6 +237,7 @@ static int xfrm_state_modify(int cmd, un
  	} req;
+ 	struct xfrm_replay_state replay;
  	char *idp = NULL;
 +	char *aeadop = NULL;
  	char *ealgop = NULL;
  	char *aalgop = NULL;
  	char *calgop = NULL;
-@@ -316,20 +319,31 @@ static int xfrm_state_modify(int cmd, un
+@@ -327,20 +330,31 @@ static int xfrm_state_modify(int cmd, un
  			/* try to assume ALGO */
  			int type = xfrm_algotype_getbyname(*argv);
  			switch (type) {
@@ -170,7 +170,7 @@ diff -up iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c.aead iproute-2.6.26/ipro
  				case XFRMA_ALG_CRYPT:
  					if (ealgop)
  						duparg("ALGOTYPE", *argv);
-@@ -360,11 +374,27 @@ static int xfrm_state_modify(int cmd, un
+@@ -371,11 +385,27 @@ static int xfrm_state_modify(int cmd, un
  				NEXT_ARG();
  				key = *argv;
  
@@ -201,7 +201,7 @@ diff -up iproute-2.6.26/iproute2-2.6.26/ip/xfrm_state.c.aead iproute-2.6.26/ipro
  
  				addattr_l(&req.n, sizeof(req.buf), type,
  					  (void *)&alg, len);
-@@ -417,7 +447,7 @@ static int xfrm_state_modify(int cmd, un
+@@ -432,7 +462,7 @@ static int xfrm_state_modify(int cmd, un
  		break;
  	}
  

@@ -33,7 +33,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch3 -p1
 %patch4 -p1 -b .movelib
 %patch5 -p1 -b .aead
-%patch6 -p1 -b .seg
+#%patch6 -p1 -b .seg
 
 %build
 export LIBDIR=%{_libdir}
