@@ -3,18 +3,16 @@
 
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
-Version: 2.6.26
+Version: 2.6.27
 Release: 1%{?dist}
 Group: Applications/System
-Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.gz
 #Source1: iproute-doc-2.6.22.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
 Patch1: iproute2-2.6.9-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute-ip-man.patch
-Patch4: iproute2-movelib.patch
-Patch5: iproute2-2.6.25-aead.patch
-Patch6: iproute2-2.6.25-segfault.patch
+Patch4: iproute2-2.6.25-segfault.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -27,13 +25,11 @@ example) which are designed to use the advanced networking
 capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
-%setup -q -c iproute-%{version}
+%setup -q -c iproute2-%{version}
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
 %patch3 -p1
-%patch4 -p1 -b .movelib
-%patch5 -p1 -b .aead
-#%patch6 -p1 -b .seg
+%patch4 -p1 -b .seg
 
 %build
 export LIBDIR=%{_libdir}
@@ -109,6 +105,11 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Thu Dec 4 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.27-1
+- aead support was included into upstream version
+- patch for moving libs is now deprecated
+- update to 2.6.27
+
 * Tue Aug 12 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.26-1
 - update to 2.6.26
 - clean patches

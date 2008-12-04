@@ -1,6 +1,6 @@
-diff -up iproute-2.6.26/iproute2-2.6.26/Makefile.kernel iproute-2.6.26/iproute2-2.6.26/Makefile
---- iproute-2.6.26/iproute2-2.6.26/Makefile.kernel	2008-07-25 22:46:07.000000000 +0200
-+++ iproute-2.6.26/iproute2-2.6.26/Makefile	2008-08-12 14:19:58.000000000 +0200
+diff -up iproute2-2.6.27/iproute2-2.6.27/Makefile.kernel iproute2-2.6.27/iproute2-2.6.27/Makefile
+--- iproute2-2.6.27/iproute2-2.6.27/Makefile.kernel	2008-07-25 22:46:07.000000000 +0200
++++ iproute2-2.6.27/iproute2-2.6.27/Makefile	2008-08-12 14:19:58.000000000 +0200
 @@ -3,6 +3,7 @@ SBINDIR=/sbin
  CONFDIR=/etc/iproute2
  DOCDIR=/share/doc/iproute2
