@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.27
-Release: 1%{?dist}
+Release: 2%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.gz
 #Source1: iproute-doc-2.6.22.tar.gz
@@ -13,6 +13,8 @@ Patch1: iproute2-2.6.9-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute-ip-man.patch
 Patch4: iproute2-2.6.25-segfault.patch
+Patch5: prefix-assigned.patch
+Patch6: ip-maddr-show.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -30,6 +32,8 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch2 -p1 -b .opt_flags
 %patch3 -p1
 %patch4 -p1 -b .seg
+%patch5 -p1 -b .prefix
+%patch6 -p1 -b .maddr
 
 %build
 export LIBDIR=%{_libdir}
@@ -105,6 +109,12 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Mon Jan 12 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.27-2
+- 475130 - Negative preferred lifetimes of IPv6 prefixes/addresses
+  displayed incorrectly
+- 472878 - “ip maddr show” in IB interface causes a stack corruption
+- both patches will be probably in iproute v2.6.28
+
 * Thu Dec 4 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.27-1
 - aead support was included into upstream version
 - patch for moving libs is now deprecated
