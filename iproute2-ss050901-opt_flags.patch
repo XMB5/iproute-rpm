@@ -1,6 +1,6 @@
-diff -up iproute2-2.6.27/iproute2-2.6.27/Makefile.opt iproute2-2.6.27/iproute2-2.6.27/Makefile
---- iproute2-2.6.27/iproute2-2.6.27/Makefile.opt	2008-08-12 14:19:58.000000000 +0200
-+++ iproute2-2.6.27/iproute2-2.6.27/Makefile	2008-08-12 14:21:42.000000000 +0200
+diff -up iproute2-2.6.28/iproute2-2.6.28/Makefile.opt iproute2-2.6.28/iproute2-2.6.28/Makefile
+--- iproute2-2.6.28/iproute2-2.6.28/Makefile.opt	2008-08-12 14:19:58.000000000 +0200
++++ iproute2-2.6.28/iproute2-2.6.28/Makefile	2008-08-12 14:21:42.000000000 +0200
 @@ -22,7 +22,7 @@ ADDLIB+=ipx_ntop.o ipx_pton.o
  
  CC = gcc

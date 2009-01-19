@@ -3,18 +3,16 @@
 
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
-Version: 2.6.27
-Release: 2%{?dist}
+Version: 2.6.28
+Release: 1%{?dist}
 Group: Applications/System
-Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.gz
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 #Source1: iproute-doc-2.6.22.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
 Patch1: iproute2-2.6.9-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute-ip-man.patch
 Patch4: iproute2-2.6.25-segfault.patch
-Patch5: prefix-assigned.patch
-Patch6: ip-maddr-show.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -27,13 +25,11 @@ example) which are designed to use the advanced networking
 capabilities of the Linux 2.4.x and 2.6.x kernel.
 
 %prep
-%setup -q -c iproute2-%{version}
+%setup -q -c iproute-%{version}
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
 %patch3 -p1
 %patch4 -p1 -b .seg
-%patch5 -p1 -b .prefix
-%patch6 -p1 -b .maddr
 
 %build
 export LIBDIR=%{_libdir}
@@ -109,6 +105,10 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Mon Jan 19 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.28-1
+- previous two patches were included into 2.6.28 release.
+- update
+
 * Mon Jan 12 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.27-2
 - 475130 - Negative preferred lifetimes of IPv6 prefixes/addresses
   displayed incorrectly
