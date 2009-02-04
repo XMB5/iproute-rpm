@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.28
-Release: 1%{?dist}
+Release: 2%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 #Source1: iproute-doc-2.6.22.tar.gz
@@ -13,6 +13,8 @@ Patch1: iproute2-2.6.9-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute-ip-man.patch
 Patch4: iproute2-2.6.25-segfault.patch
+Patch5: iproute2-sharepath.patch
+Patch6: iproute2-ddr_support.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -30,6 +32,8 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch2 -p1 -b .opt_flags
 %patch3 -p1
 %patch4 -p1 -b .seg
+%patch5 -p1 -b .share
+%patch6 -p1 -b .ddr
 
 %build
 export LIBDIR=%{_libdir}
@@ -105,6 +109,12 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Wed Feb  4 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.28-2
+- 483484 install distribution files into /usr/share and also fixed
+ install paths in spec
+- add the latest change from git which add DRR support
+ c86f34942a0ce9f8203c0c38f9fe9604f96be706
+
 * Mon Jan 19 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.28-1
 - previous two patches were included into 2.6.28 release.
 - update
