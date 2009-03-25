@@ -1,6 +1,6 @@
-diff -up iproute-2.6.28/iproute2-2.6.28/tc/tc_util.c.movelib iproute-2.6.28/iproute2-2.6.28/tc/tc_util.c
---- iproute-2.6.28/iproute2-2.6.28/tc/tc_util.c.movelib	2009-01-15 21:25:04.000000000 +0100
-+++ iproute-2.6.28/iproute2-2.6.28/tc/tc_util.c	2009-02-04 08:58:36.000000000 +0100
+diff -up iproute-2.6.29/iproute2-2.6.29/tc/tc_util.c.movelib iproute-2.6.29/iproute2-2.6.29/tc/tc_util.c
+--- iproute-2.6.29/iproute2-2.6.29/tc/tc_util.c.movelib	2009-01-15 21:25:04.000000000 +0100
++++ iproute-2.6.29/iproute2-2.6.29/tc/tc_util.c	2009-02-04 08:58:36.000000000 +0100
 @@ -24,8 +24,8 @@
  #include "utils.h"
  #include "tc_util.h"

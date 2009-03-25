@@ -3,8 +3,8 @@
 
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
-Version: 2.6.28
-Release: 3%{?dist}
+Version: 2.6.29
+Release: 1%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 #Source1: iproute-doc-2.6.22.tar.gz
@@ -14,7 +14,7 @@ Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute-ip-man.patch
 Patch4: iproute2-2.6.25-segfault.patch
 Patch5: iproute2-sharepath.patch
-Patch6: iproute2-ddr_support.patch
+Patch6: iproute2-2.6.29-fix_headers_for_gre.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -33,7 +33,7 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch3 -p1
 %patch4 -p1 -b .seg
 %patch5 -p1 -b .share
-%patch6 -p1 -b .ddr
+%patch6 -p1 -b .hdrs
 
 %build
 export LIBDIR=%{_libdir}
@@ -109,6 +109,11 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Wed Mar 25 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-1
+- update to 2.6.29
+- remove DDR patch which became part of sourc
+- add patch with correct headers 1957a322c9932e1a1d2ca1fd37ce4b335ceb7113
+
 * Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.6.28-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
