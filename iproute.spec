@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.29
-Release: 1%{?dist}
+Release: 2%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 #Source1: iproute-doc-2.6.22.tar.gz
@@ -15,6 +15,8 @@ Patch3: iproute-ip-man.patch
 Patch4: iproute2-2.6.25-segfault.patch
 Patch5: iproute2-sharepath.patch
 Patch6: iproute2-2.6.29-fix_headers_for_gre.patch
+Patch7: iproute2-missing-arpd-directory.patch
+Patch8: iproute2-display_ip4ip6tunnels.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -34,6 +36,8 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch4 -p1 -b .seg
 %patch5 -p1 -b .share
 %patch6 -p1 -b .hdrs
+%patch7 -p1 -b .arpd
+%patch8 -p1 -b .ip4ip6
 
 %build
 export LIBDIR=%{_libdir}
@@ -109,6 +113,11 @@ EOF
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %changelog
+* Tue Apr 14 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-2
+- c3651bf4763d7247e3edd4e20526a85de459041b ip6tunnel: Fix no default 
+ display of ip4ip6 tunnels
+- e48f73d6a5e90d2f883e15ccedf4f53d26bb6e74 missing arpd directory
+
 * Wed Mar 25 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-1
 - update to 2.6.29
 - remove DDR patch which became part of sourc
