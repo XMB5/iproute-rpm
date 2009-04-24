@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.29
-Release: 2%{?dist}
+Release: 3%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 #Source1: iproute-doc-2.6.22.tar.gz
@@ -17,19 +17,31 @@ Patch5: iproute2-sharepath.patch
 Patch6: iproute2-2.6.29-fix_headers_for_gre.patch
 Patch7: iproute2-missing-arpd-directory.patch
 Patch8: iproute2-display_ip4ip6tunnels.patch
+Patch9: iproute2-2.6.29-tc_modules.patch
+Patch10: iproute2-2.6.29-IPPROTO_IP_for_SA.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: tetex-latex tetex-dvips linuxdoc-tools
 BuildRequires: flex linux-atm-libs-devel psutils db4-devel bison
+# introduction new iptables (xtables) which broke ipt
+Requires:      iptables >= 1.4.1
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for
 example) which are designed to use the advanced networking
 capabilities of the Linux 2.4.x and 2.6.x kernel.
 
+%package doc
+Summary: ip and tc documentation with examples
+Group:  Applications/System
+License: GPLv2+
+
+%description doc
+The iproute documentation contains howtos and examples of settings.
+
 %prep
-%setup -q -c iproute-%{version}
+%setup -q -n iproute2-%{version}
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
 %patch3 -p1
@@ -38,11 +50,13 @@ capabilities of the Linux 2.4.x and 2.6.x kernel.
 %patch6 -p1 -b .hdrs
 %patch7 -p1 -b .arpd
 %patch8 -p1 -b .ip4ip6
+%patch9 -p1 -b .ipt
+%patch10 -p1 -b .ipproto
 
 %build
-export LIBDIR=%{_libdir}
+export LIBDIR=/%{_libdir}
+export IPT_LIB_DIR=/%{_lib}/xtables
 
-cd iproute2-%{version}
 make %{?_smp_mflags}
 make -C doc
 
@@ -56,7 +70,6 @@ mkdir -p $RPM_BUILD_ROOT/sbin \
 	$RPM_BUILD_ROOT%{_datadir}/tc \
 	$RPM_BUILD_ROOT%{_libdir}/tc
 
-cd iproute2-%{version}
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
 #netem is static
@@ -98,9 +111,7 @@ EOF
 %files
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/iproute2
-%doc iproute2-%{version}/README.decnet iproute2-%{version}/README.iproute2+tc iproute2-%{version}/RELNOTES iproute2-%{version}/examples/README.cbq
-%doc iproute2-%{version}/doc/*.ps 
-%doc iproute2-%{version}/examples
+%doc README README.decnet README.iproute2+tc README.distribution README.lnstat
 /sbin/*
 %{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
@@ -112,7 +123,20 @@ EOF
 %dir %{_sysconfdir}/sysconfig/cbq
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
+%files doc
+%defattr(-,root,root,-)
+%doc doc/*.ps
+%doc examples
+%doc RELNOTES
+
 %changelog
+* Thu Apr 23 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-3
+- new iptables (xtables) bring problems to tc, when ipt is used. 
+  rhbz#497344 still broken. tc_modules.patch brings correct paths to
+  xtables, but that doesn't fix whole issue.
+- 497355 ip should allow creation of an IPsec SA with 'proto any' 
+  and specified sport and dport as selectors
+
 * Tue Apr 14 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-2
 - c3651bf4763d7247e3edd4e20526a85de459041b ip6tunnel: Fix no default 
  display of ip4ip6 tunnels

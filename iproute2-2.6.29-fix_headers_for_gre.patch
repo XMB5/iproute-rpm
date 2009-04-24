@@ -10,8 +10,8 @@ Need to get right headers or build breaks.
 
 diff --git a/ip/link_gre.c b/ip/link_gre.c
 index 9109312..9f8bde6 100644
---- iproute-2.6.29/iproute2-2.6.29/ip/link_gre.c.old
-+++ iproute-2.6.29/iproute2-2.6.29/ip/link_gre.c
+--- iproute2-2.6.29/ip/link_gre.c.old
++++ iproute2-2.6.29/ip/link_gre.c
 @@ -12,11 +12,12 @@
  
  #include <string.h>

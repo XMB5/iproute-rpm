@@ -13,8 +13,8 @@ This is because the default tunnel proto is initialized to IPPROTO_IPV6 in ip6_t
 
 diff --git a/ip/ip6tunnel.c b/ip/ip6tunnel.c
 index 8421983..8852a67 100644
---- iproute2-2.6.29/iproute2-2.6.29/ip/ip6tunnel.c.old
-+++ iproute2-2.6.29/iproute2-2.6.29/ip/ip6tunnel.c
+--- iproute2-2.6.29/ip/ip6tunnel.c.old
++++ iproute2-2.6.29/ip/ip6tunnel.c
 @@ -335,6 +335,7 @@ static int do_show(int argc, char **argv)
          struct ip6_tnl_parm p;
  
