@@ -4,11 +4,12 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.29
-Release: 4%{?dist}
+Release: 5%{?dist}
 Group: Applications/System
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 #Source1: iproute-doc-2.6.22.tar.gz
 URL:	http://linux-net.osdl.org/index.php/Iproute2
+Patch0: man-pages.patch
 Patch1: iproute2-2.6.9-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute-ip-man.patch
@@ -42,6 +43,7 @@ The iproute documentation contains howtos and examples of settings.
 
 %prep
 %setup -q -n iproute2-%{version}
+%patch0 -p1
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
 %patch3 -p1
@@ -130,6 +132,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Thu Sep 24 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-5
+- create missing man pages
+
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.6.29-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
