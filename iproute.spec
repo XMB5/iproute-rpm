@@ -7,8 +7,7 @@ Version: 2.6.29
 Release: 5.0.20091009gitdaf49fd6%{?dist}
 Group: Applications/System
 Source: iproute2-%{date_version}.tar.bz2
-Source1: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
-#Source1: iproute-doc-2.6.22.tar.gz
+#Source1: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 URL:	http://linux-net.osdl.org/index.php/Iproute2
 Patch0: man-pages.patch
 Patch1: iproute2-2.6.29-kernel.patch
