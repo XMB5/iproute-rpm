@@ -13,10 +13,10 @@ URL:	http://linux-net.osdl.org/index.php/Iproute2
 Patch0: man-pages.patch
 Patch1: iproute2-2.6.29-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
-Patch4: iproute2-2.6.25-segfault.patch
-Patch5: iproute2-sharepath.patch
-Patch9: iproute2-2.6.29-tc_modules.patch
-Patch10: iproute2-2.6.29-IPPROTO_IP_for_SA.patch
+Patch3: iproute2-2.6.25-segfault.patch
+Patch4: iproute2-sharepath.patch
+Patch5: iproute2-2.6.29-tc_modules.patch
+Patch6: iproute2-2.6.29-IPPROTO_IP_for_SA.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -43,10 +43,10 @@ The iproute documentation contains howtos and examples of settings.
 %patch0 -p1
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
-%patch4 -p1 -b .seg
-%patch5 -p1 -b .share
-%patch9 -p1 -b .ipt
-%patch10 -p1 -b .ipproto
+%patch3 -p1 -b .seg
+%patch4 -p1 -b .share
+%patch5 -p1 -b .ipt
+%patch6 -p1 -b .ipproto
 
 %build
 export LIBDIR=/%{_libdir}
@@ -125,6 +125,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Fri Oct  9 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-5.0.20091009gitdaf49fd6
+- new official version isn't available but it's needed -> switch to git snapshots
+
 * Thu Sep 24 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-5
 - create missing man pages
 
