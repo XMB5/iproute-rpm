@@ -2,7 +2,7 @@ diff -up iproute2-2.6.29/man/man8/cbq.8.man iproute2-2.6.29/man/man8/cbq.8
 --- iproute2-2.6.29/man/man8/cbq.8.man	2009-09-24 14:05:44.868922557 +0200
 +++ iproute2-2.6.29/man/man8/cbq.8	2009-09-24 14:05:24.760143753 +0200
 @@ -0,0 +1 @@
-+.so man8/cbq.8
++.so man8/tc-cbq.8
 \ No newline at end of file
 diff -up /dev/null iproute2-2.6.29/man/man8/ifcfg.8
 --- /dev/null	2009-09-22 09:26:40.270218984 +0200

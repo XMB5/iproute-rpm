@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.29
-Release: 5.0.%{date_version}gita7a9ddbb%{?dist}
+Release: 5.1.%{date_version}gita7a9ddbb%{?dist}
 Group: Applications/System
 Source: iproute2-%{date_version}.tar.bz2
 #Source1: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
@@ -16,6 +16,7 @@ Patch3: iproute2-2.6.25-segfault.patch
 Patch4: iproute2-sharepath.patch
 Patch5: iproute2-2.6.29-tc_modules.patch
 Patch6: iproute2-2.6.29-IPPROTO_IP_for_SA.patch
+Patch7: iproute2-example-cbq-service.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -46,6 +47,7 @@ The iproute documentation contains howtos and examples of settings.
 %patch4 -p1 -b .share
 %patch5 -p1 -b .ipt
 %patch6 -p1 -b .ipproto
+%patch7 -p1 -b .fix_cbq
 
 %build
 export LIBDIR=/%{_libdir}
@@ -124,6 +126,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Fri Nov 27 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-5.1.20091106gita7a9ddbb
+- 539232 patch cbq initscript
+
 * Fri Nov 27 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-5.0.20091106gita7a9ddbb
 - snapshot with kernel headers for 2.6.32
 
