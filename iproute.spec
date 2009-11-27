@@ -1,10 +1,10 @@
-%define date_version 20091009
+%define date_version 20091106
 %define cbq_version v0.7.3
 
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.29
-Release: 5.0.20091009gitdaf49fd6%{?dist}
+Release: 5.0.%{date_version}gita7a9ddbb%{?dist}
 Group: Applications/System
 Source: iproute2-%{date_version}.tar.bz2
 #Source1: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
@@ -124,6 +124,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Fri Nov 27 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-5.0.20091106gita7a9ddbb
+- snapshot with kernel headers for 2.6.32
+
 * Fri Oct  9 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-5.0.20091009gitdaf49fd6
 - new official version isn't available but it's needed -> switch to git snapshots
 
