@@ -1,20 +1,20 @@
-%define date_version 20091106
+#%define date_version 20091106
 %define cbq_version v0.7.3
 
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
-Version: 2.6.29
-Release: 5.1.%{date_version}gita7a9ddbb%{?dist}
+Version: 2.6.31
+Release: 1%{?dist}
 Group: Applications/System
-Source: iproute2-%{date_version}.tar.bz2
-#Source1: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
+##Source: iproute2-%{date_version}.tar.bz2
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 URL:	http://linux-net.osdl.org/index.php/Iproute2
 Patch0: man-pages.patch
 Patch1: iproute2-2.6.29-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute2-2.6.25-segfault.patch
 Patch4: iproute2-sharepath.patch
-Patch5: iproute2-2.6.29-tc_modules.patch
+Patch5: iproute2-2.6.31-tc_modules.patch
 Patch6: iproute2-2.6.29-IPPROTO_IP_for_SA.patch
 Patch7: iproute2-example-cbq-service.patch
 
@@ -39,7 +39,7 @@ License: GPLv2+
 The iproute documentation contains howtos and examples of settings.
 
 %prep
-%setup -q -n iproute2-%{date_version}
+%setup -q -n iproute2-%{version}
 %patch0 -p1
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
@@ -126,6 +126,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Mon Jan  4 2010 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.31-1
+- update to 2.6.31
+
 * Fri Nov 27 2009 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.29-5.1.20091106gita7a9ddbb
 - 539232 patch cbq initscript
 
