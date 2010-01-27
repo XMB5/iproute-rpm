@@ -1,13 +1,15 @@
 #%define date_version 20091106
 %define cbq_version v0.7.3
+%define up_version 2.6.31
 
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
-Version: 2.6.31
+Version: 2.6.32
 Release: 1%{?dist}
 Group: Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
-Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
+# mistake in number of release it's really 2.6.32 but upstream released it as 2.6.31.tar
+Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{up_version}.tar.bz2
 URL:	http://linux-net.osdl.org/index.php/Iproute2
 Patch0: man-pages.patch
 Patch1: iproute2-2.6.29-kernel.patch
@@ -17,6 +19,8 @@ Patch4: iproute2-sharepath.patch
 Patch5: iproute2-2.6.31-tc_modules.patch
 Patch6: iproute2-2.6.29-IPPROTO_IP_for_SA.patch
 Patch7: iproute2-example-cbq-service.patch
+Patch8: iproute2-2.6.32-macvlan.patch
+Patch9: iproute2-2.6.33-kernel-headers.patch
 
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -39,7 +43,7 @@ License: GPLv2+
 The iproute documentation contains howtos and examples of settings.
 
 %prep
-%setup -q -n iproute2-%{version}
+%setup -q -n iproute2-%{up_version}
 %patch0 -p1
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
@@ -48,6 +52,8 @@ The iproute documentation contains howtos and examples of settings.
 %patch5 -p1 -b .ipt
 %patch6 -p1 -b .ipproto
 %patch7 -p1 -b .fix_cbq
+%patch8 -p1 -b .macvlan
+%patch9 -p1 -b .headers
 
 %build
 export LIBDIR=/%{_libdir}
@@ -126,6 +132,13 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Tue Jan 26 2010 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.32-2
+- add macvlan aka VESA support d63a9b2b1e4e3eab0d0577d0a0f412d50be1e0a7
+- kernel headers 2.6.33 ab322673298bd0b8927cdd9d11f3d36af5941b93
+  are needed for macvlan features and probably for other added later.
+- fix number of release which contains 2.6.32 kernel headers and features
+  but it was released as 2.6.31
+
 * Mon Jan  4 2010 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.31-1
 - update to 2.6.31
 
