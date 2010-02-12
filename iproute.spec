@@ -5,12 +5,12 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.32
-Release: 1%{?dist}
+Release: 2%{?dist}
 Group: Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
 # mistake in number of release it's really 2.6.32 but upstream released it as 2.6.31.tar
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{up_version}.tar.bz2
-URL:	http://linux-net.osdl.org/index.php/Iproute2
+URL:    http://linux-net.osdl.org/index.php/Iproute2
 Patch0: man-pages.patch
 Patch1: iproute2-2.6.29-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
@@ -22,7 +22,7 @@ Patch7: iproute2-example-cbq-service.patch
 Patch8: iproute2-2.6.32-macvlan.patch
 Patch9: iproute2-2.6.33-kernel-headers.patch
 
-License: GPLv2+
+License: GPLv2+ and Public Domain
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: tetex-latex tetex-dvips linuxdoc-tools
 BuildRequires: flex linux-atm-libs-devel psutils db4-devel bison
@@ -66,11 +66,11 @@ make -C doc
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 mkdir -p $RPM_BUILD_ROOT/sbin \
-	$RPM_BUILD_ROOT%{_sbindir} \
-	$RPM_BUILD_ROOT%{_mandir}/man8 \
-	$RPM_BUILD_ROOT/%{_sysconfdir}/iproute2 \
-	$RPM_BUILD_ROOT%{_datadir}/tc \
-	$RPM_BUILD_ROOT%{_libdir}/tc
+     $RPM_BUILD_ROOT%{_sbindir} \
+     $RPM_BUILD_ROOT%{_mandir}/man8 \
+     $RPM_BUILD_ROOT/%{_sysconfdir}/iproute2 \
+     $RPM_BUILD_ROOT%{_datadir}/tc \
+     $RPM_BUILD_ROOT%{_libdir}/tc
 
 install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
 install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
@@ -224,7 +224,7 @@ EOF
 
 * Wed Feb  6 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-3
 - rebuild without tetex files. It isn't working in rawhide yet. Added
-	new source for ps files. 
+  new source for ps files. 
 - #431179 backward compatibility for previous iproute versions
 
 * Mon Jan 21 2008 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-2
