@@ -3,13 +3,13 @@
 
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
-Version: 2.6.33
-Release: 2%{?dist}
+Version: 2.6.34
+Release: 1%{?dist}
 Group: Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
 URL:    http://linux-net.osdl.org/index.php/Iproute2
-Patch0: man-pages.patch
+##Patch0: man-pages.patch
 Patch1: iproute2-2.6.29-kernel.patch
 Patch2: iproute2-ss050901-opt_flags.patch
 Patch3: iproute2-2.6.25-segfault.patch
@@ -17,7 +17,7 @@ Patch4: iproute2-sharepath.patch
 Patch5: iproute2-2.6.31-tc_modules.patch
 Patch6: iproute2-2.6.29-IPPROTO_IP_for_SA.patch
 Patch7: iproute2-example-cbq-service.patch
-Patch8: iproute2-6rd-tunnel.patch
+#Patch8: iproute2-6rd-tunnel.patch
 
 License: GPLv2+ and Public Domain
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -41,7 +41,7 @@ The iproute documentation contains howtos and examples of settings.
 
 %prep
 %setup -q -n iproute2-%{version}
-%patch0 -p1
+#patch0 -p1
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
 %patch3 -p1 -b .seg
@@ -49,7 +49,7 @@ The iproute documentation contains howtos and examples of settings.
 %patch5 -p1 -b .ipt
 %patch6 -p1 -b .ipproto
 %patch7 -p1 -b .fix_cbq
-%patch8 -p1 -b .tunnel
+#patch8 -p1 -b .tunnel
 
 %build
 export LIBDIR=/%{_libdir}
@@ -128,6 +128,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Mon Jun 21 2010 Petr Sabata <psabata@redhat.com> - 2.6.34-1
+- 2.6.34 version bump
+
 * Tue Apr 20 2010 Marcela Mašláňová <mmaslano@redhat.com> - 2.6.33-2
 - 578729 6rd tunnel correctly 3979ef91de9ed17d21672aaaefd6c228485135a2
 - change BR texlive to tex according to guidelines
