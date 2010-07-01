@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.34
-Release: 2%{?dist}
+Release: 3%{?dist}
 Group: Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
@@ -55,6 +55,7 @@ The iproute documentation contains howtos and examples of settings.
 export LIBDIR=/%{_libdir}
 export IPT_LIB_DIR=/%{_lib}/xtables
 
+./configure
 make %{?_smp_mflags}
 make -C doc
 
@@ -128,6 +129,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Thu Jul 01 2010 Petr Sabata <psabata@redhat.com> - 2.6.34-3
+- Build now runs ./configure to regenerate Makefile for ipt/xt detection
+
 * Mon Jun 21 2010 Petr Sabata <psabata@redhat.com> - 2.6.34-2
 - iproute-tc-priority.patch, rhbz#586112
 
