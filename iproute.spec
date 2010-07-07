@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.34
-Release: 3%{?dist}
+Release: 4%{?dist}
 Group: Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
@@ -24,7 +24,8 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: tex(latex) tex(dvips) linuxdoc-tools
 BuildRequires: flex linux-atm-libs-devel psutils db4-devel bison
 # introduction new iptables (xtables) which broke ipt
-Requires:      iptables >= 1.4.1
+Requires:      iptables >= 1.4.5
+BuildRequires: iptables-devel >= 1.4.5
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for
@@ -129,6 +130,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Wed Jul 07 2010 Petr Sabata <psabata@redhat.com> - 2.6.34-4
+- Requires: iptables >= 1.4.5, BuildRequires: iptables-devel >= 1.4.5
+
 * Thu Jul 01 2010 Petr Sabata <psabata@redhat.com> - 2.6.34-3
 - Build now runs ./configure to regenerate Makefile for ipt/xt detection
 
