@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.34
-Release: 4%{?dist}
+Release: 5%{?dist}
 Group: Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
@@ -111,6 +111,7 @@ EOF
 %files
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/iproute2
+%doc COPYING
 %doc README README.decnet README.iproute2+tc README.distribution README.lnstat
 /sbin/*
 %{_mandir}/man8/*
@@ -125,11 +126,15 @@ EOF
 
 %files doc
 %defattr(-,root,root,-)
+%doc COPYING
 %doc doc/*.ps
 %doc examples
 %doc RELNOTES
 
 %changelog
+* Thu Jul 08 2010 Petr Sabata <psabata@redhat.com> - 2.6.34-5
+- Licensing guidelines compliance fix
+
 * Wed Jul 07 2010 Petr Sabata <psabata@redhat.com> - 2.6.34-4
 - Requires: iptables >= 1.4.5, BuildRequires: iptables-devel >= 1.4.5
 
