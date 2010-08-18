@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.35
-Release: 1%{?dist}
+Release: 2%{?dist}
 Group: Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
@@ -17,6 +17,7 @@ Patch4: iproute2-sharepath.patch
 Patch5: iproute2-2.6.31-tc_modules.patch
 Patch6: iproute2-2.6.29-IPPROTO_IP_for_SA.patch
 Patch7: iproute2-example-cbq-service.patch
+Patch8: iproute2-2.6.35-print-route.patch
 
 License: GPLv2+ and Public Domain
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -49,6 +50,7 @@ The iproute documentation contains howtos and examples of settings.
 %patch5 -p1 -b .ipt
 %patch6 -p1 -b .ipproto
 %patch7 -p1 -b .fix_cbq
+%patch8 -p1 -b .print-route
 
 %build
 export LIBDIR=/%{_libdir}
@@ -130,6 +132,10 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Wed Aug 18 2010 Petr Sabata <psabata@redhat.com> - 2.6.35-2
+- 'ip route get' fix, iproute2-2.6.35-print-route.patch
+- rhbz#622782
+
 * Thu Aug 05 2010 Petr Sabata <psabata@redhat.com> - 2.6.35-1
 - 2.6.35 version bump
 - iproute2-tc-priority.patch removed (included in upstream now)
