@@ -4,7 +4,7 @@
 Summary: Advanced IP routing and network device configuration tools
 Name: iproute
 Version: 2.6.35
-Release: 4%{?dist}
+Release: 5%{?dist}
 Group: Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
 Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
@@ -134,6 +134,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Wed Sep 29 2010 jkeating - 2.6.35-5
+- Rebuilt for gcc bug 634757
+
 * Tue Sep 21 2010 Petr Sabata <psabata@redhat.com> - 2.6.35-4
 - Modified man-pages.patch to fix cbq manpage, rhbz#635877
 
