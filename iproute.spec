@@ -1,27 +1,28 @@
 #%define date_version 20091106
 %define cbq_version v0.7.3
 
-Summary: Advanced IP routing and network device configuration tools
-Name: iproute
-Version: 2.6.35
-Release: 6%{?dist}
-Group: Applications/System
+Summary:    Advanced IP routing and network device configuration tools
+Name:       iproute
+Version:    2.6.35
+Release:    7%{?dist}
+Group:      Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
-Source: http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
-URL:    http://linux-net.osdl.org/index.php/Iproute2
-Patch0: man-pages.patch
-Patch1: iproute2-2.6.29-kernel.patch
-Patch2: iproute2-ss050901-opt_flags.patch
-Patch3: iproute2-2.6.25-segfault.patch
-Patch4: iproute2-sharepath.patch
-Patch5: iproute2-2.6.31-tc_modules.patch
-Patch6: iproute2-2.6.29-IPPROTO_IP_for_SA.patch
-Patch7: iproute2-example-cbq-service.patch
-Patch8: iproute2-2.6.35-print-route.patch
-Patch9: iproute2-print-route-u32.patch
+Source:     http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
+URL:        http://linux-net.osdl.org/index.php/Iproute2
+Patch0:     man-pages.patch
+Patch1:     iproute2-2.6.29-kernel.patch
+Patch2:     iproute2-ss050901-opt_flags.patch
+Patch3:     iproute2-2.6.25-segfault.patch
+Patch4:     iproute2-sharepath.patch
+Patch5:     iproute2-2.6.31-tc_modules.patch
+Patch6:     iproute2-2.6.29-IPPROTO_IP_for_SA.patch
+Patch7:     iproute2-example-cbq-service.patch
+Patch8:     iproute2-2.6.35-print-route.patch
+Patch9:     iproute2-print-route-u32.patch
+Patch10:    iproute2-2.6.33-create-peer-veth-without-a-name.patch
 
-License: GPLv2+ and Public Domain
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+License:    GPLv2+ and Public Domain
+BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: tex(latex) tex(dvips) linuxdoc-tools
 BuildRequires: flex linux-atm-libs-devel psutils db4-devel bison
 # introduction new iptables (xtables) which broke ipt
@@ -53,6 +54,7 @@ The iproute documentation contains howtos and examples of settings.
 %patch7 -p1 -b .fix_cbq
 %patch8 -p1 -b .print-route
 %patch9 -p1 -b .print-route-u32
+%patch10 -p1 -b .peer-veth-without-name
 
 %build
 export LIBDIR=/%{_libdir}
@@ -134,6 +136,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Tue Oct 12 2010 Petr Sabata <psabata@redhat.com> - 2.6.33-7
+- Do not segfault if peer name is omitted when creating a peer veth link, rhbz#642322
+
 * Mon Oct 11 2010 Petr Sabata <psabata@redhat.com> - 2.6.35-6
 - Man-pages update, rhbz#641599
 
