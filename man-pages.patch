@@ -90,7 +90,7 @@ diff -up iproute2-2.6.29/iproute2-2.6.29/man/man8/ip.8.mm iproute2-2.6.29/iprout
  .SH SEE ALSO
  .BR ip (8),
 -.BR /usr/share/doc/iproute-doc/ss.html " (package iproute­doc)"
-+.BR /usr/share/doc/iproute-doc/ss.ps " (package iproute-doc)"
++.BR /usr/share/doc/iproute-doc-_VERSION_/ss.ps " (package iproute-doc)"
  .SH AUTHOR
  .I ss 
  was written by Alexey Kuznetosv, <kuznet@ms2.inr.ac.ru>.

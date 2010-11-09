@@ -4,7 +4,7 @@
 Summary:    Advanced IP routing and network device configuration tools
 Name:       iproute
 Version:    2.6.35
-Release:    7%{?dist}
+Release:    8%{?dist}
 Group:      Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
 Source:     http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
@@ -45,6 +45,7 @@ The iproute documentation contains howtos and examples of settings.
 %prep
 %setup -q -n iproute2-%{version}
 %patch0 -p1
+sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
 %patch3 -p1 -b .seg
@@ -59,7 +60,6 @@ The iproute documentation contains howtos and examples of settings.
 %build
 export LIBDIR=/%{_libdir}
 export IPT_LIB_DIR=/%{_lib}/xtables
-
 ./configure
 make %{?_smp_mflags}
 make -C doc
@@ -136,7 +136,10 @@ EOF
 %doc RELNOTES
 
 %changelog
-* Tue Oct 12 2010 Petr Sabata <psabata@redhat.com> - 2.6.33-7
+* Tue Nov 09 2010 Petr Sabata <psabata@redhat.com> - 2.6.35-8
+- rhbz#641599, use the versioned path, man-pages.patch update, prep update
+
+* Tue Oct 12 2010 Petr Sabata <psabata@redhat.com> - 2.6.35-7
 - Do not segfault if peer name is omitted when creating a peer veth link, rhbz#642322
 
 * Mon Oct 11 2010 Petr Sabata <psabata@redhat.com> - 2.6.35-6
