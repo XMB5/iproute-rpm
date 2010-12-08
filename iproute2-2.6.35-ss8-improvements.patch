@@ -53,3 +53,14 @@ diff -up iproute2-2.6.35/man/man8/ss.8.ss-man iproute2-2.6.35/man/man8/ss.8
  .TP
  .B \-f FAMILY, \-\-family=FAMILY
  Display sockets of type FAMILY.
+--- iproute2-2.6.35/man/man8/ss.8	2010-12-08 13:39:59.810396849 +0100
++++ iproute2-2.6.35/man/man8/ss.8.new	2010-12-08 13:40:28.446397779 +0100
+@@ -26,7 +26,7 @@
+ Output version information.
+ .TP
+ .B \-n, \-\-numeric
+-Do now try to resolve service names.
++Do not try to resolve service names.
+ .TP
+ .B \-r, \-\-resolve
+ Try to resolve numeric address/ports.

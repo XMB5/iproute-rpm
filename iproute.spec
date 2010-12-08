@@ -4,7 +4,7 @@
 Summary:    Advanced IP routing and network device configuration tools
 Name:       iproute
 Version:    2.6.35
-Release:    9%{?dist}
+Release:    10%{?dist}
 Group:      Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
 Source:     http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
@@ -138,6 +138,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Wed Dec 08 2010 Petr Sabata <psabata@redhat.com> - 2.6.35-10
+- fix a typo in ss(8) improvements patch, rhbz#661267
+
 * Tue Nov 30 2010 Petr Sabata <psabata@redhat.com> - 2.6.35-9
 - ss(8) improvements patch by jpopelka; should be included in 2.6.36
 
