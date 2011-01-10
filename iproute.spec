@@ -3,8 +3,8 @@
 
 Summary:    Advanced IP routing and network device configuration tools
 Name:       iproute
-Version:    2.6.35
-Release:    10%{?dist}
+Version:    2.6.37
+Release:    1%{?dist}
 Group:      Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
 Source:     http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
@@ -20,7 +20,6 @@ Patch7:     iproute2-example-cbq-service.patch
 Patch8:     iproute2-2.6.35-print-route.patch
 Patch9:     iproute2-print-route-u32.patch
 Patch10:    iproute2-2.6.33-create-peer-veth-without-a-name.patch
-Patch11:    iproute2-2.6.35-ss8-improvements.patch
 
 License:    GPLv2+ and Public Domain
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -57,7 +56,6 @@ sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch8 -p1 -b .print-route
 %patch9 -p1 -b .print-route-u32
 %patch10 -p1 -b .peer-veth-without-name
-%patch11 -p1 -b .ss8-improvements
 
 %build
 export LIBDIR=/%{_libdir}
@@ -138,6 +136,10 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Mon Jan 10 2011 Petr Sabata <psabata@redhat.com> - 2.6.37-1
+- 2.6.37 upstream release
+- ss(8) improvements patch removed (included upstream)
+
 * Wed Dec 08 2010 Petr Sabata <psabata@redhat.com> - 2.6.35-10
 - fix a typo in ss(8) improvements patch, rhbz#661267
 
