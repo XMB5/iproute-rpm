@@ -4,7 +4,7 @@
 Summary:    Advanced IP routing and network device configuration tools
 Name:       iproute
 Version:    2.6.37
-Release:    2%{?dist}
+Release:    3%{?dist}
 Group:      Applications/System
 ##Source: iproute2-%{date_version}.tar.bz2
 Source:     http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
@@ -136,6 +136,9 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.6.37-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Mon Jan 31 2011 Petr Sabata <psabata@redhat.com> - 2.6.37-2
 - man-pages.patch update, ip(8) TYPE whitespace
 
