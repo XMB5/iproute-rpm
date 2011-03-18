@@ -94,23 +94,3 @@ diff -up iproute2-2.6.29/iproute2-2.6.29/man/man8/ip.8.mm iproute2-2.6.29/iprout
  .SH AUTHOR
  .I ss 
  was written by Alexey Kuznetosv, <kuznet@ms2.inr.ac.ru>.
---- iproute2-2.6.37/man/man8/ip.8	2011-01-31 12:28:23.022762621 +0100
-+++ iproute2-2.6.37/man/man8/ip.8.new	2011-01-31 12:30:02.935762644 +0100
-@@ -42,7 +42,7 @@
- .RB "[ " mtu
- .IR MTU " ]"
- .br
--.BR type TYPE
-+.BR type " TYPE"
- .RI "[ " ARGS " ]"
- 
- .ti -8
-@@ -51,7 +51,7 @@
- 
- .ti -8
- .BI "ip link delete " DEVICE
--.BI type TYPE
-+.BI type " TYPE"
- .RI "[ " ARGS " ]"
- 
- .ti -8
