@@ -1,43 +1,40 @@
-#%define date_version 20091106
-%define cbq_version v0.7.3
+%global             cbq_version v0.7.3
+Summary:            Advanced IP routing and network device configuration tools
+Name:               iproute
+Version:            2.6.38.1
+Release:            2%{?dist}
+Group:              Applications/System
+URL:                http://www.linuxfoundation.org/collaborate/workgroups/networking/%{name}2
+Source0:            http://devresources.linuxfoundation.org/dev/iproute2/download/%{name}2-%{version}.tar.bz2
+Source1:            cbq-0000.example
+Source2:            avpkt
+Patch0:             man-pages.patch
+Patch1:             iproute2-2.6.29-kernel.patch
+Patch2:             iproute2-ss050901-opt_flags.patch
+Patch3:             iproute2-2.6.25-segfault.patch
+Patch4:             iproute2-sharepath.patch
+Patch5:             iproute2-2.6.31-tc_modules.patch
+Patch6:             iproute2-2.6.29-IPPROTO_IP_for_SA.patch
+Patch7:             iproute2-example-cbq-service.patch
+Patch8:             iproute2-2.6.35-print-route.patch
+Patch9:             iproute2-print-route-u32.patch
+Patch10:            iproute2-2.6.33-create-peer-veth-without-a-name.patch
 
-Summary:    Advanced IP routing and network device configuration tools
-Name:       iproute
-Version:    2.6.38.1
-Release:    1%{?dist}
-Group:      Applications/System
-##Source: iproute2-%{date_version}.tar.bz2
-Source:     http://developer.osdl.org/dev/iproute2/download/iproute2-%{version}.tar.bz2
-URL:        http://linux-net.osdl.org/index.php/Iproute2
-Patch0:     man-pages.patch
-Patch1:     iproute2-2.6.29-kernel.patch
-Patch2:     iproute2-ss050901-opt_flags.patch
-Patch3:     iproute2-2.6.25-segfault.patch
-Patch4:     iproute2-sharepath.patch
-Patch5:     iproute2-2.6.31-tc_modules.patch
-Patch6:     iproute2-2.6.29-IPPROTO_IP_for_SA.patch
-Patch7:     iproute2-example-cbq-service.patch
-Patch8:     iproute2-2.6.35-print-route.patch
-Patch9:     iproute2-print-route-u32.patch
-Patch10:    iproute2-2.6.33-create-peer-veth-without-a-name.patch
-
-License:    GPLv2+ and Public Domain
-BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: tex(latex) tex(dvips) linuxdoc-tools
-BuildRequires: flex linux-atm-libs-devel psutils db4-devel bison
-# introduction new iptables (xtables) which broke ipt
-Requires:      iptables >= 1.4.5
-BuildRequires: iptables-devel >= 1.4.5
+License:            GPLv2+ and Public Domain
+BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
+BuildRequires:      flex linux-atm-libs-devel psutils db4-devel bison
+BuildRequires:      iptables-devel >= 1.4.5
+Requires:           iptables >= 1.4.5
 
 %description
-The iproute package contains networking utilities (ip and rtmon, for
-example) which are designed to use the advanced networking
-capabilities of the Linux 2.4.x and 2.6.x kernel.
+The iproute package contains networking utilities (ip and rtmon, for example)
+which are designed to use the advanced networking capabilities of the Linux
+2.4.x and 2.6.x kernel.
 
 %package doc
-Summary: ip and tc documentation with examples
-Group:  Applications/System
-License: GPLv2+
+Summary:            ip and tc documentation with examples
+Group:              Applications/System
+License:            GPLv2+
 
 %description doc
 The iproute documentation contains howtos and examples of settings.
@@ -65,52 +62,66 @@ make %{?_smp_mflags}
 make -C doc
 
 %install
-[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
+mkdir -p \
+    %{buildroot}/sbin \
+    %{buildroot}%{_sbindir} \
+    %{buildroot}%{_mandir}/man8 \
+    %{buildroot}%{_datadir}/tc \
+    %{buildroot}%{_libdir}/tc \
+    %{buildroot}%{_sysconfdir}/iproute2 \
+    %{buildroot}%{_sysconfdir}/sysconfig/cbq
 
-mkdir -p $RPM_BUILD_ROOT/sbin \
-     $RPM_BUILD_ROOT%{_sbindir} \
-     $RPM_BUILD_ROOT%{_mandir}/man8 \
-     $RPM_BUILD_ROOT/%{_sysconfdir}/iproute2 \
-     $RPM_BUILD_ROOT%{_datadir}/tc \
-     $RPM_BUILD_ROOT%{_libdir}/tc
+# /sbin
+for binary in \
+    examples/cbq.init-%{cbq_version} \
+    ip/ifcfg \
+    ip/ip \
+    ip/routef \
+    ip/routel \
+    ip/rtpr \
+    tc/tc 
+    do install -m755 ${binary} %{buildroot}/sbin
+done
+mv %{buildroot}/sbin/cbq.init-%{cbq_version} %{buildroot}/sbin/cbq
 
-install -m 755 ip/ip ip/ifcfg ip/rtmon tc/tc $RPM_BUILD_ROOT/sbin
-install -m 755 misc/ss misc/nstat misc/rtacct misc/lnstat misc/arpd $RPM_BUILD_ROOT%{_sbindir}
-#netem is static
-#install -m 755 tc/q_netem.so $RPM_BUILD_ROOT%{_libdir}/tc
-install -m 755 tc/q_atm.so $RPM_BUILD_ROOT%{_libdir}/tc
-install -m 644 netem/normal.dist netem/pareto.dist netem/paretonormal.dist $RPM_BUILD_ROOT%{_datadir}/tc
-install -m 644 man/man8/*.8 $RPM_BUILD_ROOT/%{_mandir}/man8
-rm -r $RPM_BUILD_ROOT/%{_mandir}/man8/ss.8
-iconv -f latin1 -t utf8 < man/man8/ss.8 > $RPM_BUILD_ROOT/%{_mandir}/man8/ss.8
-install -m 755 examples/cbq.init-%{cbq_version} $RPM_BUILD_ROOT/sbin/cbq
-install -d -m 755 $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/cbq
+# /usr/sbin
+for binary in \
+    genl/genl \
+    misc/arpd \
+    misc/ifstat \
+    misc/lnstat \
+    misc/nstat \
+    misc/rtacct \
+    misc/ss
+    do install -m755 ${binary} %{buildroot}%{_sbindir}
+done
 
-cp -f etc/iproute2/* $RPM_BUILD_ROOT/%{_sysconfdir}/iproute2
-rm -rf $RPM_BUILD_ROOT/%{_libdir}/debug/*
+# Libs
+for library in \
+    tc/q_atm.so
+    do install -m755 ${library} %{buildroot}%{_libdir}/tc
+done
 
-#copy the tex file from source for time when tex was broken
-#source1 was created from last functional version
-#tar -xvzf %{SOURCE1}
-#mkdir -p $RPM_BUILD_ROOT/%{_defaultdocdir}/%{name}-%{version}
-#cd %{name}-doc-2.6.22
-#cp -pR *.ps ../doc
+# Manpages
+iconv -f latin1 -t utf8 man/man8/ss.8 > man/man8/ss.8.utf8 &&
+    mv man/man8/ss.8.utf8 man/man8/ss.8
+install -m644 man/man8/*.8 %{buildroot}%{_mandir}/man8
 
-#create example avpkt file
-cat <<EOF > $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/cbq/cbq-0000.example
-DEVICE=eth0,10Mbit,1Mbit
-RATE=128Kbit
-WEIGHT=10Kbit
-PRIO=5
-RULE=192.168.1.0/24
-EOF
+# Share files
+for shared in \
+    netem/normal.dist \
+    netem/pareto.dist \
+    netem/paretonormal.dist
+    do install -m644 ${shared} %{buildroot}%{_datadir}/tc
+done
 
-cat <<EOF > $RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/cbq/avpkt
-AVPKT=3000
-EOF
-
-%clean
-[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
+# Config files
+install -m644 etc/iproute2/* %{buildroot}%{_sysconfdir}/iproute2
+for config in \
+    %{SOURCE1} \
+    %{SOURCE2}
+    do install -m644 ${config} %{buildroot}%{_sysconfdir}/sysconfig/cbq
+done
 
 %files
 %defattr(-,root,root,-)
@@ -136,6 +147,13 @@ EOF
 %doc RELNOTES
 
 %changelog
+* Thu Apr 21 2011 Petr Sabata <psabata@redhat.com> - 2.6.38.1-2
+- General cleanup
+- Use global instead of define
+- Buildroot removal
+- Correcting URL and Source links
+- Install genl, ifstat, routef, routel and rtpr (rhbz#697319)
+
 * Fri Mar 18 2011 Petr Sabata <psabata@redhat.com> - 2.6.38.1-1
 - 2.6.38.1 bump
 
