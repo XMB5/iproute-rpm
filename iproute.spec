@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            2.6.38.1
-Release:            2%{?dist}
+Release:            3%{?dist}
 Group:              Applications/System
 URL:                http://www.linuxfoundation.org/collaborate/workgroups/networking/%{name}2
 Source0:            http://devresources.linuxfoundation.org/dev/iproute2/download/%{name}2-%{version}.tar.bz2
@@ -39,6 +39,15 @@ License:            GPLv2+
 %description doc
 The iproute documentation contains howtos and examples of settings.
 
+%package devel
+Summary:            iproute development files
+Group:              Development/Libraries
+License:            GPLv2+
+Provides:           iproute-static = %{version}-%{release}
+
+%description devel
+The libnetlink static library.
+
 %prep
 %setup -q -n iproute2-%{version}
 %patch0 -p1
@@ -64,7 +73,9 @@ make -C doc
 %install
 mkdir -p \
     %{buildroot}/sbin \
+    %{buildroot}%{_includedir} \
     %{buildroot}%{_sbindir} \
+    %{buildroot}%{_mandir}/man3 \
     %{buildroot}%{_mandir}/man8 \
     %{buildroot}%{_datadir}/tc \
     %{buildroot}%{_libdir}/tc \
@@ -98,14 +109,28 @@ done
 
 # Libs
 for library in \
-    tc/q_atm.so
+    tc/q_atm.so \
+    tc/m_xt.so
     do install -m755 ${library} %{buildroot}%{_libdir}/tc
 done
+cd %{buildroot}%{_libdir}/tc
+    ln -s m_xt.so m_ipt.so
+cd -
+
+# libnetlink
+install -m644 include/libnetlink.h %{buildroot}%{_includedir}
+install -m644 lib/libnetlink.a %{buildroot}%{_libdir}
 
 # Manpages
 iconv -f latin1 -t utf8 man/man8/ss.8 > man/man8/ss.8.utf8 &&
     mv man/man8/ss.8.utf8 man/man8/ss.8
+install -m644 man/man3/*.3 %{buildroot}%{_mandir}/man3
 install -m644 man/man8/*.8 %{buildroot}%{_mandir}/man8
+cd %{buildroot}%{_mandir}/man8
+    ln -s lnstat.8 ctstat.8
+    ln -s lnstat.8 rtstat.8
+    ln -s routel.8 routef.8
+cd -
 
 # Share files
 for shared in \
@@ -146,7 +171,19 @@ done
 %doc examples
 %doc RELNOTES
 
+%files devel
+%defattr(-,root,root,-)
+%doc COPYING
+%{_mandir}/man3/*
+%{_libdir}/libnetlink.a
+%{_includedir}/libnetlink.h
+
 %changelog
+* Wed Apr 27 2011 Petr Sabata <psabata@redhat.com> - 2.6.38.1-3
+- Install ctstat, rtstat and routef manpage symlinks
+- Install m_xt & m_ipt tc modules
+- Creating devel and virtual static subpackages with libnetlink
+
 * Thu Apr 21 2011 Petr Sabata <psabata@redhat.com> - 2.6.38.1-2
 - General cleanup
 - Use global instead of define
