@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            2.6.38.1
-Release:            3%{?dist}
+Release:            4%{?dist}
 Group:              Applications/System
 URL:                http://www.linuxfoundation.org/collaborate/workgroups/networking/%{name}2
 Source0:            http://devresources.linuxfoundation.org/dev/iproute2/download/%{name}2-%{version}.tar.bz2
@@ -106,6 +106,10 @@ for binary in \
     misc/ss
     do install -m755 ${binary} %{buildroot}%{_sbindir}
 done
+cd %{buildroot}%{_sbindir}
+    ln -s lnstat ctstat
+    ln -s lnstat rtstat
+cd -
 
 # Libs
 for library in \
@@ -179,6 +183,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Wed Apr 27 2011 Petr Sabata <psabata@redhat.com> - 2.6.38.1-4
+- Link [cr]tstat to lnstat
+
 * Wed Apr 27 2011 Petr Sabata <psabata@redhat.com> - 2.6.38.1-3
 - Install ctstat, rtstat and routef manpage symlinks
 - Install m_xt & m_ipt tc modules
