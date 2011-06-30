@@ -1,11 +1,11 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            2.6.38.1
-Release:            4%{?dist}
+Version:            2.6.39
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://www.linuxfoundation.org/collaborate/workgroups/networking/%{name}2
-Source0:            http://devresources.linuxfoundation.org/dev/iproute2/download/%{name}2-%{version}.tar.bz2
+Source0:            http://devresources.linuxfoundation.org/dev/iproute2/download/%{name}2-%{version}.tar.gz
 Source1:            cbq-0000.example
 Source2:            avpkt
 Patch0:             man-pages.patch
@@ -18,7 +18,7 @@ Patch6:             iproute2-2.6.29-IPPROTO_IP_for_SA.patch
 Patch7:             iproute2-example-cbq-service.patch
 Patch8:             iproute2-2.6.35-print-route.patch
 Patch9:             iproute2-print-route-u32.patch
-Patch10:            iproute2-2.6.33-create-peer-veth-without-a-name.patch
+Patch10:            iproute2-2.6.39-create-peer-veth-without-a-name.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
@@ -183,6 +183,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Jun 30 2011 Petr Sabata <contyk@redhat.com> - 2.6.39-1
+- 2.6.39 bump
+
 * Wed Apr 27 2011 Petr Sabata <psabata@redhat.com> - 2.6.38.1-4
 - Link [cr]tstat to lnstat
 
