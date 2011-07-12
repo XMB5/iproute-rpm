@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            2.6.39
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://www.linuxfoundation.org/collaborate/workgroups/networking/%{name}2
 Source0:            http://devresources.linuxfoundation.org/dev/iproute2/download/%{name}2-%{version}.tar.gz
@@ -19,6 +19,7 @@ Patch7:             iproute2-example-cbq-service.patch
 Patch8:             iproute2-2.6.35-print-route.patch
 Patch9:             iproute2-print-route-u32.patch
 Patch10:            iproute2-2.6.39-create-peer-veth-without-a-name.patch
+Patch11:            iproute2-2.6.39-xtables6.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
@@ -62,6 +63,7 @@ sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch8 -p1 -b .print-route
 %patch9 -p1 -b .print-route-u32
 %patch10 -p1 -b .peer-veth-without-name
+%patch11 -p1 -b .xtables6
 
 %build
 export LIBDIR=/%{_libdir}
@@ -183,6 +185,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue Jul 12 2011 Petr Sabata <contyk@redhat.com> - 2.6.39-2
+- Rebuild for xtables6
+
 * Thu Jun 30 2011 Petr Sabata <contyk@redhat.com> - 2.6.39-1
 - 2.6.39 bump
 
