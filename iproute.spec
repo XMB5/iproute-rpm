@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            2.6.39
-Release:            2%{?dist}
+Release:            3%{?dist}
 Group:              Applications/System
 URL:                http://www.linuxfoundation.org/collaborate/workgroups/networking/%{name}2
 Source0:            http://devresources.linuxfoundation.org/dev/iproute2/download/%{name}2-%{version}.tar.gz
@@ -185,6 +185,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue Jul 26 2011 Petr Sabata <contyk@redhat.com> - 2.6.39-3
+- Rebuild for xtables7
+
 * Tue Jul 12 2011 Petr Sabata <contyk@redhat.com> - 2.6.39-2
 - Rebuild for xtables6
 
