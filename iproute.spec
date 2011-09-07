@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            2.6.39
-Release:            3%{?dist}
+Release:            4%{?dist}
 Group:              Applications/System
 URL:                http://www.linuxfoundation.org/collaborate/workgroups/networking/%{name}2
 Source0:            http://devresources.linuxfoundation.org/dev/iproute2/download/%{name}2-%{version}.tar.gz
@@ -20,6 +20,7 @@ Patch8:             iproute2-2.6.35-print-route.patch
 Patch9:             iproute2-print-route-u32.patch
 Patch10:            iproute2-2.6.39-create-peer-veth-without-a-name.patch
 Patch11:            iproute2-2.6.39-xtables6.patch
+Patch12:            iproute2-2.6.39-lnstat-dump-to-stdout.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
@@ -64,6 +65,7 @@ sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch9 -p1 -b .print-route-u32
 %patch10 -p1 -b .peer-veth-without-name
 %patch11 -p1 -b .xtables6
+%patch12 -p1 -b .lnstat-dump-to-stdout
 
 %build
 export LIBDIR=/%{_libdir}
@@ -185,6 +187,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Wed Sep 07 2011 Petr Sabata <contyk@redhat.com> - 2.6.39-4
+- lnstat should dump (-d) to stdout instead of stderr (#736332)
+
 * Tue Jul 26 2011 Petr Sabata <contyk@redhat.com> - 2.6.39-3
 - Rebuild for xtables7
 
