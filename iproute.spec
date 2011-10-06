@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            2.6.39
-Release:            4%{?dist}
+Release:            5%{?dist}
 Group:              Applications/System
 URL:                http://www.linuxfoundation.org/collaborate/workgroups/networking/%{name}2
 Source0:            http://devresources.linuxfoundation.org/dev/iproute2/download/%{name}2-%{version}.tar.gz
@@ -21,6 +21,9 @@ Patch9:             iproute2-print-route-u32.patch
 Patch10:            iproute2-2.6.39-create-peer-veth-without-a-name.patch
 Patch11:            iproute2-2.6.39-xtables6.patch
 Patch12:            iproute2-2.6.39-lnstat-dump-to-stdout.patch
+Patch13:            iproute2-2.6.39-iproute2-ss-fix-missing-parameters.patch
+Patch14:            iproute2-2.6.39-iproute2-lnstat-fix-typos.patch
+Patch15:            iproute2-2.6.39-iproute2-arpd-fix-usage-and-manpage-options.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
@@ -66,6 +69,9 @@ sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch10 -p1 -b .peer-veth-without-name
 %patch11 -p1 -b .xtables6
 %patch12 -p1 -b .lnstat-dump-to-stdout
+%patch13 -p1 -b .ss-usage
+%patch14 -p1 -b .lnstat-usage
+%patch15 -p1 -b .arpd-usage
 
 %build
 export LIBDIR=/%{_libdir}
@@ -187,6 +193,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Oct 06 2011 Petr Sabata <contyk@redhat.com> - 2.6.39-5
+- Fix ss, lnstat and arpd usage and manpages
+
 * Wed Sep 07 2011 Petr Sabata <contyk@redhat.com> - 2.6.39-4
 - lnstat should dump (-d) to stdout instead of stderr (#736332)
 
