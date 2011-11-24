@@ -1,29 +1,24 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            2.6.39
-Release:            5%{?dist}
+Version:            3.1.0
+Release:            1%{?dist}
 Group:              Applications/System
-URL:                http://www.linuxfoundation.org/collaborate/workgroups/networking/%{name}2
-Source0:            http://devresources.linuxfoundation.org/dev/iproute2/download/%{name}2-%{version}.tar.gz
+URL:                http://kernel.org/pub/linux/utils/networking/%{name}2/
+Source0:            http://kernel.org/pub/linux/utils/networking/%{name}2/%{name}2-%{version}.tar.bz2
 Source1:            cbq-0000.example
 Source2:            avpkt
 Patch0:             man-pages.patch
 Patch1:             iproute2-2.6.29-kernel.patch
 Patch2:             iproute2-ss050901-opt_flags.patch
-Patch3:             iproute2-2.6.25-segfault.patch
-Patch4:             iproute2-sharepath.patch
-Patch5:             iproute2-2.6.31-tc_modules.patch
-Patch6:             iproute2-2.6.29-IPPROTO_IP_for_SA.patch
-Patch7:             iproute2-example-cbq-service.patch
-Patch8:             iproute2-2.6.35-print-route.patch
-Patch9:             iproute2-print-route-u32.patch
-Patch10:            iproute2-2.6.39-create-peer-veth-without-a-name.patch
-Patch11:            iproute2-2.6.39-xtables6.patch
-Patch12:            iproute2-2.6.39-lnstat-dump-to-stdout.patch
-Patch13:            iproute2-2.6.39-iproute2-ss-fix-missing-parameters.patch
-Patch14:            iproute2-2.6.39-iproute2-lnstat-fix-typos.patch
-Patch15:            iproute2-2.6.39-iproute2-arpd-fix-usage-and-manpage-options.patch
+Patch3:             iproute2-sharepath.patch
+Patch4:             iproute2-2.6.31-tc_modules.patch
+Patch5:             iproute2-2.6.29-IPPROTO_IP_for_SA.patch
+Patch6:             iproute2-example-cbq-service.patch
+Patch7:             iproute2-2.6.35-print-route.patch
+Patch8:             iproute2-print-route-u32.patch
+Patch9:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
+Patch10:            iproute2-2.6.39-lnstat-dump-to-stdout.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
@@ -59,19 +54,14 @@ The libnetlink static library.
 sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
-%patch3 -p1 -b .seg
-%patch4 -p1 -b .share
-%patch5 -p1 -b .ipt
-%patch6 -p1 -b .ipproto
-%patch7 -p1 -b .fix_cbq
-%patch8 -p1 -b .print-route
-%patch9 -p1 -b .print-route-u32
-%patch10 -p1 -b .peer-veth-without-name
-%patch11 -p1 -b .xtables6
-%patch12 -p1 -b .lnstat-dump-to-stdout
-%patch13 -p1 -b .ss-usage
-%patch14 -p1 -b .lnstat-usage
-%patch15 -p1 -b .arpd-usage
+%patch3 -p1 -b .share
+%patch4 -p1 -b .ipt
+%patch5 -p1 -b .ipproto
+%patch6 -p1 -b .fix_cbq
+%patch7 -p1 -b .print-route
+%patch8 -p1 -b .print-route-u32
+%patch9 -p1 -b .peer-veth-without-name
+%patch10 -p1 -b .lnstat-dump-to-stdout
 
 %build
 export LIBDIR=/%{_libdir}
@@ -163,7 +153,6 @@ for config in \
 done
 
 %files
-%defattr(-,root,root,-)
 %dir %{_sysconfdir}/iproute2
 %doc COPYING
 %doc README README.decnet README.iproute2+tc README.distribution README.lnstat
@@ -179,20 +168,29 @@ done
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %files doc
-%defattr(-,root,root,-)
 %doc COPYING
 %doc doc/*.ps
 %doc examples
 %doc RELNOTES
 
 %files devel
-%defattr(-,root,root,-)
 %doc COPYING
 %{_mandir}/man3/*
 %{_libdir}/libnetlink.a
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Nov 24 2011 Petr Šabata <contyk@redhat.com> - 3.1.0-1
+- 3.1.0 bump
+- Point URL and Source to the new location on kernel.org
+- Remove now obsolete defattr
+- Dropping various patches now included upstream
+- Dropping iproute2-2.6.25-segfault.patch; I fail to understand the reason for
+  this hack
+
+* Tue Nov 15 2011 Petr Šabata <contyk@redhat.com> - 2.6.39-6
+- ss -ul should display UDP CLOSED sockets (#691100)
+
 * Thu Oct 06 2011 Petr Sabata <contyk@redhat.com> - 2.6.39-5
 - Fix ss, lnstat and arpd usage and manpages
 
