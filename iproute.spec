@@ -24,6 +24,7 @@ License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
 BuildRequires:      flex linux-atm-libs-devel psutils db4-devel bison
 BuildRequires:      iptables-devel >= 1.4.5
+BuildRequires:      libnl-devel
 Requires:           iptables >= 1.4.5
 
 %description
@@ -171,7 +172,6 @@ done
 %doc COPYING
 %doc doc/*.ps
 %doc examples
-%doc RELNOTES
 
 %files devel
 %doc COPYING
