@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            3.1.0
+Version:            3.2.0
 Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/networking/%{name}2/
@@ -180,6 +180,10 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Fri Jan 06 2012 Petr Šabata <contyk@redhat.com> - 3.2.0-1
+- 3.2.0 bump
+- Removing a useless, now conflicting patch (initcwnd already decumented)
+
 * Thu Nov 24 2011 Petr Šabata <contyk@redhat.com> - 3.1.0-1
 - 3.1.0 bump
 - Point URL and Source to the new location on kernel.org
