@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.2.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/networking/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/networking/%{name}2/%{name}2-%{version}.tar.bz2
@@ -73,7 +73,6 @@ make -C doc
 
 %install
 mkdir -p \
-    %{buildroot}/sbin \
     %{buildroot}%{_includedir} \
     %{buildroot}%{_sbindir} \
     %{buildroot}%{_mandir}/man3 \
@@ -83,30 +82,24 @@ mkdir -p \
     %{buildroot}%{_sysconfdir}/iproute2 \
     %{buildroot}%{_sysconfdir}/sysconfig/cbq
 
-# /sbin
 for binary in \
     examples/cbq.init-%{cbq_version} \
+    genl/genl \
     ip/ifcfg \
     ip/ip \
     ip/routef \
     ip/routel \
     ip/rtpr \
-    tc/tc 
-    do install -m755 ${binary} %{buildroot}/sbin
-done
-mv %{buildroot}/sbin/cbq.init-%{cbq_version} %{buildroot}/sbin/cbq
-
-# /usr/sbin
-for binary in \
-    genl/genl \
     misc/arpd \
     misc/ifstat \
     misc/lnstat \
     misc/nstat \
     misc/rtacct \
-    misc/ss
+    misc/ss \
+    tc/tc
     do install -m755 ${binary} %{buildroot}%{_sbindir}
 done
+mv %{buildroot}%{_sbindir}/cbq.init-%{cbq_version} %{buildroot}%{_sbindir}/cbq
 cd %{buildroot}%{_sbindir}
     ln -s lnstat ctstat
     ln -s lnstat rtstat
@@ -157,7 +150,6 @@ done
 %dir %{_sysconfdir}/iproute2
 %doc COPYING
 %doc README README.decnet README.iproute2+tc README.distribution README.lnstat
-/sbin/*
 %{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
 %{_sbindir}/*
@@ -180,6 +172,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Fri Jan 27 2012 Petr Šabata <contyk@redhat.com> - 3.2.0-2
+- Simplify the spec a bit thanks to the UsrMove feature
+
 * Fri Jan 06 2012 Petr Šabata <contyk@redhat.com> - 3.2.0-1
 - 3.2.0 bump
 - Removing a useless, now conflicting patch (initcwnd already decumented)
