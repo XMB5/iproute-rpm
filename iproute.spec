@@ -26,6 +26,9 @@ BuildRequires:      flex linux-atm-libs-devel psutils db4-devel bison
 BuildRequires:      iptables-devel >= 1.4.5
 BuildRequires:      libnl-devel
 Requires:           iptables >= 1.4.5
+# For the UsrMove transition period
+Conflicts:          filesystem < 3
+Provides:           /sbin/ip
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for example)
