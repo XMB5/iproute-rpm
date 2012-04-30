@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.3.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -91,6 +91,7 @@ for binary in \
     ip/ip \
     ip/routef \
     ip/routel \
+    ip/rtmon \
     ip/rtpr \
     misc/arpd \
     misc/ifstat \
@@ -174,6 +175,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Mon Apr 30 2012 Petr Šabata <contyk@redhat.com> - 3.3.0-2
+- Let's install rtmon too... (#814819)
+
 * Thu Mar 22 2012 Petr Šabata <contyk@redhat.com> - 3.3.0-1
 - 3.3.0 bump
 - Update source URL
