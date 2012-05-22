@@ -1,24 +1,23 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            3.3.0
-Release:            2%{?dist}
+Version:            3.4.0
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
 Source1:            cbq-0000.example
 Source2:            avpkt
 Patch0:             man-pages.patch
-Patch1:             iproute2-2.6.29-kernel.patch
-Patch2:             iproute2-ss050901-opt_flags.patch
-Patch3:             iproute2-sharepath.patch
+Patch1:             iproute2-3.4.0-kernel.patch
+Patch2:             iproute2-3.4.0-optflags.patch
+Patch3:             iproute2-3.4.0-sharepath.patch
 Patch4:             iproute2-2.6.31-tc_modules.patch
 Patch5:             iproute2-2.6.29-IPPROTO_IP_for_SA.patch
 Patch6:             iproute2-example-cbq-service.patch
 Patch7:             iproute2-2.6.35-print-route.patch
-Patch8:             iproute2-print-route-u32.patch
-Patch9:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
-Patch10:            iproute2-2.6.39-lnstat-dump-to-stdout.patch
+Patch8:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
+Patch9:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
 BuildRequires:      flex linux-atm-libs-devel psutils db4-devel bison
@@ -62,9 +61,8 @@ sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch5 -p1 -b .ipproto
 %patch6 -p1 -b .fix_cbq
 %patch7 -p1 -b .print-route
-%patch8 -p1 -b .print-route-u32
-%patch9 -p1 -b .peer-veth-without-name
-%patch10 -p1 -b .lnstat-dump-to-stdout
+%patch8 -p1 -b .peer-veth-without-name
+%patch9 -p1 -b .lnstat-dump-to-stdout
 
 %build
 export LIBDIR=/%{_libdir}
@@ -127,11 +125,6 @@ iconv -f latin1 -t utf8 man/man8/ss.8 > man/man8/ss.8.utf8 &&
     mv man/man8/ss.8.utf8 man/man8/ss.8
 install -m644 man/man3/*.3 %{buildroot}%{_mandir}/man3
 install -m644 man/man8/*.8 %{buildroot}%{_mandir}/man8
-cd %{buildroot}%{_mandir}/man8
-    ln -s lnstat.8 ctstat.8
-    ln -s lnstat.8 rtstat.8
-    ln -s routel.8 routef.8
-cd -
 
 # Share files
 for shared in \
@@ -175,6 +168,10 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue May 22 2012 Petr Šabata <contyk@redhat.com> - 3.4.0-1
+- 3.4.0 bump
+- Drop the print route patch (included upstream)
+
 * Mon Apr 30 2012 Petr Šabata <contyk@redhat.com> - 3.3.0-2
 - Let's install rtmon too... (#814819)
 
