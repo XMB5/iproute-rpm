@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.4.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -168,6 +168,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Tue May 22 2012 Petr Šabata <contyk@redhat.com> - 3.4.0-1
 - 3.4.0 bump
 - Drop the print route patch (included upstream)
