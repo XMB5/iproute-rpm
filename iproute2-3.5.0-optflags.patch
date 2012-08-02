@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 1e15c72..945d3b3 100644
+index ea0f994..2cc8e6a 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -36,7 +36,7 @@ HOSTCC = gcc
@@ -10,4 +10,4 @@ index 1e15c72..945d3b3 100644
 +CFLAGS = $(WFLAGS) $(CCOPTS) -I../include $(DEFINES) $(RPM_OPT_FLAGS)
  YACCFLAGS = -d -t -v
  
- SUBDIRS=lib ip tc misc netem genl man
+ SUBDIRS=lib ip tc bridge misc netem genl man

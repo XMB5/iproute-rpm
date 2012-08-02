@@ -1,8 +1,8 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            3.4.0
-Release:            2%{?dist}
+Version:            3.5.0
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -10,7 +10,7 @@ Source1:            cbq-0000.example
 Source2:            avpkt
 Patch0:             man-pages.patch
 Patch1:             iproute2-3.4.0-kernel.patch
-Patch2:             iproute2-3.4.0-optflags.patch
+Patch2:             iproute2-3.5.0-optflags.patch
 Patch3:             iproute2-3.4.0-sharepath.patch
 Patch4:             iproute2-2.6.31-tc_modules.patch
 Patch5:             iproute2-2.6.29-IPPROTO_IP_for_SA.patch
@@ -20,7 +20,7 @@ Patch8:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
 Patch9:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
-BuildRequires:      flex linux-atm-libs-devel psutils db4-devel bison
+BuildRequires:      flex linux-atm-libs-devel psutils libdb-devel bison
 BuildRequires:      iptables-devel >= 1.4.5
 BuildRequires:      libnl-devel
 Requires:           iptables >= 1.4.5
@@ -168,6 +168,10 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Aug 02 2012 Petr Šabata <contyk@redhat.com> - 3.5.0-1
+- 3.5.0 bump
+- Move to db5.
+
 * Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.4.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
