@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.5.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -105,6 +105,8 @@ cd %{buildroot}%{_sbindir}
     ln -s lnstat ctstat
     ln -s lnstat rtstat
 cd -
+# bridge should be installed as 'br', following upstream
+install -m755 bridge/bridge %{buildroot}%{_sbindir}/br
 
 # Libs
 for library in \
@@ -168,6 +170,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Mon Aug 06 2012 Petr Šabata <contyk@redhat.com> - 3.5.0-2
+- Install the new bridge utility
+
 * Thu Aug 02 2012 Petr Šabata <contyk@redhat.com> - 3.5.0-1
 - 3.5.0 bump
 - Move to db5.
