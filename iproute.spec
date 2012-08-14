@@ -1,8 +1,8 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            3.5.0
-Release:            2%{?dist}
+Version:            3.5.1
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -83,6 +83,7 @@ mkdir -p \
     %{buildroot}%{_sysconfdir}/sysconfig/cbq
 
 for binary in \
+    bridge/bridge \
     examples/cbq.init-%{cbq_version} \
     genl/genl \
     ip/ifcfg \
@@ -105,8 +106,6 @@ cd %{buildroot}%{_sbindir}
     ln -s lnstat ctstat
     ln -s lnstat rtstat
 cd -
-# bridge should be installed as 'br', following upstream
-install -m755 bridge/bridge %{buildroot}%{_sbindir}/br
 
 # Libs
 for library in \
@@ -170,6 +169,10 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue Aug 14 2012 Petr Šabata <contyk@redhat.com> - 3.5.1-1
+- 3.5.1 bugfix release bump
+- Rename 'br' to 'bridge'
+
 * Mon Aug 06 2012 Petr Šabata <contyk@redhat.com> - 3.5.0-2
 - Install the new bridge utility
 
