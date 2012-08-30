@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.5.1
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -23,7 +23,6 @@ BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
 BuildRequires:      flex linux-atm-libs-devel psutils libdb-devel bison
 BuildRequires:      iptables-devel >= 1.4.5
 BuildRequires:      libnl-devel
-Requires:           iptables >= 1.4.5
 # For the UsrMove transition period
 Conflicts:          filesystem < 3
 Provides:           /sbin/ip
@@ -169,6 +168,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Aug 30 2012 Petr Šabata <contyk@redhat.com> - 3.5.1-2
+- Remove the explicit iptables dependency (#852840)
+
 * Tue Aug 14 2012 Petr Šabata <contyk@redhat.com> - 3.5.1-1
 - 3.5.1 bugfix release bump
 - Rename 'br' to 'bridge'
