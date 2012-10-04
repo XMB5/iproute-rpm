@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.6.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -18,6 +18,7 @@ Patch6:             iproute2-example-cbq-service.patch
 Patch7:             iproute2-2.6.35-print-route.patch
 Patch8:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
 Patch9:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
+Patch10:            iproute2-3.6.0-List-interfaces-without-net-address-by-default.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
 BuildRequires:      flex linux-atm-libs-devel psutils libdb-devel bison
@@ -62,6 +63,7 @@ sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch7 -p1 -b .print-route
 %patch8 -p1 -b .peer-veth-without-name
 %patch9 -p1 -b .lnstat-dump-to-stdout
+%patch10 -p1 -b .list-all
 
 %build
 export LIBDIR=/%{_libdir}
@@ -168,6 +170,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Oct 04 2012 Petr Šabata <contyk@redhat.com> - 3.6.0-2
+- List all interfaces by default
+
 * Wed Oct 03 2012 Petr Šabata <contyk@redhat.com> - 3.6.0-1
 - 3.6.0 bump
 
