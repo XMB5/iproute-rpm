@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.6.0
-Release:            2%{?dist}
+Release:            3%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -20,7 +20,7 @@ Patch8:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
 Patch9:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
 Patch10:            iproute2-3.6.0-List-interfaces-without-net-address-by-default.patch
 License:            GPLv2+ and Public Domain
-BuildRequires:      tex(latex) tex(dvips) linuxdoc-tools
+BuildRequires:      tex(latex) tex(dvips) tex(ecrm1000.tfm) tex(cm-super-t1.enc) linuxdoc-tools
 BuildRequires:      flex linux-atm-libs-devel psutils libdb-devel bison
 BuildRequires:      iptables-devel >= 1.4.5
 BuildRequires:      libnl-devel
@@ -77,6 +77,7 @@ mkdir -p \
     %{buildroot}%{_includedir} \
     %{buildroot}%{_sbindir} \
     %{buildroot}%{_mandir}/man3 \
+    %{buildroot}%{_mandir}/man7 \
     %{buildroot}%{_mandir}/man8 \
     %{buildroot}%{_datadir}/tc \
     %{buildroot}%{_libdir}/tc \
@@ -126,6 +127,7 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}
 iconv -f latin1 -t utf8 man/man8/ss.8 > man/man8/ss.8.utf8 &&
     mv man/man8/ss.8.utf8 man/man8/ss.8
 install -m644 man/man3/*.3 %{buildroot}%{_mandir}/man3
+install -m644 man/man7/*.7 %{buildroot}%{_mandir}/man7
 install -m644 man/man8/*.8 %{buildroot}%{_mandir}/man8
 
 # Share files
@@ -148,6 +150,7 @@ done
 %dir %{_sysconfdir}/iproute2
 %doc COPYING
 %doc README README.decnet README.iproute2+tc README.distribution README.lnstat
+%{_mandir}/man7/*
 %{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
 %{_sbindir}/*
@@ -170,6 +173,11 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Mon Nov 19 2012 Petr Šabata <contyk@redhat.com> - 3.6.0-3
+- Include section 7 manpages (#876857)
+- Fix ancient bogus dates in the changelog (correction based upon commits)
+- Explicitly require some TeX fonts no longer present in the base distribution
+
 * Thu Oct 04 2012 Petr Šabata <contyk@redhat.com> - 3.6.0-2
 - List all interfaces by default
 
@@ -425,14 +433,14 @@ done
 - clean unnecessary patches
 - add into spec *.so objects, new BR linux-atm-libs-devel
 
-* Tue Oct 31 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-1
+* Wed Oct 31 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.23-1
 - new version from upstrem 2.3.23
 
 * Tue Oct 23 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.22-5
 - move files from /usr/lib/tc to /usr/share/tc
 - remove listing files twice
 
-* Fri Aug 30 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.22-3
+* Fri Aug 31 2007 Marcela Maslanova <mmaslano@redhat.com> - 2.6.22-3
 - package review #225903
 
 * Mon Aug 27 2007 Jeremy Katz <katzj@redhat.com> - 2.6.22-2
