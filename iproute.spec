@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.7.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -18,6 +18,7 @@ Patch6:             iproute2-example-cbq-service.patch
 Patch7:             iproute2-2.6.35-print-route.patch
 Patch8:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
 Patch9:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
+Patch10:            iproute2-3.7.0-Don-t-propogate-mounts-out-of-ip.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) tex(ecrm1000.tfm) tex(cm-super-t1.enc) linuxdoc-tools
 BuildRequires:      flex linux-atm-libs-devel psutils libdb-devel bison
@@ -62,6 +63,7 @@ sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch7 -p1 -b .print-route
 %patch8 -p1 -b .peer-veth-without-name
 %patch9 -p1 -b .lnstat-dump-to-stdout
+%patch10 -p1 -b .netns-mount
 
 %build
 export LIBDIR=/%{_libdir}
@@ -171,6 +173,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Fri Feb 08 2013 Petr Šabata <contyk@redhat.com> - 3.7.0-2
+- Don't propogate mounts out of ip (#882047)
+
 * Wed Dec 12 2012 Petr Šabata <contyk@redhat.com> - 3.7.0-1
 - 3.7.0 bump
 
