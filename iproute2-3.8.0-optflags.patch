@@ -1,11 +1,11 @@
 diff --git a/Makefile b/Makefile
-index ea0f994..2cc8e6a 100644
+index 5edffc0..898b572 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -36,7 +36,7 @@ HOSTCC = gcc
- DEFINES += -D_GNU_SOURCE
- CCOPTS = -O2
- WFLAGS = -Wall -Wstrict-prototypes
+@@ -34,7 +34,7 @@ CCOPTS = -O2
+ WFLAGS := -Wall -Wstrict-prototypes -Werror -Wmissing-prototypes
+ WFLAGS += -Wmissing-declarations -Wold-style-definition
+ 
 -CFLAGS = $(WFLAGS) $(CCOPTS) -I../include $(DEFINES)
 +CFLAGS = $(WFLAGS) $(CCOPTS) -I../include $(DEFINES) $(RPM_OPT_FLAGS)
  YACCFLAGS = -d -t -v

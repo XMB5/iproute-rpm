@@ -1,8 +1,8 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            3.7.0
-Release:            2%{?dist}
+Version:            3.8.0
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -10,20 +10,20 @@ Source1:            cbq-0000.example
 Source2:            avpkt
 Patch0:             man-pages.patch
 Patch1:             iproute2-3.4.0-kernel.patch
-Patch2:             iproute2-3.5.0-optflags.patch
+Patch2:             iproute2-3.8.0-optflags.patch
 Patch3:             iproute2-3.4.0-sharepath.patch
-Patch4:             iproute2-2.6.31-tc_modules.patch
-Patch5:             iproute2-2.6.29-IPPROTO_IP_for_SA.patch
-Patch6:             iproute2-example-cbq-service.patch
-Patch7:             iproute2-2.6.35-print-route.patch
-Patch8:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
-Patch9:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
-Patch10:            iproute2-3.7.0-Don-t-propogate-mounts-out-of-ip.patch
+Patch4:             iproute2-2.6.29-IPPROTO_IP_for_SA.patch
+Patch5:             iproute2-example-cbq-service.patch
+Patch6:             iproute2-2.6.35-print-route.patch
+Patch7:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
+Patch8:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
+Patch9:             iproute2-3.8.0-unused-result.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) tex(ecrm1000.tfm) tex(cm-super-t1.enc) linuxdoc-tools
 BuildRequires:      flex linux-atm-libs-devel psutils libdb-devel bison
 BuildRequires:      iptables-devel >= 1.4.5
 BuildRequires:      libnl-devel
+BuildRequires:      pkgconfig
 # For the UsrMove transition period
 Conflicts:          filesystem < 3
 Provides:           /sbin/ip
@@ -51,19 +51,18 @@ Provides:           iproute-static = %{version}-%{release}
 The libnetlink static library.
 
 %prep
-%setup -q -n iproute-%{version}
+%setup -q -n %{name}2-%{version}
 %patch0 -p1
 sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
 %patch3 -p1 -b .share
-%patch4 -p1 -b .ipt
-%patch5 -p1 -b .ipproto
-%patch6 -p1 -b .fix_cbq
-%patch7 -p1 -b .print-route
-%patch8 -p1 -b .peer-veth-without-name
-%patch9 -p1 -b .lnstat-dump-to-stdout
-%patch10 -p1 -b .netns-mount
+%patch4 -p1 -b .ipproto
+%patch5 -p1 -b .fix_cbq
+%patch6 -p1 -b .print-route
+%patch7 -p1 -b .peer-veth-without-name
+%patch8 -p1 -b .lnstat-dump-to-stdout
+%patch9 -p1 -b .unused-result
 
 %build
 export LIBDIR=/%{_libdir}
@@ -173,6 +172,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue Feb 26 2013 Petr Šabata <contyk@redhat.com> - 3.8.0-1
+- 3.8.0 bump
+
 * Fri Feb 08 2013 Petr Šabata <contyk@redhat.com> - 3.7.0-2
 - Don't propogate mounts out of ip (#882047)
 
