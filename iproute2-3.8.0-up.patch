@@ -1,0 +1,41 @@
+diff --git a/ip/ipaddress.c b/ip/ipaddress.c
+index cff503f..54c394b 100644
+--- a/ip/ipaddress.c
++++ b/ip/ipaddress.c
+@@ -71,7 +71,7 @@ static void usage(void)
+ 	fprintf(stderr, "                                                      [ CONFFLAG-LIST ]\n");
+ 	fprintf(stderr, "       ip addr del IFADDR dev STRING\n");
+ 	fprintf(stderr, "       ip addr {show|save|flush} [ dev STRING ] [ scope SCOPE-ID ]\n");
+-	fprintf(stderr, "                            [ to PREFIX ] [ FLAG-LIST ] [ label PATTERN ]\n");
++	fprintf(stderr, "                            [ to PREFIX ] [ FLAG-LIST ] [ label PATTERN ] [up]\n");
+ 	fprintf(stderr, "       ip addr {showdump|restore}\n");
+ 	fprintf(stderr, "IFADDR := PREFIX | ADDR peer PREFIX\n");
+ 	fprintf(stderr, "          [ broadcast ADDR ] [ anycast ADDR ]\n");
+diff --git a/ip/iplink.c b/ip/iplink.c
+index ad33611..5c7b43c 100644
+--- a/ip/iplink.c
++++ b/ip/iplink.c
+@@ -79,7 +79,7 @@ void iplink_usage(void)
+ 	fprintf(stderr, "				   [ spoofchk { on | off} ] ] \n");
+ 	fprintf(stderr, "			  [ master DEVICE ]\n");
+ 	fprintf(stderr, "			  [ nomaster ]\n");
+-	fprintf(stderr, "       ip link show [ DEVICE | group GROUP ]\n");
++	fprintf(stderr, "       ip link show [ DEVICE | group GROUP ] [up]\n");
+ 
+ 	if (iplink_have_newlink()) {
+ 		fprintf(stderr, "\n");
+diff --git a/man/man8/ip-address.8.in b/man/man8/ip-address.8.in
+index 63bf9cb..b9c996d 100644
+--- a/man/man8/ip-address.8.in
++++ b/man/man8/ip-address.8.in
+@@ -163,6 +163,10 @@ only list addresses with labels matching the
+ is a usual shell style pattern.
+ 
+ .TP
++.B up
++only display running interfaces.
++
++.TP
+ .BR dynamic " and " permanent
+ (IPv6 only) only list addresses installed due to stateless
+ address configuration or only list permanent (not dynamic)

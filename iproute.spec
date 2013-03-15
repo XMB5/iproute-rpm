@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.8.0
-Release:            2%{?dist}
+Release:            3%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -18,6 +18,7 @@ Patch6:             iproute2-2.6.35-print-route.patch
 Patch7:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
 Patch8:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
 Patch9:             iproute2-3.8.0-unused-result.patch
+Patch10:            iproute2-3.8.0-up.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      tex(latex) tex(dvips) tex(ecrm1000.tfm) tex(cm-super-t1.enc) linuxdoc-tools
 BuildRequires:      flex linux-atm-libs-devel psutils libdb-devel bison
@@ -63,6 +64,7 @@ sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch7 -p1 -b .peer-veth-without-name
 %patch8 -p1 -b .lnstat-dump-to-stdout
 %patch9 -p1 -b .unused-result
+%patch10 -p1 -b .up
 
 %build
 export LIBDIR=/%{_libdir}
@@ -172,6 +174,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue Mar 12 2013 Petr Šabata <contyk@redhat.com> - 3.8.0-3
+- Mention the "up" argument in documentation and help outputs (#907468)
+
 * Mon Mar 04 2013 Petr Šabata <contyk@redhat.com> - 3.8.0-2
 - Bump for 1.4.18 rebuild
 
