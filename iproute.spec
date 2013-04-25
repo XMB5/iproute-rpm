@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.8.0
-Release:            3%{?dist}
+Release:            4%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -20,11 +20,21 @@ Patch8:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
 Patch9:             iproute2-3.8.0-unused-result.patch
 Patch10:            iproute2-3.8.0-up.patch
 License:            GPLv2+ and Public Domain
-BuildRequires:      tex(latex) tex(dvips) tex(ecrm1000.tfm) tex(cm-super-t1.enc) linuxdoc-tools
-BuildRequires:      flex linux-atm-libs-devel psutils libdb-devel bison
+BuildRequires:      bison
+BuildRequires:      flex
 BuildRequires:      iptables-devel >= 1.4.5
+BuildRequires:      libdb-devel
 BuildRequires:      libnl-devel
+BuildRequires:      linuxdoc-tools
 BuildRequires:      pkgconfig
+BuildRequires:      psutils
+BuildRequires:      tex(cm-super-t1.enc)
+BuildRequires:      tex(dvips)
+BuildRequires:      tex(ecrm1000.tfm)
+BuildRequires:      tex(latex)
+%if 0%{?fedora}
+BuildRequires:      linux-atm-libs-devel
+%endif
 # For the UsrMove transition period
 Conflicts:          filesystem < 3
 Provides:           /sbin/ip
@@ -111,11 +121,10 @@ cd %{buildroot}%{_sbindir}
 cd -
 
 # Libs
-for library in \
-    tc/q_atm.so \
-    tc/m_xt.so
-    do install -m755 ${library} %{buildroot}%{_libdir}/tc
-done
+%if 0%{?fedora}
+install -m755 tc/q_atm.so %{buildroot}%{_libdir}/tc
+%endif
+install -m755 tc/m_xt.so %{buildroot}%{_libdir}/tc
 cd %{buildroot}%{_libdir}/tc
     ln -s m_xt.so m_ipt.so
 cd -
@@ -174,6 +183,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Apr 25 2013 Petr Šabata <contyk@redhat.com> - 3.8.0-4
+- ATM is available in Fedora only
+
 * Tue Mar 12 2013 Petr Šabata <contyk@redhat.com> - 3.8.0-3
 - Mention the "up" argument in documentation and help outputs (#907468)
 
