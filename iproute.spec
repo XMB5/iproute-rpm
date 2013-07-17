@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.10.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -17,7 +17,7 @@ Patch5:             iproute2-2.6.35-print-route.patch
 Patch6:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
 Patch7:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
 Patch8:             iproute2-3.8.0-unused-result.patch
-Patch9:             iproute2-3.9.0-xfrm-state-overflow.patch
+Patch9:             iproute2-3.10.0-xfrm-state-overflow.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
 BuildRequires:      flex
@@ -172,6 +172,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Wed Jul 17 2013 Petr Šabata <contyk@redhat.com> - 3.10.0-2
+- Fix the XFRM patch
+
 * Wed Jul 17 2013 Petr Šabata <contyk@redhat.com> - 3.10.0-1
 - 3.10.0 bump
 - Drop the SHAREDIR patch and revert to upstream ways (#966445)
