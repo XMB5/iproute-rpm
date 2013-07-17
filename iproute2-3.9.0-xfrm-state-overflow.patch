@@ -1,0 +1,38 @@
+From 9d0e33ed670f222208a0fc09b367b8adc3a3a9c5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20=C5=A0abata?= <contyk@redhat.com>
+Date: Thu, 11 Jul 2013 17:09:07 +0200
+Subject: [PATCH] Avoid overflow segfault with FORTIFY_SOURCE
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Petr Šabata <contyk@redhat.com>
+---
+ ip/xfrm_state.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/ip/xfrm_state.c b/ip/xfrm_state.c
+index 61a8f02..b3780c5 100644
+--- a/ip/xfrm_state.c
++++ b/ip/xfrm_state.c
+@@ -155,12 +155,17 @@ static int xfrm_algo_parse(struct xfrm_algo *alg, enum xfrm_attr_type_t type,
+ 			buf[j] = val;
+ 		}
+ 	} else {
++		int i;
+ 		len = slen;
+ 		if (len > 0) {
+ 			if (len > max)
+ 				invarg("ALGO-KEYMAT value makes buffer overflow\n", key);
+ 
+ 			strncpy(buf, key, len);
++			for (i = 0 ; i < len && key[i] != '\0'; i++)
++				buf[i] = key[i];
++			for ( ; i < len; i++)
++				buf[i] = '\0';
+ 		}
+ 	}
+ 
+-- 
+1.8.3.1
+

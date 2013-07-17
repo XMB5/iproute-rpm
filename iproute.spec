@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            3.9.0
+Version:            3.10.0
 Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
@@ -11,13 +11,13 @@ Source2:            avpkt
 Patch0:             man-pages.patch
 Patch1:             iproute2-3.4.0-kernel.patch
 Patch2:             iproute2-3.8.0-optflags.patch
-Patch3:             iproute2-3.4.0-sharepath.patch
-Patch4:             iproute2-3.9.0-IPPROTO_IP_for_SA.patch
-Patch5:             iproute2-example-cbq-service.patch
-Patch6:             iproute2-2.6.35-print-route.patch
-Patch7:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
-Patch8:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
-Patch9:             iproute2-3.8.0-unused-result.patch
+Patch3:             iproute2-3.9.0-IPPROTO_IP_for_SA.patch
+Patch4:             iproute2-example-cbq-service.patch
+Patch5:             iproute2-2.6.35-print-route.patch
+Patch6:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
+Patch7:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
+Patch8:             iproute2-3.8.0-unused-result.patch
+Patch9:             iproute2-3.9.0-xfrm-state-overflow.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
 BuildRequires:      flex
@@ -66,13 +66,14 @@ The libnetlink static library.
 sed -i "s/_VERSION_/%{version}/" man/man8/ss.8
 %patch1 -p1 -b .kernel
 %patch2 -p1 -b .opt_flags
-%patch3 -p1 -b .share
-%patch4 -p1 -b .ipproto
-%patch5 -p1 -b .fix_cbq
-%patch6 -p1 -b .print-route
-%patch7 -p1 -b .peer-veth-without-name
-%patch8 -p1 -b .lnstat-dump-to-stdout
-%patch9 -p1 -b .unused-result
+%patch3 -p1 -b .ipproto
+%patch4 -p1 -b .fix_cbq
+%patch5 -p1 -b .print-route
+%patch6 -p1 -b .peer-veth-without-name
+%patch7 -p1 -b .lnstat-dump-to-stdout
+%patch8 -p1 -b .unused-result
+%patch9 -p1 -b .xfrm-state
+sed -i 's/^LIBDIR=/LIBDIR?=/' Makefile
 
 %build
 export LIBDIR=/%{_libdir}
@@ -88,7 +89,6 @@ mkdir -p \
     %{buildroot}%{_mandir}/man3 \
     %{buildroot}%{_mandir}/man7 \
     %{buildroot}%{_mandir}/man8 \
-    %{buildroot}%{_datadir}/tc \
     %{buildroot}%{_libdir}/tc \
     %{buildroot}%{_sysconfdir}/iproute2 \
     %{buildroot}%{_sysconfdir}/sysconfig/cbq
@@ -119,6 +119,7 @@ cd %{buildroot}%{_sbindir}
 cd -
 
 # Libs
+install -m644 netem/*.dist %{buildroot}%{_libdir}/tc
 %if 0%{?fedora}
 install -m755 tc/q_atm.so %{buildroot}%{_libdir}/tc
 %endif
@@ -138,14 +139,6 @@ install -m644 man/man3/*.3 %{buildroot}%{_mandir}/man3
 install -m644 man/man7/*.7 %{buildroot}%{_mandir}/man7
 install -m644 man/man8/*.8 %{buildroot}%{_mandir}/man8
 
-# Share files
-for shared in \
-    netem/normal.dist \
-    netem/pareto.dist \
-    netem/paretonormal.dist
-    do install -m644 ${shared} %{buildroot}%{_datadir}/tc
-done
-
 # Config files
 install -m644 etc/iproute2/* %{buildroot}%{_sysconfdir}/iproute2
 for config in \
@@ -162,8 +155,6 @@ done
 %{_mandir}/man8/*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
 %{_sbindir}/*
-%dir %{_datadir}/tc
-%{_datadir}/tc/*
 %dir %{_libdir}/tc/
 %{_libdir}/tc/*
 %dir %{_sysconfdir}/sysconfig/cbq
@@ -181,6 +172,11 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Wed Jul 17 2013 Petr Šabata <contyk@redhat.com> - 3.10.0-1
+- 3.10.0 bump
+- Drop the SHAREDIR patch and revert to upstream ways (#966445)
+- Fix an XFRM regression with FORTIFY_SOURCE
+
 * Tue Apr 30 2013 Petr Šabata <contyk@redhat.com> - 3.9.0-1
 - 3.9.0 bump
 
