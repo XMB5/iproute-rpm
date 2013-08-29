@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.10.0
-Release:            4%{?dist}
+Release:            5%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -19,6 +19,7 @@ Patch7:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
 Patch8:             iproute2-3.8.0-unused-result.patch
 Patch9:             iproute2-3.10.0-xfrm-state-overflow.patch
 Patch10:            iproute2-3.10.0-lnstat-interval.patch
+Patch11:            iproute2-3.10.0-rtnl_send.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
 BuildRequires:      flex
@@ -74,6 +75,7 @@ The libnetlink static library.
 %patch8 -p1 -b .unused-result
 %patch9 -p1 -b .xfrm-state
 %patch10 -p1 -b .lnstat-interval
+%patch11 -p1 -b .rtnl_send
 sed -i 's/^LIBDIR=/LIBDIR?=/' Makefile
 
 %build
@@ -173,6 +175,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Aug 29 2013 Petr Šabata <contyk@redhat.com> - 3.10.0-5
+- Fix an 'ip link' hang (#996537)
+
 * Tue Aug 13 2013 Petr Šabata <contyk@redhat.com> - 3.10.0-4
 - lnstat -i: Run indefinitely if the --count isn't specified (#977845)
 - Switch to unversioned %%docdir
