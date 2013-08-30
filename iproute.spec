@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.10.0
-Release:            5%{?dist}
+Release:            6%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -175,6 +175,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Fri Aug 30 2013 Petr Šabata <contyk@redhat.com> - 3.10.0-6
+- Fix lnstat -i properly this time
+
 * Thu Aug 29 2013 Petr Šabata <contyk@redhat.com> - 3.10.0-5
 - Fix an 'ip link' hang (#996537)
 

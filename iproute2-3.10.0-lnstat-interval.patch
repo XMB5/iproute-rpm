@@ -23,7 +23,7 @@ index dca10ad..2889e5e 100644
  			print_line(stdout, lnstat_files, &fp);
  			fflush(stdout);
  			sleep(interval);
-+			if (!count) ++i;
++			if (count) ++i;
  		}
  	}
  
