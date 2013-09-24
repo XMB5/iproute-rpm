@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.10.0
-Release:            6%{?dist}
+Release:            7%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -20,6 +20,8 @@ Patch8:             iproute2-3.8.0-unused-result.patch
 Patch9:             iproute2-3.10.0-xfrm-state-overflow.patch
 Patch10:            iproute2-3.10.0-lnstat-interval.patch
 Patch11:            iproute2-3.10.0-rtnl_send.patch
+# Rejected by upstream <http://thread.gmane.org/gmane.linux.network/284101>
+Patch12:            iproute2-3.11.0-tc-ok.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
 BuildRequires:      flex
@@ -76,6 +78,7 @@ The libnetlink static library.
 %patch9 -p1 -b .xfrm-state
 %patch10 -p1 -b .lnstat-interval
 %patch11 -p1 -b .rtnl_send
+%patch12 -p1 -b .tc_ok
 sed -i 's/^LIBDIR=/LIBDIR?=/' Makefile
 
 %build
@@ -175,6 +178,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue Sep 24 2013 Petr Pisar <ppisar@redhat.com> - 3.10.0-7
+- Add tc -OK option
+
 * Fri Aug 30 2013 Petr Šabata <contyk@redhat.com> - 3.10.0-6
 - Fix lnstat -i properly this time
 
