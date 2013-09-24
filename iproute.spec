@@ -22,6 +22,7 @@ Patch10:            iproute2-3.10.0-lnstat-interval.patch
 Patch11:            iproute2-3.10.0-rtnl_send.patch
 # Rejected by upstream <http://thread.gmane.org/gmane.linux.network/284101>
 Patch12:            iproute2-3.11.0-tc-ok.patch
+Patch13:            iproute2-3.11.0-iproute2-bridge-document-mdb.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
 BuildRequires:      flex
@@ -79,6 +80,7 @@ The libnetlink static library.
 %patch10 -p1 -b .lnstat-interval
 %patch11 -p1 -b .rtnl_send
 %patch12 -p1 -b .tc_ok
+%patch13 -p1 -b .bridge_mdb_doc
 sed -i 's/^LIBDIR=/LIBDIR?=/' Makefile
 
 %build
@@ -180,6 +182,7 @@ done
 %changelog
 * Tue Sep 24 2013 Petr Pisar <ppisar@redhat.com> - 3.10.0-7
 - Add tc -OK option
+- Document "bridge mdb" and "bridge monitor mdb"
 
 * Fri Aug 30 2013 Petr Šabata <contyk@redhat.com> - 3.10.0-6
 - Fix lnstat -i properly this time
