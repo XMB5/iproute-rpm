@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.10.0
-Release:            7%{?dist}
+Release:            8%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -23,6 +23,8 @@ Patch11:            iproute2-3.10.0-rtnl_send.patch
 # Rejected by upstream <http://thread.gmane.org/gmane.linux.network/284101>
 Patch12:            iproute2-3.11.0-tc-ok.patch
 Patch13:            iproute2-3.11.0-iproute2-bridge-document-mdb.patch
+# Bug #1011822, in upstream after 3.11.0
+Patch14:            iproute2-3.11.0-iproute2-bridge-Close-file-with-bridge-monitor-file.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
 BuildRequires:      flex
@@ -81,6 +83,7 @@ The libnetlink static library.
 %patch11 -p1 -b .rtnl_send
 %patch12 -p1 -b .tc_ok
 %patch13 -p1 -b .bridge_mdb_doc
+%patch14 -p1 -b .bridge_monitor_close
 sed -i 's/^LIBDIR=/LIBDIR?=/' Makefile
 
 %build
@@ -180,6 +183,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue Oct 01 2013 Petr Pisar <ppisar@redhat.com> - 3.10.0-8
+- Close file with bridge monitor file (bug #1011822)
+
 * Tue Sep 24 2013 Petr Pisar <ppisar@redhat.com> - 3.10.0-7
 - Add tc -OK option
 - Document "bridge mdb" and "bridge monitor mdb"
