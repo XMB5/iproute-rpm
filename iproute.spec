@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            3.11.0
+Version:            3.12.0
 Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
@@ -15,15 +15,12 @@ Patch3:             iproute2-3.9.0-IPPROTO_IP_for_SA.patch
 Patch4:             iproute2-example-cbq-service.patch
 Patch5:             iproute2-2.6.35-print-route.patch
 Patch6:             iproute2-2.6.39-create-peer-veth-without-a-name.patch
-Patch7:             iproute2-2.6.39-lnstat-dump-to-stdout.patch
-Patch8:             iproute2-3.10.0-xfrm-state-overflow.patch
-Patch9:            iproute2-3.10.0-lnstat-interval.patch
-Patch10:            iproute2-3.10.0-rtnl_send.patch
+Patch7:             iproute2-3.12.0-lnstat-dump-to-stdout.patch
+Patch8:             iproute2-3.10.0-rtnl_send.patch
 # Rejected by upstream <http://thread.gmane.org/gmane.linux.network/284101>
-Patch11:            iproute2-3.11.0-tc-ok.patch
-Patch12:            iproute2-3.11.0-iproute2-bridge-document-mdb.patch
-# Bug #1011822, in upstream after 3.11.0
-Patch13:            iproute2-3.11.0-iproute2-bridge-Close-file-with-bridge-monitor-file.patch
+Patch9:             iproute2-3.11.0-tc-ok.patch
+Patch10:            iproute2-3.11.0-rtt.patch
+Patch11:            iproute2-3.12.0-lnstat-interval.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
 BuildRequires:      flex
@@ -76,12 +73,10 @@ The libnetlink static library.
 %patch5 -p1 -b .print-route
 %patch6 -p1 -b .peer-veth-without-name
 %patch7 -p1 -b .lnstat-dump-to-stdout
-%patch8 -p1 -b .xfrm-state
-%patch9 -p1 -b .lnstat-interval
-%patch10 -p1 -b .rtnl_send
-%patch11 -p1 -b .tc_ok
-%patch12 -p1 -b .bridge_mdb_doc
-%patch13 -p1 -b .bridge_monitor_close
+%patch8 -p1 -b .rtnl_send
+%patch9 -p1 -b .tc_ok
+%patch10 -p1 -b .rtt
+%patch11 -p1 -b .lnstat-interval
 sed -i 's/^LIBDIR=/LIBDIR?=/' Makefile
 
 %build
@@ -181,6 +176,12 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Mon Nov 25 2013 Petr Šabata <contyk@redhat.com> - 3.12.0-1
+- 3.12.0 bump
+
+* Thu Nov 21 2013 Petr Šabata <contyk@redhat.com> - 3.11.0-2
+- Fix the rtt time parsing again
+
 * Tue Oct 22 2013 Petr Šabata <contyk@redhat.com> - 3.11.0-1
 - 3.11 bump
 
