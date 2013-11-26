@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.12.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -26,7 +26,6 @@ BuildRequires:      bison
 BuildRequires:      flex
 BuildRequires:      iptables-devel >= 1.4.5
 BuildRequires:      libdb-devel
-BuildRequires:      libnl-devel
 BuildRequires:      linuxdoc-tools
 BuildRequires:      pkgconfig
 BuildRequires:      psutils
@@ -176,6 +175,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue Nov 26 2013 Petr Šabata <contyk@redhat.com> - 3.12.0-2
+- Drop libnl from dependencies (#1034454)
+
 * Mon Nov 25 2013 Petr Šabata <contyk@redhat.com> - 3.12.0-1
 - 3.12.0 bump
 
