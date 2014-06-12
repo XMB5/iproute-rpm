@@ -1,10 +1,10 @@
 diff --git a/Makefile b/Makefile
-index 95266f5..1876ec4 100644
+index c881200..e8eeeb7 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -34,7 +34,7 @@ CCOPTS = -O2
  WFLAGS := -Wall -Wstrict-prototypes  -Wmissing-prototypes
- WFLAGS += -Wmissing-declarations -Wold-style-definition
+ WFLAGS += -Wmissing-declarations -Wold-style-definition -Wformat=2
  
 -CFLAGS = $(WFLAGS) $(CCOPTS) -I../include $(DEFINES)
 +CFLAGS = $(WFLAGS) $(CCOPTS) -I../include $(DEFINES) $(RPM_OPT_FLAGS)

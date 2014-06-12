@@ -1,8 +1,8 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            3.14.0
-Release:            3%{?dist}
+Version:            3.15.0
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -10,7 +10,7 @@ Source1:            cbq-0000.example
 Source2:            avpkt
 Patch0:             man-pages.patch
 Patch1:             iproute2-3.4.0-kernel.patch
-Patch2:             iproute2-3.11.0-optflags.patch
+Patch2:             iproute2-3.15.0-optflags.patch
 Patch3:             iproute2-3.9.0-IPPROTO_IP_for_SA.patch
 Patch4:             iproute2-example-cbq-service.patch
 Patch5:             iproute2-2.6.35-print-route.patch
@@ -171,6 +171,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Jun 12 2014 Petr Šabata <contyk@redhat.com> - 3.15.0-1
+- 3.15.0 bump
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.14.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
