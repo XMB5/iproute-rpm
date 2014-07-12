@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            3.15.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -148,7 +148,8 @@ done
 
 %files
 %dir %{_sysconfdir}/iproute2
-%doc COPYING
+%{!?_licensedir:%global license %%doc}
+%license COPYING
 %doc README README.decnet README.iproute2+tc README.distribution README.lnstat
 %{_mandir}/man7/*
 %{_mandir}/man8/*
@@ -160,17 +161,22 @@ done
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
 %files doc
-%doc COPYING
+%{!?_licensedir:%global license %%doc}
+%license COPYING
 %doc doc/*.ps
 %doc examples
 
 %files devel
-%doc COPYING
+%{!?_licensedir:%global license %%doc}
+%license COPYING
 %{_mandir}/man3/*
 %{_libdir}/libnetlink.a
 %{_includedir}/libnetlink.h
 
 %changelog
+* Sat Jul 12 2014 Tom Callaway <spot@fedoraproject.org> - 3.15.0-2
+- fix license handling
+
 * Thu Jun 12 2014 Petr Šabata <contyk@redhat.com> - 3.15.0-1
 - 3.15.0 bump
 
