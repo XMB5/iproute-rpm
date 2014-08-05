@@ -1,8 +1,8 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            3.15.0
-Release:            2%{?dist}
+Version:            3.16.0
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
@@ -44,7 +44,7 @@ which are designed to use the advanced networking capabilities of the Linux
 2.4.x and 2.6.x kernel.
 
 %package doc
-Summary:            ip and tc documentation with examples
+Summary:            Documentation for iproute2 utilities with examples
 Group:              Applications/System
 License:            GPLv2+
 
@@ -174,6 +174,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue Aug 05 2014 Petr Šabata <contyk@redhat.com> - 3.16.0-1
+- 3.16 bump
+
 * Sat Jul 12 2014 Tom Callaway <spot@fedoraproject.org> - 3.15.0-2
 - fix license handling
 
