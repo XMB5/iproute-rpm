@@ -1,11 +1,11 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            3.16.0
-Release:            3%{?dist}
+Version:            3.19.0
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
-Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.gz
+Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
 Source1:            cbq-0000.example
 Source2:            avpkt
 Patch0:             man-pages.patch
@@ -19,7 +19,6 @@ Patch6:             iproute2-3.12.0-lnstat-dump-to-stdout.patch
 Patch7:             iproute2-3.11.0-tc-ok.patch
 Patch8:            iproute2-3.11.0-rtt.patch
 Patch9:            iproute2-3.12.0-lnstat-interval.patch
-Patch10:            iproute2-3.16.0-ip-link-add-name.patch
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
 BuildRequires:      flex
@@ -73,7 +72,6 @@ The libnetlink static library.
 %patch7 -p1 -b .tc_ok
 %patch8 -p1 -b .rtt
 %patch9 -p1 -b .lnstat-interval
-%patch10 -p1 -b .ip-link-add-name
 sed -i 's/^LIBDIR=/LIBDIR?=/' Makefile
 
 %build
@@ -176,6 +174,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Fri Mar 13 2015 Pavel Šimerda <psimerda@redhat.com> - 3.19.0-1
+- new version 3.19.0
+
 * Sat Oct 04 2014 Lubomir Rintel <lkundrak@v3.sk> - 3.16.0-3
 - Backport fix for ip link add name regression that broke libvirt
 
