@@ -1,0 +1,43 @@
+From ee80f98063d8265e754efcf11f43a7c0b25a1899 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Pavel=20=C5=A0imerda?= <psimerda@redhat.com>
+Date: Fri, 13 Mar 2015 13:17:02 +0100
+Subject: [PATCH 3/7] ip-xfrm: support 'proto any' with 'sport' and 'dport'
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+When creating an IPsec SA that sets 'proto any' (IPPROTO_IP) and
+specifies 'sport' and 'dport' at the same time in selector, the
+following error is issued:
+
+"sport" and "dport" are invalid with proto=ip
+
+However using IPPROTO_IP with ports is completely legal and necessary
+when one wants to share the SA on both TCP and UDP. One of the
+applications requiring sharing SAs is 3GPP IMS AKA authentication.
+
+See also:
+
+ * https://bugzilla.redhat.com/show_bug.cgi?id=497355
+
+Reported-By: Jiří Klimeš <jklimes@redhat.com>
+Signed-Off-By: Pavel Šimerda <psimerda@redhat.com>
+---
+ ip/ipxfrm.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/ip/ipxfrm.c b/ip/ipxfrm.c
+index 95f91a5..e685571 100644
+--- a/ip/ipxfrm.c
++++ b/ip/ipxfrm.c
+@@ -1339,6 +1339,7 @@ static int xfrm_selector_upspec_parse(struct xfrm_selector *sel,
+ 		case IPPROTO_UDP:
+ 		case IPPROTO_SCTP:
+ 		case IPPROTO_DCCP:
++		case IPPROTO_IP: /* to allow shared SA for different protocols */
+ 			break;
+ 		default:
+ 			fprintf(stderr, "\"sport\" and \"dport\" are invalid with PROTO value \"%s\"\n", strxf_proto(sel->proto));
+-- 
+2.0.5
+

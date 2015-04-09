@@ -8,17 +8,66 @@ URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
 Source1:            cbq-0000.example
 Source2:            avpkt
-Patch0:             man-pages.patch
-Patch1:             iproute2-3.4.0-kernel.patch
-Patch2:             iproute2-3.15.0-optflags.patch
-Patch3:             iproute2-3.9.0-IPPROTO_IP_for_SA.patch
-Patch4:             iproute2-example-cbq-service.patch
-Patch5:             iproute2-2.6.35-print-route.patch
-Patch6:             iproute2-3.12.0-lnstat-dump-to-stdout.patch
-# Rejected by upstream <http://thread.gmane.org/gmane.linux.network/284101>
-Patch7:             iproute2-3.11.0-tc-ok.patch
-Patch8:            iproute2-3.11.0-rtt.patch
-Patch9:            iproute2-3.12.0-lnstat-interval.patch
+
+# Selective git diff between release and master. Updating this pachage
+# using current may require updating one or more of the subsequent
+# patches.
+#
+# git diff v3.19.0..master man
+Patch0:             iproute2-3.19.0-diff.patch
+# manpage/help improvements
+#
+# https://bugzilla.redhat.com/show_bug.cgi?id=1072441
+# https://bugzilla.redhat.com/show_bug.cgi?id=1075692
+# https://bugzilla.redhat.com/show_bug.cgi?id=1077191
+# https://bugzilla.redhat.com/show_bug.cgi?id=1105438
+# https://bugzilla.redhat.com/show_bug.cgi?id=1121261
+#
+# TODO submit upstream
+Patch1:             iproute2-3.19.0-docs.patch
+# build system improvements
+#
+# (no bugzilla tickets)
+#
+# TODO submit upstream
+Patch2:             iproute2-3.19.0-build.patch
+# ip-xfrm: support 'proto any' with 'sport' and 'dport'
+#
+# https://bugzilla.redhat.com/show_bug.cgi?id=497355
+#
+# TODO: submit upstream
+Patch3:             iproute2-3.19.0-proto-any.patch
+# cbq: fix find syntax in example
+#
+# https://bugzilla.redhat.com/show_bug.cgi?id=539232
+#
+# TODO: submit upstream
+Patch4:             iproute2-3.19.0-cbq-example.patch
+# ip-route: don't hide routes with RTM_F_CLONED by default
+#
+# (no bugzilla ticket)
+#
+# TODO: submit upstream
+Patch5:             iproute2-3.19.0-route-cloned.patch
+# lnstat: dump to stdout, not stderr
+#
+# TODO: submit upstream
+Patch6:             iproute2-3.19.0-lnstat-stdout.patch
+# lnstat: run indefinitely by default
+#
+# https://bugzilla.redhat.com/show_bug.cgi?id=977845
+#
+# TODO: submit upstream
+Patch7:            iproute2-3.19.0-lnstat-interval.patch
+# tc: add -OK option
+#
+# http://thread.gmane.org/gmane.linux.network/284101
+#
+# Rejected by upstream.
+#
+# TODO: Retry upstreaming and decide whether it's needed in Fedora.
+Patch8:             iproute2-3.11.0-tc-ok.patch
+
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
 BuildRequires:      flex
@@ -63,18 +112,17 @@ The libnetlink static library.
 %prep
 %setup -q -n %{name}2-%{version}
 %patch0 -p1
-%patch1 -p1 -b .kernel
-%patch2 -p1 -b .opt_flags
-%patch3 -p1 -b .ipproto
-%patch4 -p1 -b .fix_cbq
-%patch5 -p1 -b .print-route
-%patch6 -p1 -b .lnstat-dump-to-stdout
-%patch7 -p1 -b .tc_ok
-%patch8 -p1 -b .rtt
-%patch9 -p1 -b .lnstat-interval
-sed -i 's/^LIBDIR=/LIBDIR?=/' Makefile
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
 
 %build
+export CFLAGS="%{optflags}"
 export LIBDIR=/%{_libdir}
 export IPT_LIB_DIR=/%{_lib}/xtables
 ./configure
@@ -82,6 +130,8 @@ make %{?_smp_mflags}
 make -C doc
 
 %install
+# TODO: Update upstream build system so that we don't need to handle
+# installation manually.
 mkdir -p \
     %{buildroot}%{_includedir} \
     %{buildroot}%{_sbindir} \
