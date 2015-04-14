@@ -30,9 +30,9 @@ index e0acfeb..583eae2 100644
  .IR OPTIONS " := {"
 -\fB[ -force ] -b\fR[\fIatch\fR] \fB[ filename ] \fR|
 +\fB[ -force ] [ -OK ] -b\fR[\fIatch\fR] \fB[ filename ] \fR|
- \fB[ \fB-n\fR[\fIetns\fR] name \fB] \fR}
- 
- .ti 8
+ \fB[ \fB-n\fR[\fIetns\fR] name \fB] \fR|
+ \fB[ \fB-nm \fR| \fB-nam\fR[\fIes\fR] \fB] \fR|
+ \fB[ \fR{ \fB-cf \fR| \fB-c\fR[\fIonf\fR] \fR} \fB[ filename ] \fB] \fR}
 @@ -440,6 +440,12 @@ First failure will cause termination of tc.
  .RS 4
  Shows classes as ASCII graph with stats info under each class.
@@ -55,9 +55,9 @@ index 9b50e74..b43bb47 100644
  int use_iec = 0;
  int force = 0;
 +int ok = 0;
- struct rtnl_handle rth;
+ bool use_names = false;
  
- static void *BODY = NULL;	/* cached handle dlopen(NULL) */
+ static char *conf_file;
 @@ -183,7 +184,7 @@ noexist:
  static void usage(void)
  {
@@ -66,7 +66,7 @@ index 9b50e74..b43bb47 100644
 +			"       tc [-force] [-OK] -batch filename\n"
  	                "where  OBJECT := { qdisc | class | filter | action | monitor }\n"
  	                "       OPTIONS := { -s[tatistics] | -d[etails] | -r[aw] | -p[retty] | -b[atch] [filename] | "
- 			"-n[etns] name }\n");
+ 			"-n[etns] name |\n"
 @@ -251,6 +252,9 @@ static int batch(const char *name)
  			ret = 1;
  			if (!force)
@@ -83,7 +83,7 @@ index 9b50e74..b43bb47 100644
  			++force;
 +		} else if (matches(argv[1], "-OK") == 0) {
 +			++ok;
- 		} else 	if (matches(argv[1], "-batch") == 0) {
+ 		} else if (matches(argv[1], "-batch") == 0) {
  			argc--;	argv++;
  			if (argc <= 1)
 -- 

@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            3.19.0
+Version:            4.0.0
 Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
@@ -9,12 +9,6 @@ Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{ve
 Source1:            cbq-0000.example
 Source2:            avpkt
 
-# Selective git diff between release and master. Updating this pachage
-# using current may require updating one or more of the subsequent
-# patches.
-#
-# git diff v3.19.0..master man
-Patch0:             iproute2-3.19.0-diff.patch
 # manpage/help improvements
 #
 # https://bugzilla.redhat.com/show_bug.cgi?id=1072441
@@ -23,42 +17,45 @@ Patch0:             iproute2-3.19.0-diff.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1105438
 # https://bugzilla.redhat.com/show_bug.cgi?id=1121261
 #
-# TODO submit upstream
+# http://www.spinics.net/lists/netdev/msg325114.html
 Patch1:             iproute2-3.19.0-docs.patch
+
 # build system improvements
 #
 # (no bugzilla tickets)
-#
-# TODO submit upstream
+# http://www.spinics.net/lists/netdev/msg325109.html
 Patch2:             iproute2-3.19.0-build.patch
+
 # ip-xfrm: support 'proto any' with 'sport' and 'dport'
 #
 # https://bugzilla.redhat.com/show_bug.cgi?id=497355
-#
-# TODO: submit upstream
+# http://www.spinics.net/lists/netdev/msg325111.html
 Patch3:             iproute2-3.19.0-proto-any.patch
+
 # cbq: fix find syntax in example
 #
 # https://bugzilla.redhat.com/show_bug.cgi?id=539232
-#
-# TODO: submit upstream
+# http://www.spinics.net/lists/netdev/msg325112.html
 Patch4:             iproute2-3.19.0-cbq-example.patch
+
 # ip-route: don't hide routes with RTM_F_CLONED by default
 #
 # (no bugzilla ticket)
-#
-# TODO: submit upstream
+# http://www.spinics.net/lists/netdev/msg325115.html
 Patch5:             iproute2-3.19.0-route-cloned.patch
+
 # lnstat: dump to stdout, not stderr
 #
-# TODO: submit upstream
+# (no bugzilla ticket)
+# http://www.spinics.net/lists/netdev/msg325113.html
 Patch6:             iproute2-3.19.0-lnstat-stdout.patch
+
 # lnstat: run indefinitely by default
 #
 # https://bugzilla.redhat.com/show_bug.cgi?id=977845
-#
-# TODO: submit upstream
+# http://www.spinics.net/lists/netdev/msg325110.html
 Patch7:            iproute2-3.19.0-lnstat-interval.patch
+
 # tc: add -OK option
 #
 # http://thread.gmane.org/gmane.linux.network/284101
@@ -66,7 +63,7 @@ Patch7:            iproute2-3.19.0-lnstat-interval.patch
 # Rejected by upstream.
 #
 # TODO: Retry upstreaming and decide whether it's needed in Fedora.
-Patch8:             iproute2-3.11.0-tc-ok.patch
+Patch8:             iproute2-4.0.0-tc-ok.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -111,7 +108,6 @@ The libnetlink static library.
 
 %prep
 %setup -q -n %{name}2-%{version}
-%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -224,6 +220,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue Apr 14 2015 Pavel Šimerda <psimerda@redhat.com> - 4.0.0-1
+- new version 4.0.0
+
 * Fri Mar 13 2015 Pavel Šimerda <psimerda@redhat.com> - 3.19.0-1
 - new version 3.19.0
 
