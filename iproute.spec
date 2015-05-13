@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.0.0
-Release:            2%{?dist}
+Release:            3%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -58,15 +58,6 @@ Patch6:             iproute2-3.19.0-lnstat-stdout.patch
 # https://git.kernel.org/cgit/linux/kernel/git/shemminger/iproute2.git/commit/?id=e7e2913fe44780edf6a7c45123577a522f7adbb4
 Patch7:            iproute2-3.19.0-lnstat-interval.patch
 
-# tc: add -OK option
-#
-# http://thread.gmane.org/gmane.linux.network/284101
-#
-# Rejected by upstream.
-#
-# TODO: Retry upstreaming and decide whether it's needed in Fedora.
-Patch8:             iproute2-4.0.0-tc-ok.patch
-
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
 BuildRequires:      flex
@@ -116,7 +107,6 @@ The libnetlink static library.
 %patch4 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 
 %build
 export CFLAGS="%{optflags}"
@@ -221,6 +211,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Wed May 13 2015 Pavel Šimerda <psimerda@redhat.com> - 4.0.0-3
+- remove patch rejected by upstream
+
 * Mon May 11 2015 Pavel Šimerda <psimerda@redhat.com> - 4.0.0-2
 - Remove patch rejected by upstream
 
