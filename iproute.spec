@@ -1,8 +1,8 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.0.0
-Release:            4%{?dist}
+Version:            4.1.1
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -22,41 +22,6 @@ Source2:            avpkt
 #
 # http://www.spinics.net/lists/netdev/msg325114.html
 Patch1:             iproute2-3.19.0-docs.patch
-
-# build system improvements
-#
-# (no bugzilla tickets)
-# http://www.spinics.net/lists/netdev/msg325109.html
-# https://git.kernel.org/cgit/linux/kernel/git/shemminger/iproute2.git/commit/?id=06ec9039c3aa07924f9c23b0daa8885204704a62
-Patch2:             iproute2-3.19.0-build.patch
-
-# ip-xfrm: support 'proto any' with 'sport' and 'dport'
-#
-# https://bugzilla.redhat.com/show_bug.cgi?id=497355
-# http://www.spinics.net/lists/netdev/msg325111.html
-# https://git.kernel.org/cgit/linux/kernel/git/shemminger/iproute2.git/commit/?id=11a3e5c4b31530840d6ea4339ce4078d5922b5d6
-Patch3:             iproute2-3.19.0-proto-any.patch
-
-# cbq: fix find syntax in example
-#
-# https://bugzilla.redhat.com/show_bug.cgi?id=539232
-# http://www.spinics.net/lists/netdev/msg325112.html
-# https://git.kernel.org/cgit/linux/kernel/git/shemminger/iproute2.git/commit/?id=a51842dcd77200159e091da8b2e38e428652532d
-Patch4:             iproute2-3.19.0-cbq-example.patch
-
-# lnstat: dump to stdout, not stderr
-#
-# (no bugzilla ticket)
-# http://www.spinics.net/lists/netdev/msg325113.html
-# https://git.kernel.org/cgit/linux/kernel/git/shemminger/iproute2.git/commit/?id=b1410e0ab1b4f2f9f0b21392efc213692adf2bd5
-Patch6:             iproute2-3.19.0-lnstat-stdout.patch
-
-# lnstat: run indefinitely by default
-#
-# https://bugzilla.redhat.com/show_bug.cgi?id=977845
-# http://www.spinics.net/lists/netdev/msg325110.html
-# https://git.kernel.org/cgit/linux/kernel/git/shemminger/iproute2.git/commit/?id=e7e2913fe44780edf6a7c45123577a522f7adbb4
-Patch7:            iproute2-3.19.0-lnstat-interval.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -102,11 +67,6 @@ The libnetlink static library.
 %prep
 %setup -q -n %{name}2-%{version}
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch6 -p1
-%patch7 -p1
 
 %build
 export CFLAGS="%{optflags}"
@@ -211,6 +171,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Tue Jul 07 2015 Pavel Šimerda <psimerda@redhat.com> - 4.1.1-1
+- new version 4.1.1
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
