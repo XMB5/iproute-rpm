@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.1.1
+Version:            4.2.0
 Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
@@ -11,16 +11,9 @@ Source2:            avpkt
 
 # manpage/help improvements
 #
-#  * Posted upstream.
-#  * TODO: Repost in chunks.
+# * Piece by piece absorbed upstream.
 #
-# https://bugzilla.redhat.com/show_bug.cgi?id=1072441
-# https://bugzilla.redhat.com/show_bug.cgi?id=1075692
-# https://bugzilla.redhat.com/show_bug.cgi?id=1077191
-# https://bugzilla.redhat.com/show_bug.cgi?id=1105438
-# https://bugzilla.redhat.com/show_bug.cgi?id=1121261
-#
-# http://www.spinics.net/lists/netdev/msg325114.html
+# https://github.com/pavlix/iproute2/commits/fedora
 Patch1:             iproute2-3.19.0-docs.patch
 
 License:            GPLv2+ and Public Domain
@@ -171,6 +164,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Wed Sep 02 2015 Pavel Šimerda <psimerda@redhat.com> - 4.2.0-1
+- new version 4.2.0
+
 * Tue Jul 07 2015 Pavel Šimerda <psimerda@redhat.com> - 4.1.1-1
 - new version 4.1.1
 
