@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.2.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -21,6 +21,7 @@ BuildRequires:      bison
 BuildRequires:      flex
 BuildRequires:      iptables-devel >= 1.4.5
 BuildRequires:      libdb-devel
+BuildRequires:      libselinux-devel
 BuildRequires:      linuxdoc-tools
 BuildRequires:      pkgconfig
 BuildRequires:      psutils
@@ -164,6 +165,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Sep 24 2015 Phil Sutter <psutter@redhat.com> - 4.2.0-2
+- Add missing build dependency to libselinux-devel
+
 * Wed Sep 02 2015 Pavel Šimerda <psimerda@redhat.com> - 4.2.0-1
 - new version 4.2.0
 
