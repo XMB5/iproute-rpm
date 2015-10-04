@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.2.0
-Release:            2%{?dist}
+Release:            3%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -21,6 +21,7 @@ BuildRequires:      bison
 BuildRequires:      flex
 BuildRequires:      iptables-devel >= 1.4.5
 BuildRequires:      libdb-devel
+BuildRequires:      libmnl-devel
 BuildRequires:      libselinux-devel
 BuildRequires:      linuxdoc-tools
 BuildRequires:      pkgconfig
@@ -99,7 +100,8 @@ for binary in \
     misc/nstat \
     misc/rtacct \
     misc/ss \
-    tc/tc
+    tc/tc \
+    tipc/tipc
     do install -m755 ${binary} %{buildroot}%{_sbindir}
 done
 mv %{buildroot}%{_sbindir}/cbq.init-%{cbq_version} %{buildroot}%{_sbindir}/cbq
@@ -165,6 +167,10 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Sun Oct 04 2015 Phil Sutter <psutter@redhat.com> - 4.2.0-3
+- Add missing build dependency to libmnl-devel
+- Ship tipc utility
+
 * Thu Sep 24 2015 Phil Sutter <psutter@redhat.com> - 4.2.0-2
 - Add missing build dependency to libselinux-devel
 
