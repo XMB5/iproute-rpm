@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.2.0
-Release:            3%{?dist}
+Release:            4%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -72,72 +72,34 @@ make %{?_smp_mflags}
 make -C doc
 
 %install
-# TODO: Update upstream build system so that we don't need to handle
-# installation manually.
-mkdir -p \
-    %{buildroot}%{_includedir} \
-    %{buildroot}%{_sbindir} \
-    %{buildroot}%{_mandir}/man3 \
-    %{buildroot}%{_mandir}/man7 \
-    %{buildroot}%{_mandir}/man8 \
-    %{buildroot}%{_libdir}/tc \
-    %{buildroot}%{_sysconfdir}/iproute2 \
-    %{buildroot}%{_sysconfdir}/sysconfig/cbq
+export DESTDIR='%{buildroot}'
+export SBINDIR='%{_sbindir}'
+export MANDIR='%{_mandir}'
+export LIBDIR='%{_libdir}'
+export CONFDIR='%{_sysconfdir}/iproute2'
+export DOCDIR='%{_docdir}'
+make install
 
-for binary in \
-    bridge/bridge \
-    examples/cbq.init-%{cbq_version} \
-    genl/genl \
-    ip/ifcfg \
-    ip/ip \
-    ip/routef \
-    ip/routel \
-    ip/rtmon \
-    ip/rtpr \
-    misc/arpd \
-    misc/ifstat \
-    misc/lnstat \
-    misc/nstat \
-    misc/rtacct \
-    misc/ss \
-    tc/tc \
-    tipc/tipc
-    do install -m755 ${binary} %{buildroot}%{_sbindir}
-done
-mv %{buildroot}%{_sbindir}/cbq.init-%{cbq_version} %{buildroot}%{_sbindir}/cbq
-cd %{buildroot}%{_sbindir}
-    ln -s lnstat ctstat
-    ln -s lnstat rtstat
-cd -
+install -m755 examples/cbq.init-%{cbq_version} ${DESTDIR}/${SBINDIR}/cbq
 
-# Libs
-install -m644 netem/*.dist %{buildroot}%{_libdir}/tc
-%if 0%{?fedora}
-install -m755 tc/q_atm.so %{buildroot}%{_libdir}/tc
-%endif
-install -m755 tc/m_xt.so %{buildroot}%{_libdir}/tc
-cd %{buildroot}%{_libdir}/tc
-    ln -s m_xt.so m_ipt.so
-cd -
-
-# libnetlink
-install -m644 include/libnetlink.h %{buildroot}%{_includedir}
-install -m644 lib/libnetlink.a %{buildroot}%{_libdir}
-
-# Manpages
-iconv -f latin1 -t utf8 man/man8/ss.8 > man/man8/ss.8.utf8 &&
-    mv man/man8/ss.8.utf8 man/man8/ss.8
-install -m644 man/man3/*.3 %{buildroot}%{_mandir}/man3
-install -m644 man/man7/*.7 %{buildroot}%{_mandir}/man7
-install -m644 man/man8/*.8 %{buildroot}%{_mandir}/man8
-
-# Config files
-install -m644 etc/iproute2/* %{buildroot}%{_sysconfdir}/iproute2
+install -d -m755 %{buildroot}%{_sysconfdir}/sysconfig/cbq
 for config in \
     %{SOURCE1} \
     %{SOURCE2}
     do install -m644 ${config} %{buildroot}%{_sysconfdir}/sysconfig/cbq
 done
+
+# extra man pages from Patch1, seems like these are not mainline yet
+for mp in cbq genl ifcfg ifstat; do
+	install -m644 man/man8/${mp}.8 %{buildroot}%{_mandir}/man8
+done
+
+# libnetlink
+install -D -m644 include/libnetlink.h %{buildroot}%{_includedir}/libnetlink.h
+install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
+
+# drop these files, iproute-doc package extracts files directly from _builddir
+rm -rf '%{buildroot}%{_docdir}'
 
 %files
 %dir %{_sysconfdir}/iproute2
@@ -167,6 +129,9 @@ done
 %{_includedir}/libnetlink.h
 
 %changelog
+* Sun Oct 04 2015 Phil Sutter <psutter@redhat.com> - 4.2.0-4
+- Simplify RPM install stage by using package's install target
+
 * Sun Oct 04 2015 Phil Sutter <psutter@redhat.com> - 4.2.0-3
 - Add missing build dependency to libmnl-devel
 - Ship tipc utility
