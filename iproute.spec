@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.4.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -18,6 +18,7 @@ Patch1:             0001-Documentation-fixes.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
+BuildRequires:      elfutils-libelf-devel
 BuildRequires:      flex
 BuildRequires:      iptables-devel >= 1.4.5
 BuildRequires:      libdb-devel
