@@ -1,8 +1,8 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.4.0
-Release:            3%{?dist}
+Version:            4.5.0
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -31,6 +31,7 @@ BuildRequires:      tex(cm-super-t1.enc)
 BuildRequires:      tex(dvips)
 BuildRequires:      tex(ecrm1000.tfm)
 BuildRequires:      tex(latex)
+BuildRequires:      tex(fullpage.sty)
 %if 0%{?fedora}
 BuildRequires:      linux-atm-libs-devel
 %endif
@@ -130,6 +131,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/libnetlink.h
 
 %changelog
+* Fri Mar 18 2016 Phil Sutter <psutter@redhat.com> - 4.5.0-1
+- New version 4.5.0
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 4.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
