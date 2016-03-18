@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.5.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -42,7 +42,19 @@ Provides:           /sbin/ip
 %description
 The iproute package contains networking utilities (ip and rtmon, for example)
 which are designed to use the advanced networking capabilities of the Linux
-2.4.x and 2.6.x kernel.
+kernel.
+
+%package tc
+Summary:            Linux Traffic Control utility
+Group:              Applications/System
+License:            GPLv2+
+Requires:           %{name} > 4.5.0-1
+Obsoletes:          %{name} < 4.5.0-2
+
+%description tc
+The Traffic Control utility manages queueing disciplines, their classes and
+attached filters and actions. It is the standard tool to configure QoS in
+Linux.
 
 %package doc
 Summary:            Documentation for iproute2 utilities with examples
@@ -109,11 +121,25 @@ rm -rf '%{buildroot}%{_docdir}'
 %license COPYING
 %doc README README.decnet README.iproute2+tc README.distribution README.lnstat
 %{_mandir}/man7/*
+%exclude %{_mandir}/man7/tc-*
 %{_mandir}/man8/*
+%exclude %{_mandir}/man8/tc*
+%exclude %{_mandir}/man8/cbq*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
 %{_sbindir}/*
+%exclude %{_sbindir}/tc
+%exclude %{_sbindir}/cbq
+
+%files tc
+%{!?_licensedir:%global license %%doc}
+%license COPYING
+%{_mandir}/man7/tc-*
+%{_mandir}/man8/tc*
+%{_mandir}/man8/cbq*
 %dir %{_libdir}/tc/
 %{_libdir}/tc/*
+%{_sbindir}/tc
+%{_sbindir}/cbq
 %dir %{_sysconfdir}/sysconfig/cbq
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 
@@ -131,6 +157,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/libnetlink.h
 
 %changelog
+* Fri Mar 18 2016 Phil Sutter <psutter@redhat.com> - 4.5.0-2
+- Split tc into it's own subpackage
+
 * Fri Mar 18 2016 Phil Sutter <psutter@redhat.com> - 4.5.0-1
 - New version 4.5.0
 
