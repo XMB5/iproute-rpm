@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.5.0
-Release:            2%{?dist}
+Release:            3%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -38,6 +38,8 @@ BuildRequires:      linux-atm-libs-devel
 # For the UsrMove transition period
 Conflicts:          filesystem < 3
 Provides:           /sbin/ip
+Obsoletes:          %{name} < 4.5.0-3
+Recommends:         %{name}-tc
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for example)
@@ -48,8 +50,8 @@ kernel.
 Summary:            Linux Traffic Control utility
 Group:              Applications/System
 License:            GPLv2+
-Requires:           %{name} > 4.5.0-1
-Obsoletes:          %{name} < 4.5.0-2
+Obsoletes:          %{name} < 4.5.0-3
+Requires:           %{name}%{?_isa} = %{version}-%{release}
 
 %description tc
 The Traffic Control utility manages queueing disciplines, their classes and
@@ -105,7 +107,7 @@ done
 
 # extra man pages from Patch1, seems like these are not mainline yet
 for mp in cbq genl ifcfg ifstat; do
-	install -m644 man/man8/${mp}.8 %{buildroot}%{_mandir}/man8
+        install -m644 man/man8/${mp}.8 %{buildroot}%{_mandir}/man8
 done
 
 # libnetlink
@@ -119,7 +121,7 @@ rm -rf '%{buildroot}%{_docdir}'
 %dir %{_sysconfdir}/iproute2
 %{!?_licensedir:%global license %%doc}
 %license COPYING
-%doc README README.decnet README.iproute2+tc README.distribution README.lnstat
+%doc README README.decnet README.distribution README.lnstat
 %{_mandir}/man7/*
 %exclude %{_mandir}/man7/tc-*
 %{_mandir}/man8/*
@@ -133,6 +135,7 @@ rm -rf '%{buildroot}%{_docdir}'
 %files tc
 %{!?_licensedir:%global license %%doc}
 %license COPYING
+%doc README.iproute2+tc
 %{_mandir}/man7/tc-*
 %{_mandir}/man8/tc*
 %{_mandir}/man8/cbq*
@@ -157,6 +160,10 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/libnetlink.h
 
 %changelog
+* Fri Apr 08 2016 Phil Sutter <psutter@redhat.com> - 4.5.0-3
+- Fix upgrade path by adding correct Requires/Obsoletes statements to spec file
+- Move README.iproute2+tc into tc subpackage
+
 * Fri Mar 18 2016 Phil Sutter <psutter@redhat.com> - 4.5.0-2
 - Split tc into it's own subpackage
 
