@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.5.0
-Release:            3%{?dist}
+Release:            4%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -160,6 +160,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/libnetlink.h
 
 %changelog
+* Wed Apr 13  2016 Thomas Woerner <twoerner@redhat.com> - 4.5.0-4
+- Rebuild for new iptables-1.6.0 with libxtables so bump
+
 * Fri Apr 08 2016 Phil Sutter <psutter@redhat.com> - 4.5.0-3
 - Fix upgrade path by adding correct Requires/Obsoletes statements to spec file
 - Move README.iproute2+tc into tc subpackage
