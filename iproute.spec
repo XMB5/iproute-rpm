@@ -1,8 +1,8 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.5.0
-Release:            4%{?dist}
+Version:            4.6.0
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -145,6 +145,7 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_sbindir}/cbq
 %dir %{_sysconfdir}/sysconfig/cbq
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
+%{_datadir}/bash-completion/completions/tc
 
 %files doc
 %{!?_licensedir:%global license %%doc}
@@ -160,6 +161,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/libnetlink.h
 
 %changelog
+* Wed May 04 2016 Phil Sutter <psutter@redhat.com> - 4.6.0-1
+- New version 4.6.0
+
 * Wed Apr 13  2016 Thomas Woerner <twoerner@redhat.com> - 4.5.0-4
 - Rebuild for new iptables-1.6.0 with libxtables so bump
 
