@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.6.0
+Version:            4.7.0
 Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
@@ -161,6 +161,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/libnetlink.h
 
 %changelog
+* Wed Aug 10 2016 Phil Sutter <psutter@redhat.com> - 4.7.0-1
+- New version 4.7.0
+
 * Wed May 04 2016 Phil Sutter <psutter@redhat.com> - 4.6.0-1
 - New version 4.6.0
 
