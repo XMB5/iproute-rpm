@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.8.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -15,6 +15,12 @@ Source2:            avpkt
 #
 # https://github.com/pavlix/iproute2/commits/fedora
 Patch1:             0001-Documentation-fixes.patch
+
+# Fix for bz#1411127
+#
+# Accepted upstream:
+# https://patchwork.ozlabs.org/patch/714480/
+Patch2: 0001-tc-m_xt-Fix-segfault-with-iptables-1.6.0.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -78,6 +84,7 @@ The libnetlink static library.
 %prep
 %setup -q -n %{name}2-%{version}
 %patch1 -p1
+%patch2 -p1
 
 %build
 export CFLAGS="%{optflags}"
@@ -161,6 +168,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/libnetlink.h
 
 %changelog
+* Fri Jan 13 2017 Phil Sutter <psutter@redhat.com> - 4.8.0-2
+- Fix segfault in xt action
+
 * Wed Nov 30 2016 Phil Sutter <psutter@redhat.com> - 4.8.0-1
 - New version 4.8.0
 
