@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.9.0
-Release:            2%{?dist}
+Release:            3%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -172,6 +172,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/libnetlink.h
 
 %changelog
+* Thu Feb  2 2017 Thomas Woerner <twoerner@redhat.com> - 4.9.0-3
+- Release bump for iptables-1.6.1 (libxtables.so.12)
+
 * Sat Jan 28 2017 Phil Sutter <psutter@redhat.com> - 4.9.0-2
 - Fix for failing 'make install'
 
