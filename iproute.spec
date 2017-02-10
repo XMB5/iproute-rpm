@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.9.0
-Release:            3%{?dist}
+Release:            4%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -172,6 +172,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/libnetlink.h
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Thu Feb  2 2017 Thomas Woerner <twoerner@redhat.com> - 4.9.0-3
 - Release bump for iptables-1.6.1 (libxtables.so.12)
 
