@@ -1,29 +1,20 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.9.0
-Release:            4%{?dist}
+Version:            4.10.0
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
 Source1:            cbq-0000.example
 Source2:            avpkt
 
-# manpage/help improvements
-#
-# * Piece by piece absorbed upstream.
-#
-# https://github.com/pavlix/iproute2/commits/fedora
+# Fedora local docs changes:
+# - We ship cbq.init-v0.7.3 as cbq binary, so have a cbq.8 man page which links
+#   to tc-cbq.8.
+# - Drop reference to Debian from ss.8 man page.
+# - We ship ss.ps instead of ss.html.
 Patch1:             0001-Documentation-fixes.patch
-
-# Fix for bz#1411127
-#
-# Accepted upstream:
-# https://patchwork.ozlabs.org/patch/714480/
-Patch2: 0001-tc-m_xt-Fix-segfault-with-iptables-1.6.0.patch
-
-# Fix 'make install'
-Patch3: 0001-Revert-man-pages-add-man-page-for-skbmod-action.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -87,8 +78,6 @@ The libnetlink static library.
 %prep
 %setup -q -n %{name}2-%{version}
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
 export CFLAGS="%{optflags}"
@@ -170,8 +159,15 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_mandir}/man3/*
 %{_libdir}/libnetlink.a
 %{_includedir}/libnetlink.h
+%{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Tue Mar 14 2017 Phil Sutter <psutter@redhat.com> - 4.10.0-1
+- Ship new header iproute2/bpf_elf.h
+- Document content of remaining docs fixup patch in spec file
+- Drop patches already applied upstream
+- New version 4.10.0
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 4.9.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
