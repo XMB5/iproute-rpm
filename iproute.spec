@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.10.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -15,6 +15,10 @@ Source2:            avpkt
 # - Drop reference to Debian from ss.8 man page.
 # - We ship ss.ps instead of ss.html.
 Patch1:             0001-Documentation-fixes.patch
+
+# upstream fixes for commits in 4.10.0 release
+Patch2:             0002-tc-flower-use-correct-type-when-calling-flower_icmp_.patch
+Patch3:             0003-bpf-test-for-valid-type-in-bpf_get_work_dir.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -78,6 +82,8 @@ The libnetlink static library.
 %prep
 %setup -q -n %{name}2-%{version}
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 export CFLAGS="%{optflags}"
@@ -162,6 +168,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Fri Mar 17 2017 Phil Sutter <psutter@redhat.com> - 4.10.0-2
+- Add two fixes to 4.10.0 release from upstream.
+
 * Tue Mar 14 2017 Phil Sutter <psutter@redhat.com> - 4.10.0-1
 - Ship new header iproute2/bpf_elf.h
 - Document content of remaining docs fixup patch in spec file

@@ -1,0 +1,38 @@
+From 305197a2378ffb581f1eca3ec804f76690be7b5a Mon Sep 17 00:00:00 2001
+From: Daniel Borkmann <daniel@iogearbox.net>
+Date: Mon, 6 Mar 2017 13:06:00 +0100
+Subject: [PATCH] bpf: test for valid type in bpf_get_work_dir
+
+Jan-Erik reported an assertion in bpf_prog_to_subdir() failed where
+type was BPF_PROG_TYPE_UNSPEC, which is only used in bpf_init_env()
+to auto-mount and cache the bpf fs mount point.
+
+Therefore, make sure when bpf_init_env() is called multiple times
+(f.e. eBPF classifier with eBPF action attached) and bpf_mnt_cached
+is set already that the type is also valid. In bpf_init_env(), we're
+only interested in the mount point and not a type-specific subdir.
+
+Fixes: e42256699cac ("bpf: make tc's bpf loader generic and move into lib")
+Reported-by: Jan-Erik Rediger <janerik@rediger.net>
+Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
+(cherry picked from commit 51361a9f1cfca81259c68515cb24fbaace03136a)
+---
+ lib/bpf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/bpf.c b/lib/bpf.c
+index 64e199b3..fef9cfcd 100644
+--- a/lib/bpf.c
++++ b/lib/bpf.c
+@@ -596,7 +596,7 @@ static const char *bpf_get_work_dir(enum bpf_prog_type type)
+ 	if (bpf_mnt_cached) {
+ 		const char *out = mnt;
+ 
+-		if (out) {
++		if (out && type) {
+ 			snprintf(bpf_tmp, sizeof(bpf_tmp), "%s%s/",
+ 				 out, bpf_prog_to_subdir(type));
+ 			out = bpf_tmp;
+-- 
+2.11.0
+

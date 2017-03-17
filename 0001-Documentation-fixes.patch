@@ -1,13 +1,26 @@
-diff -Nurp iproute2-4.5.0.orig/man/man8/cbq.8 iproute2-4.5.0/man/man8/cbq.8
---- iproute2-4.5.0.orig/man/man8/cbq.8	1970-01-01 01:00:00.000000000 +0100
-+++ iproute2-4.5.0/man/man8/cbq.8	2016-03-18 13:17:00.673773197 +0100
+From 2332a21bd43ca69ad38a30109881867b9c5c2ea0 Mon Sep 17 00:00:00 2001
+From: Phil Sutter <psutter@redhat.com>
+Date: Fri, 17 Mar 2017 22:47:27 +0100
+Subject: [PATCH] Documentation fixes
+
+---
+ man/man8/cbq.8 | 1 +
+ man/man8/ss.8  | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+ create mode 100644 man/man8/cbq.8
+
+diff --git a/man/man8/cbq.8 b/man/man8/cbq.8
+new file mode 100644
+index 00000000..bef35201
+--- /dev/null
++++ b/man/man8/cbq.8
 @@ -0,0 +1 @@
 +.so man8/tc-cbq.8
-\ No newline at end of file
-diff -Nurp iproute2-4.5.0.orig/man/man8/ss.8 iproute2-4.5.0/man/man8/ss.8
---- iproute2-4.5.0.orig/man/man8/ss.8	2016-03-18 13:16:45.046773197 +0100
-+++ iproute2-4.5.0/man/man8/ss.8	2016-03-18 13:17:05.910773197 +0100
-@@ -136,7 +136,7 @@ Read filter information from FILE.
+diff --git a/man/man8/ss.8 b/man/man8/ss.8
+index 4ef11523..3898bdbd 100644
+--- a/man/man8/ss.8
++++ b/man/man8/ss.8
+@@ -142,7 +142,7 @@ Read filter information from FILE.
  Each line of FILE is interpreted like single command line option. If FILE is - stdin is used.
  .TP
  .B FILTER := [ state STATE-FILTER ] [ EXPRESSION ]
@@ -16,7 +29,7 @@ diff -Nurp iproute2-4.5.0.orig/man/man8/ss.8 iproute2-4.5.0/man/man8/ss.8
  
  .SH STATE-FILTER
  
-@@ -191,7 +191,7 @@ Find all local processes connected to X
+@@ -197,7 +197,7 @@ Find all local processes connected to X server.
  List all the tcp sockets in state FIN-WAIT-1 for our apache to network 193.233.7/24 and look at their timers.
  .SH SEE ALSO
  .BR ip (8),
@@ -25,3 +38,6 @@ diff -Nurp iproute2-4.5.0.orig/man/man8/ss.8 iproute2-4.5.0/man/man8/ss.8
  .br
  .BR RFC " 793 "
  - https://tools.ietf.org/rfc/rfc793.txt (TCP states)
+-- 
+2.11.0
+
