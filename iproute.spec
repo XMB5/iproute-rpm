@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.10.0
-Release:            2%{?dist}
+Release:            3%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -28,8 +28,9 @@ BuildRequires:      iptables-devel >= 1.4.5
 BuildRequires:      libdb-devel
 BuildRequires:      libmnl-devel
 BuildRequires:      libselinux-devel
-BuildRequires:      linuxdoc-tools
 BuildRequires:      pkgconfig
+%if ! 0%{?_module_build}
+BuildRequires:      linuxdoc-tools
 BuildRequires:      psutils
 BuildRequires:      tex(cm-super-t1.enc)
 BuildRequires:      tex(dvips)
@@ -38,6 +39,7 @@ BuildRequires:      tex(latex)
 BuildRequires:      tex(fullpage.sty)
 %if 0%{?fedora}
 BuildRequires:      linux-atm-libs-devel
+%endif
 %endif
 # For the UsrMove transition period
 Conflicts:          filesystem < 3
@@ -62,6 +64,7 @@ The Traffic Control utility manages queueing disciplines, their classes and
 attached filters and actions. It is the standard tool to configure QoS in
 Linux.
 
+%if ! 0%{?_module_build}
 %package doc
 Summary:            Documentation for iproute2 utilities with examples
 Group:              Applications/System
@@ -69,6 +72,7 @@ License:            GPLv2+
 
 %description doc
 The iproute documentation contains howtos and examples of settings.
+%endif
 
 %package devel
 Summary:            iproute development files
@@ -91,7 +95,9 @@ export LIBDIR=/%{_libdir}
 export IPT_LIB_DIR=/%{_lib}/xtables
 ./configure
 make %{?_smp_mflags}
+%if ! 0%{?_module_build}
 make -C doc
+%endif
 
 %install
 export DESTDIR='%{buildroot}'
@@ -153,11 +159,13 @@ rm -rf '%{buildroot}%{_docdir}'
 %config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 %{_datadir}/bash-completion/completions/tc
 
+%if ! 0%{?_module_build}
 %files doc
 %{!?_licensedir:%global license %%doc}
 %license COPYING
 %doc doc/*.ps
 %doc examples
+%endif
 
 %files devel
 %{!?_licensedir:%global license %%doc}
@@ -168,6 +176,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Thu May 11 2017 Karsten Hopp <karsten@redhat.com> - 4.10.0-3
+- don't build docs for module builds to limit dependencies
+
 * Fri Mar 17 2017 Phil Sutter <psutter@redhat.com> - 4.10.0-2
 - Add two fixes to 4.10.0 release from upstream.
 
