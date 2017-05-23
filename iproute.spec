@@ -1,8 +1,8 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.10.0
-Release:            3%{?dist}
+Version:            4.11.0
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -15,10 +15,6 @@ Source2:            avpkt
 # - Drop reference to Debian from ss.8 man page.
 # - We ship ss.ps instead of ss.html.
 Patch1:             0001-Documentation-fixes.patch
-
-# upstream fixes for commits in 4.10.0 release
-Patch2:             0002-tc-flower-use-correct-type-when-calling-flower_icmp_.patch
-Patch3:             0003-bpf-test-for-valid-type-in-bpf_get_work_dir.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -58,6 +54,7 @@ Group:              Applications/System
 License:            GPLv2+
 Obsoletes:          %{name} < 4.5.0-3
 Requires:           %{name}%{?_isa} = %{version}-%{release}
+Provides:           tc
 
 %description tc
 The Traffic Control utility manages queueing disciplines, their classes and
@@ -86,8 +83,6 @@ The libnetlink static library.
 %prep
 %setup -q -n %{name}2-%{version}
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
 export CFLAGS="%{optflags}"
@@ -176,6 +171,10 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Tue May 23 2017 Phil Sutter <psutter@redhat.com> - 4.11.0-1
+- Add virtual capability to tc subpackage so it's easier found
+- New version 4.11.0
+
 * Thu May 11 2017 Karsten Hopp <karsten@redhat.com> - 4.10.0-3
 - don't build docs for module builds to limit dependencies
 
