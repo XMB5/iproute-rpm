@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.11.0
+Version:            4.12.0
 Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
@@ -171,6 +171,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Fri Jul 21 2017 Phil Sutter <psutter@redhat.com> - 4.12.0-1
+- New version 4.12.0
+
 * Tue May 23 2017 Phil Sutter <psutter@redhat.com> - 4.11.0-1
 - Add virtual capability to tc subpackage so it's easier found
 - New version 4.11.0
