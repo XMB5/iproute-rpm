@@ -1,0 +1,15 @@
+---
+# Tests that run in all contexts
+- hosts: localhost
+  roles:
+  - role: standard-test-beakerlib
+    tags:
+    - classic
+    - atomic
+    tests:
+    - ip-neigh-sanity-test
+    - ip-rule-sanity-test
+    - bridge-utility
+    required_packages:
+    - iproute
+    - bridge-utils
