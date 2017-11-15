@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.13.0
+Version:            4.14.1
 Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
@@ -90,9 +90,6 @@ export LIBDIR=/%{_libdir}
 export IPT_LIB_DIR=/%{_lib}/xtables
 ./configure
 make %{?_smp_mflags}
-%if ! 0%{?_module_build}
-make -C doc
-%endif
 
 %install
 export DESTDIR='%{buildroot}'
@@ -158,7 +155,6 @@ rm -rf '%{buildroot}%{_docdir}'
 %files doc
 %{!?_licensedir:%global license %%doc}
 %license COPYING
-%doc doc/*.ps
 %doc examples
 %endif
 
@@ -171,6 +167,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Wed Nov 15 2017 Phil Sutter <psutter@redhat.com> - 4.14.1-1
+- New version 4.14.1
+
 * Tue Sep 19 2017 Phil Sutter <psutter@redhat.com> - 4.13.0-1
 - New version 4.13.0
 
