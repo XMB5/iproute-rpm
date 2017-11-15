@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.14.1
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -26,13 +26,6 @@ BuildRequires:      libmnl-devel
 BuildRequires:      libselinux-devel
 BuildRequires:      pkgconfig
 %if ! 0%{?_module_build}
-BuildRequires:      linuxdoc-tools
-BuildRequires:      psutils
-BuildRequires:      tex(cm-super-t1.enc)
-BuildRequires:      tex(dvips)
-BuildRequires:      tex(ecrm1000.tfm)
-BuildRequires:      tex(latex)
-BuildRequires:      tex(fullpage.sty)
 %if 0%{?fedora}
 BuildRequires:      linux-atm-libs-devel
 %endif
@@ -167,6 +160,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Wed Nov 15 2017 Phil Sutter <psutter@redhat.com> - 4.14.1-2
+- Drop unused build dependencies
+
 * Wed Nov 15 2017 Phil Sutter <psutter@redhat.com> - 4.14.1-1
 - New version 4.14.1
 
