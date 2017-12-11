@@ -1,4 +1,4 @@
-From 2332a21bd43ca69ad38a30109881867b9c5c2ea0 Mon Sep 17 00:00:00 2001
+From 34f2e1640c6d6a051116478011eb58f995a24076 Mon Sep 17 00:00:00 2001
 From: Phil Sutter <psutter@redhat.com>
 Date: Fri, 17 Mar 2017 22:47:27 +0100
 Subject: [PATCH] Documentation fixes
@@ -11,16 +11,16 @@ Subject: [PATCH] Documentation fixes
 
 diff --git a/man/man8/cbq.8 b/man/man8/cbq.8
 new file mode 100644
-index 00000000..bef35201
+index 0000000000000..bef35201f4eab
 --- /dev/null
 +++ b/man/man8/cbq.8
 @@ -0,0 +1 @@
 +.so man8/tc-cbq.8
 diff --git a/man/man8/ss.8 b/man/man8/ss.8
-index 4ef11523..3898bdbd 100644
+index 8565ccb4814aa..5a85bee6a4b7a 100644
 --- a/man/man8/ss.8
 +++ b/man/man8/ss.8
-@@ -142,7 +142,7 @@ Read filter information from FILE.
+@@ -319,7 +319,7 @@ Read filter information from FILE.
  Each line of FILE is interpreted like single command line option. If FILE is - stdin is used.
  .TP
  .B FILTER := [ state STATE-FILTER ] [ EXPRESSION ]
@@ -29,7 +29,7 @@ index 4ef11523..3898bdbd 100644
  
  .SH STATE-FILTER
  
-@@ -197,7 +197,7 @@ Find all local processes connected to X server.
+@@ -374,7 +374,7 @@ Find all local processes connected to X server.
  List all the tcp sockets in state FIN-WAIT-1 for our apache to network 193.233.7/24 and look at their timers.
  .SH SEE ALSO
  .BR ip (8),
@@ -39,5 +39,5 @@ index 4ef11523..3898bdbd 100644
  .BR RFC " 793 "
  - https://tools.ietf.org/rfc/rfc793.txt (TCP states)
 -- 
-2.11.0
+2.13.1
 

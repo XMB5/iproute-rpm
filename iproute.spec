@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.14.1
-Release:            2%{?dist}
+Release:            3%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -15,6 +15,14 @@ Source2:            avpkt
 # - Drop reference to Debian from ss.8 man page.
 # - We ship ss.ps instead of ss.html.
 Patch1:             0001-Documentation-fixes.patch
+# Suggested backports by Fixes: tag.
+Patch2:             0002-tc-move-action-cookie-print-out-of-the-stats-if.patch
+Patch3:             0003-tc-remove-action-cookie-len-from-printout.patch
+Patch4:             0004-link_gre6-Detect-invalid-encaplimit-values.patch
+Patch5:             0005-man-tc-csum.8-Fix-inconsistency-in-example-descripti.patch
+Patch6:             0006-tc-util-Don-t-call-NEXT_ARG_FWD-in-__parse_action_co.patch
+Patch7:             0007-ss-remove-duplicate-assignment.patch
+Patch8:             0008-tc-bash-completion-add-missing-classid-keyword.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -74,8 +82,7 @@ Provides:           iproute-static = %{version}-%{release}
 The libnetlink static library.
 
 %prep
-%setup -q -n %{name}2-%{version}
-%patch1 -p1
+%autosetup -p1 -n %{name}2-%{version}
 
 %build
 export CFLAGS="%{optflags}"
@@ -160,6 +167,10 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Mon Dec 11 2017 Phil Sutter <psutter@redhat.com> - 4.14.1-3
+- Add upstream suggested backports.
+- Make use of %%autosetup macro.
+
 * Wed Nov 15 2017 Phil Sutter <psutter@redhat.com> - 4.14.1-2
 - Drop unused build dependencies
 
