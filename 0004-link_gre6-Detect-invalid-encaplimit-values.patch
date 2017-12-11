@@ -1,0 +1,31 @@
+From 6ecadd9b426bb05c31ec92c01e5352ac05d4e676 Mon Sep 17 00:00:00 2001
+From: Phil Sutter <phil@nwl.cc>
+Date: Tue, 28 Nov 2017 16:49:58 +0100
+Subject: [PATCH] link_gre6: Detect invalid encaplimit values
+
+Looks like a typo: get_u8() returns 0 on success and -1 on error, so the
+error checking here was ineffective.
+
+Fixes: a11b7b71a6eba ("link_gre6: really support encaplimit option")
+Signed-off-by: Phil Sutter <phil@nwl.cc>
+(cherry picked from commit 56708ae7c9535859223c5b68097b35bf0fae677c)
+---
+ ip/link_gre6.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ip/link_gre6.c b/ip/link_gre6.c
+index 7d07932a60f01..06dcd6756ec41 100644
+--- a/ip/link_gre6.c
++++ b/ip/link_gre6.c
+@@ -364,7 +364,7 @@ get_failed:
+ 			} else {
+ 				__u8 uval;
+ 
+-				if (get_u8(&uval, *argv, 0) < -1)
++				if (get_u8(&uval, *argv, 0))
+ 					invarg("invalid ELIM", *argv);
+ 				encap_limit = uval;
+ 				flags &= ~IP6_TNL_F_IGN_ENCAP_LIMIT;
+-- 
+2.13.1
+

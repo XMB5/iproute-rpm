@@ -1,0 +1,50 @@
+From 06ed8e1fc690683fb1226a23548c81b7032fe7fe Mon Sep 17 00:00:00 2001
+From: Jiri Pirko <jiri@mellanox.com>
+Date: Sat, 25 Nov 2017 11:07:56 +0100
+Subject: [PATCH] tc: move action cookie print out of the stats if
+
+Cookie print was made dependent on show_stats for no good reason. Fix
+this bu pushing cookie print ot of the stats if.
+
+Fixes: fd8b3d2c1b9b ("actions: Add support for user cookies")
+Signed-off-by: Jiri Pirko <jiri@mellanox.com>
+(cherry picked from commit abff45b8026e24dedfe05376d8fedc1a8fe43402)
+---
+ tc/m_action.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
+
+diff --git a/tc/m_action.c b/tc/m_action.c
+index 402228bbf833d..704708f70aaac 100644
+--- a/tc/m_action.c
++++ b/tc/m_action.c
+@@ -302,19 +302,18 @@ static int tc_print_one_action(FILE *f, struct rtattr *arg)
+ 		return err;
+ 
+ 	if (show_stats && tb[TCA_ACT_STATS]) {
+-
+ 		fprintf(f, "\tAction statistics:\n");
+ 		print_tcstats2_attr(f, tb[TCA_ACT_STATS], "\t", NULL);
+-		if (tb[TCA_ACT_COOKIE]) {
+-			int strsz = RTA_PAYLOAD(tb[TCA_ACT_COOKIE]);
+-			char b1[strsz * 2 + 1];
+-
+-			fprintf(f, "\n\tcookie len %d %s ", strsz,
+-				hexstring_n2a(RTA_DATA(tb[TCA_ACT_COOKIE]),
+-					      strsz, b1, sizeof(b1)));
+-		}
+ 		fprintf(f, "\n");
+ 	}
++	if (tb[TCA_ACT_COOKIE]) {
++		int strsz = RTA_PAYLOAD(tb[TCA_ACT_COOKIE]);
++		char b1[strsz * 2 + 1];
++
++		fprintf(f, "\tcookie len %d %s\n", strsz,
++			hexstring_n2a(RTA_DATA(tb[TCA_ACT_COOKIE]),
++				      strsz, b1, sizeof(b1)));
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.13.1
+

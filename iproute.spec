@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.14.1
-Release:            3%{?dist}
+Release:            4%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -167,6 +167,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Mon Dec 11 2017 Phil Sutter <psutter@redhat.com> - 4.14.1-4
+- Add missing patch files.
+
 * Mon Dec 11 2017 Phil Sutter <psutter@redhat.com> - 4.14.1-3
 - Add upstream suggested backports.
 - Make use of %%autosetup macro.

@@ -1,0 +1,224 @@
+From 03ce79e357f3afefe8d1409a98b5ae03c611d611 Mon Sep 17 00:00:00 2001
+From: Michal Privoznik <mprivozn@redhat.com>
+Date: Fri, 8 Dec 2017 11:18:07 +0100
+Subject: [PATCH] tc: util: Don't call NEXT_ARG_FWD() in
+ __parse_action_control()
+
+Not all callers want parse_action_control*() to advance the
+arguments. For instance act_parse_police() does the argument
+advancing itself.
+
+Fixes: e67aba559581 ("tc: actions: add helpers to parse and print control actions")
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+(cherry picked from commit 3572e01a090a298e2f4c4f796bad6639b652e031)
+---
+ tc/m_bpf.c        |  1 +
+ tc/m_connmark.c   |  1 +
+ tc/m_csum.c       |  1 +
+ tc/m_gact.c       | 10 +++++-----
+ tc/m_ife.c        |  1 +
+ tc/m_mirred.c     |  4 +++-
+ tc/m_nat.c        |  1 +
+ tc/m_pedit.c      |  1 +
+ tc/m_sample.c     |  1 +
+ tc/m_skbedit.c    |  1 +
+ tc/m_skbmod.c     |  1 +
+ tc/m_tunnel_key.c |  1 +
+ tc/m_vlan.c       |  1 +
+ tc/tc_util.c      |  1 -
+ 14 files changed, 19 insertions(+), 7 deletions(-)
+
+diff --git a/tc/m_bpf.c b/tc/m_bpf.c
+index e3d0a2b118384..8b091a72951c3 100644
+--- a/tc/m_bpf.c
++++ b/tc/m_bpf.c
+@@ -125,6 +125,7 @@ opt_bpf:
+ 
+ 	parse_action_control_dflt(&argc, &argv, &parm.action,
+ 				  false, TC_ACT_PIPE);
++	NEXT_ARG_FWD();
+ 
+ 	if (argc) {
+ 		if (matches(*argv, "index") == 0) {
+diff --git a/tc/m_connmark.c b/tc/m_connmark.c
+index 37d7185415490..47c7a8c2b17e7 100644
+--- a/tc/m_connmark.c
++++ b/tc/m_connmark.c
+@@ -82,6 +82,7 @@ parse_connmark(struct action_util *a, int *argc_p, char ***argv_p, int tca_id,
+ 	}
+ 
+ 	parse_action_control_dflt(&argc, &argv, &sel.action, false, TC_ACT_PIPE);
++	NEXT_ARG_FWD();
+ 
+ 	if (argc) {
+ 		if (matches(*argv, "index") == 0) {
+diff --git a/tc/m_csum.c b/tc/m_csum.c
+index 7b156734f64c5..e1352c0820f69 100644
+--- a/tc/m_csum.c
++++ b/tc/m_csum.c
+@@ -124,6 +124,7 @@ parse_csum(struct action_util *a, int *argc_p,
+ 	}
+ 
+ 	parse_action_control_dflt(&argc, &argv, &sel.action, false, TC_ACT_OK);
++	NEXT_ARG_FWD();
+ 
+ 	if (argc) {
+ 		if (matches(*argv, "index") == 0) {
+diff --git a/tc/m_gact.c b/tc/m_gact.c
+index 38949e903be36..7ea2d431f89f9 100644
+--- a/tc/m_gact.c
++++ b/tc/m_gact.c
+@@ -88,14 +88,13 @@ parse_gact(struct action_util *a, int *argc_p, char ***argv_p,
+ 	if (argc < 0)
+ 		return -1;
+ 
+-
+-	if (matches(*argv, "gact") == 0) {
+-		argc--;
+-		argv++;
+-	} else if (parse_action_control(&argc, &argv, &p.action, false) == -1) {
++	if (matches(*argv, "gact") != 0 &&
++		parse_action_control(&argc, &argv, &p.action, false) == -1) {
+ 		usage();	/* does not return */
+ 	}
+ 
++	NEXT_ARG_FWD();
++
+ #ifdef CONFIG_GACT_PROB
+ 	if (argc > 0) {
+ 		if (matches(*argv, "random") == 0) {
+@@ -115,6 +114,7 @@ parse_gact(struct action_util *a, int *argc_p, char ***argv_p,
+ 			if (parse_action_control(&argc, &argv,
+ 						 &pp.paction, false) == -1)
+ 				usage();
++			NEXT_ARG_FWD();
+ 			if (get_u16(&pp.pval, *argv, 10)) {
+ 				fprintf(stderr, "Illegal probability val 0x%x\n", pp.pval);
+ 				return -1;
+diff --git a/tc/m_ife.c b/tc/m_ife.c
+index 8d0fd31fb9440..34b8e03e7e589 100644
+--- a/tc/m_ife.c
++++ b/tc/m_ife.c
+@@ -160,6 +160,7 @@ static int parse_ife(struct action_util *a, int *argc_p, char ***argv_p,
+ 
+ 	parse_action_control_dflt(&argc, &argv, &p.action, false, TC_ACT_PIPE);
+ 
++	NEXT_ARG_FWD();
+ 	if (argc) {
+ 		if (matches(*argv, "index") == 0) {
+ 			NEXT_ARG();
+diff --git a/tc/m_mirred.c b/tc/m_mirred.c
+index 2384bda1ff045..b09b016c2ca39 100644
+--- a/tc/m_mirred.c
++++ b/tc/m_mirred.c
+@@ -170,8 +170,10 @@ parse_direction(struct action_util *a, int *argc_p, char ***argv_p,
+ 	}
+ 
+ 
+-	if (p.eaction == TCA_EGRESS_MIRROR || p.eaction == TCA_INGRESS_MIRROR)
++	if (p.eaction == TCA_EGRESS_MIRROR || p.eaction == TCA_INGRESS_MIRROR) {
+ 		parse_action_control(&argc, &argv, &p.action, false);
++		NEXT_ARG_FWD();
++	}
+ 
+ 	if (argc) {
+ 		if (iok && matches(*argv, "index") == 0) {
+diff --git a/tc/m_nat.c b/tc/m_nat.c
+index 31b68fb6bd784..bb455f080b3a4 100644
+--- a/tc/m_nat.c
++++ b/tc/m_nat.c
+@@ -117,6 +117,7 @@ parse_nat(struct action_util *a, int *argc_p, char ***argv_p, int tca_id, struct
+ 
+ 	parse_action_control_dflt(&argc, &argv, &sel.action, false, TC_ACT_OK);
+ 
++	NEXT_ARG_FWD();
+ 	if (argc) {
+ 		if (matches(*argv, "index") == 0) {
+ 			NEXT_ARG();
+diff --git a/tc/m_pedit.c b/tc/m_pedit.c
+index 5d89ab1d832ab..3391be95da38c 100644
+--- a/tc/m_pedit.c
++++ b/tc/m_pedit.c
+@@ -673,6 +673,7 @@ int parse_pedit(struct action_util *a, int *argc_p, char ***argv_p, int tca_id,
+ 
+ 	parse_action_control_dflt(&argc, &argv, &sel.sel.action, false, TC_ACT_OK);
+ 
++	NEXT_ARG_FWD();
+ 	if (argc) {
+ 		if (matches(*argv, "index") == 0) {
+ 			NEXT_ARG();
+diff --git a/tc/m_sample.c b/tc/m_sample.c
+index ff5ee6bd1ef63..31774c0e806b4 100644
+--- a/tc/m_sample.c
++++ b/tc/m_sample.c
+@@ -100,6 +100,7 @@ static int parse_sample(struct action_util *a, int *argc_p, char ***argv_p,
+ 
+ 	parse_action_control_dflt(&argc, &argv, &p.action, false, TC_ACT_PIPE);
+ 
++	NEXT_ARG_FWD();
+ 	if (argc) {
+ 		if (matches(*argv, "index") == 0) {
+ 			NEXT_ARG();
+diff --git a/tc/m_skbedit.c b/tc/m_skbedit.c
+index aa374fcb33ed9..c41a7bb082dad 100644
+--- a/tc/m_skbedit.c
++++ b/tc/m_skbedit.c
+@@ -123,6 +123,7 @@ parse_skbedit(struct action_util *a, int *argc_p, char ***argv_p, int tca_id,
+ 	parse_action_control_dflt(&argc, &argv, &sel.action,
+ 				  false, TC_ACT_PIPE);
+ 
++	NEXT_ARG_FWD();
+ 	if (argc) {
+ 		if (matches(*argv, "index") == 0) {
+ 			NEXT_ARG();
+diff --git a/tc/m_skbmod.c b/tc/m_skbmod.c
+index ba79308ba8354..00318d42642a5 100644
+--- a/tc/m_skbmod.c
++++ b/tc/m_skbmod.c
+@@ -125,6 +125,7 @@ static int parse_skbmod(struct action_util *a, int *argc_p, char ***argv_p,
+ 
+ 	parse_action_control_dflt(&argc, &argv, &p.action, false, TC_ACT_PIPE);
+ 
++	NEXT_ARG_FWD();
+ 	if (argc) {
+ 		if (matches(*argv, "index") == 0) {
+ 			NEXT_ARG();
+diff --git a/tc/m_tunnel_key.c b/tc/m_tunnel_key.c
+index 1cdd03560c357..2dc91879c2375 100644
+--- a/tc/m_tunnel_key.c
++++ b/tc/m_tunnel_key.c
+@@ -175,6 +175,7 @@ static int parse_tunnel_key(struct action_util *a, int *argc_p, char ***argv_p,
+ 	parse_action_control_dflt(&argc, &argv, &parm.action,
+ 				  false, TC_ACT_PIPE);
+ 
++	NEXT_ARG_FWD();
+ 	if (argc) {
+ 		if (matches(*argv, "index") == 0) {
+ 			NEXT_ARG();
+diff --git a/tc/m_vlan.c b/tc/m_vlan.c
+index cccb4996b05f3..0b2966ce82e53 100644
+--- a/tc/m_vlan.c
++++ b/tc/m_vlan.c
+@@ -137,6 +137,7 @@ static int parse_vlan(struct action_util *a, int *argc_p, char ***argv_p,
+ 	parse_action_control_dflt(&argc, &argv, &parm.action,
+ 				  false, TC_ACT_PIPE);
+ 
++	NEXT_ARG_FWD();
+ 	if (argc) {
+ 		if (matches(*argv, "index") == 0) {
+ 			NEXT_ARG();
+diff --git a/tc/tc_util.c b/tc/tc_util.c
+index b39e5508235ed..173097d2c28a0 100644
+--- a/tc/tc_util.c
++++ b/tc/tc_util.c
+@@ -524,7 +524,6 @@ static int __parse_action_control(int *argc_p, char ***argv_p, int *result_p,
+ 		}
+ 		result |= jump_cnt;
+ 	}
+-	NEXT_ARG_FWD();
+ 	*argc_p = argc;
+ 	*argv_p = argv;
+ 	*result_p = result;
+-- 
+2.13.1
+
