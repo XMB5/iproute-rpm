@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.14.1
-Release:            5%{?dist}
+Release:            6%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -86,6 +86,7 @@ The libnetlink static library.
 
 %build
 export CFLAGS="%{optflags}"
+export LDFLAGS="%{build_ldflags}"
 export LIBDIR=/%{_libdir}
 export IPT_LIB_DIR=/%{_lib}/xtables
 ./configure
@@ -167,6 +168,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Fri Feb  9 2018 Florian Weimer <fweimer@redhat.com> - 4.14.1-6
+- Use LDFLAGS defaults from redhat-rpm-config
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 4.14.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
