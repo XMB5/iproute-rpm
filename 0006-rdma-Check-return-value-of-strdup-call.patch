@@ -1,0 +1,32 @@
+From cda8da1af7517ee2fffb5bbedcf7488701ba332e Mon Sep 17 00:00:00 2001
+From: Leon Romanovsky <leonro@mellanox.com>
+Date: Wed, 31 Jan 2018 10:11:56 +0200
+Subject: [PATCH 6/6] rdma: Check return value of strdup call
+
+Fixes: 74bd75c2b68d ("rdma: Add basic infrastructure for RDMA tool")
+Signed-off-by: Leon Romanovsky <leonro@mellanox.com>
+Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+(cherry picked from commit 5f8265536f6f511ec62d3a0ee7e1324a8720f7e3)
+Signed-off-by: Phil Sutter <psutter@redhat.com>
+---
+ rdma/utils.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/rdma/utils.c b/rdma/utils.c
+index bb29fa1a2386e..47ca2969706fb 100644
+--- a/rdma/utils.c
++++ b/rdma/utils.c
+@@ -67,6 +67,10 @@ static struct dev_map *dev_map_alloc(const char *dev_name)
+ 	if (!dev_map)
+ 		return NULL;
+ 	dev_map->dev_name = strdup(dev_name);
++	if (!dev_map->dev_name) {
++		free(dev_map);
++		return NULL;
++	}
+ 
+ 	return dev_map;
+ }
+-- 
+2.15.1
+

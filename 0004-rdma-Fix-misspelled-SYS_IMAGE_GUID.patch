@@ -1,0 +1,32 @@
+From f17a763593248d354a3af9ffbba260fedb2a9eeb Mon Sep 17 00:00:00 2001
+From: Leon Romanovsky <leonro@mellanox.com>
+Date: Wed, 27 Dec 2017 09:57:53 +0200
+Subject: [PATCH 4/6] rdma: Fix misspelled SYS_IMAGE_GUID
+
+SYS_IMAGE_GUIG is actually SYS_IMAGE_GUID.
+
+Fixes: da990ab40a92 ("rdma: Add link object")
+Signed-off-by: Leon Romanovsky <leonro@mellanox.com>
+Signed-off-by: David Ahern <dsahern@gmail.com>
+(cherry picked from commit 4e2eb9fdf911971c8a6615e4b07656047ada0093)
+Signed-off-by: Phil Sutter <psutter@redhat.com>
+---
+ rdma/link.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rdma/link.c b/rdma/link.c
+index 3a4b00bd533b1..f0eaccbb8be70 100644
+--- a/rdma/link.c
++++ b/rdma/link.c
+@@ -30,7 +30,7 @@ static const char *caps_to_str(uint32_t idx)
+ 	x(PKEY_NVRAM, 8) \
+ 	x(LED_INFO, 9) \
+ 	x(SM_DISABLED, 10) \
+-	x(SYS_IMAGE_GUIG, 11) \
++	x(SYS_IMAGE_GUID, 11) \
+ 	x(PKEY_SW_EXT_PORT_TRAP, 12) \
+ 	x(EXTENDED_SPEEDS, 14) \
+ 	x(CM, 16) \
+-- 
+2.15.1
+

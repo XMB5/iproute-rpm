@@ -1,8 +1,8 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.14.1
-Release:            6%{?dist}
+Version:            4.15.0
+Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -12,17 +12,13 @@ Source2:            avpkt
 # Fedora local docs changes:
 # - We ship cbq.init-v0.7.3 as cbq binary, so have a cbq.8 man page which links
 #   to tc-cbq.8.
-# - Drop reference to Debian from ss.8 man page.
-# - We ship ss.ps instead of ss.html.
-Patch1:             0001-Documentation-fixes.patch
+Patch1:             0001-Add-cbq.8-as-an-alias-to-tc-cbq.8.patch
 # Suggested backports by Fixes: tag.
-Patch2:             0002-tc-move-action-cookie-print-out-of-the-stats-if.patch
-Patch3:             0003-tc-remove-action-cookie-len-from-printout.patch
-Patch4:             0004-link_gre6-Detect-invalid-encaplimit-values.patch
-Patch5:             0005-man-tc-csum.8-Fix-inconsistency-in-example-descripti.patch
-Patch6:             0006-tc-util-Don-t-call-NEXT_ARG_FWD-in-__parse_action_co.patch
-Patch7:             0007-ss-remove-duplicate-assignment.patch
-Patch8:             0008-tc-bash-completion-add-missing-classid-keyword.patch
+Patch2:             0002-rdma-Reduce-scope-of-_dev_map_lookup-call.patch
+Patch3:             0003-rdma-Protect-dev_map_lookup-from-wrong-input.patch
+Patch4:             0004-rdma-Fix-misspelled-SYS_IMAGE_GUID.patch
+Patch5:             0005-rdma-Check-that-port-index-exists-before-operate-on-.patch
+Patch6:             0006-rdma-Check-return-value-of-strdup-call.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -168,6 +164,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Fri Feb 09 2018 Phil Sutter <psutter@redhat.com> - 4.15.0-1
+- New version 4.15.0
+
 * Fri Feb  9 2018 Florian Weimer <fweimer@redhat.com> - 4.14.1-6
 - Use LDFLAGS defaults from redhat-rpm-config
 

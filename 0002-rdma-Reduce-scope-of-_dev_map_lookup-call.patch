@@ -1,0 +1,46 @@
+From 8e8e7113d680fd344181dbaeafa5f7c4bae4805b Mon Sep 17 00:00:00 2001
+From: Leon Romanovsky <leonro@mellanox.com>
+Date: Wed, 27 Dec 2017 09:57:50 +0200
+Subject: [PATCH 2/6] rdma: Reduce scope of _dev_map_lookup call
+
+There is no external users of _dev_map_lookup function,
+so let's limit its scope to be local.
+
+Fixes: 40df8263a0f0 ("rdma: Add dev object")
+Signed-off-by: Leon Romanovsky <leonro@mellanox.com>
+Signed-off-by: David Ahern <dsahern@gmail.com>
+(cherry picked from commit 0fc8c30b4e3ef4c6fc1c3142f9d906ec71d46ab8)
+Signed-off-by: Phil Sutter <psutter@redhat.com>
+---
+ rdma/rdma.h  | 1 -
+ rdma/utils.c | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/rdma/rdma.h b/rdma/rdma.h
+index d551eb2966e11..c07493c912423 100644
+--- a/rdma/rdma.h
++++ b/rdma/rdma.h
+@@ -78,7 +78,6 @@ int rd_exec_cmd(struct rd *rd, const struct rd_cmd *c, const char *str);
+  */
+ void rd_free_devmap(struct rd *rd);
+ struct dev_map *dev_map_lookup(struct rd *rd, bool allow_port_index);
+-struct dev_map *_dev_map_lookup(struct rd *rd, const char *dev_name);
+ 
+ /*
+  * Netlink
+diff --git a/rdma/utils.c b/rdma/utils.c
+index eb4377cf2e185..6ce1fd70e058f 100644
+--- a/rdma/utils.c
++++ b/rdma/utils.c
+@@ -236,7 +236,7 @@ int rd_recv_msg(struct rd *rd, mnl_cb_t callback, void *data, unsigned int seq)
+ 	return ret;
+ }
+ 
+-struct dev_map *_dev_map_lookup(struct rd *rd, const char *dev_name)
++static struct dev_map *_dev_map_lookup(struct rd *rd, const char *dev_name)
+ {
+ 	struct dev_map *dev_map;
+ 
+-- 
+2.15.1
+
