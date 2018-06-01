@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.15.0
+Version:            4.16.0
 Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
@@ -14,11 +14,12 @@ Source2:            avpkt
 #   to tc-cbq.8.
 Patch1:             0001-Add-cbq.8-as-an-alias-to-tc-cbq.8.patch
 # Suggested backports by Fixes: tag.
-Patch2:             0002-rdma-Reduce-scope-of-_dev_map_lookup-call.patch
-Patch3:             0003-rdma-Protect-dev_map_lookup-from-wrong-input.patch
-Patch4:             0004-rdma-Fix-misspelled-SYS_IMAGE_GUID.patch
-Patch5:             0005-rdma-Check-that-port-index-exists-before-operate-on-.patch
-Patch6:             0006-rdma-Check-return-value-of-strdup-call.patch
+Patch2:             0002-rdma-Ignore-unknown-netlink-attributes.patch
+Patch3:             0003-bridge-fix-typo-in-hairpin-error-message.patch
+Patch4:             0004-utils-Do-not-reset-family-for-default-any-all-addres.patch
+Patch5:             0005-iplink_geneve-correct-size-of-message-to-avoid-spuri.patch
+Patch6:             0006-ip-do-not-drop-capabilities-if-net_admin-i-is-set.patch
+Patch7:             0007-tc-allow-0-for-percent-options.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -164,6 +165,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Fri Jun 01 2018 Phil Sutter <psutter@redhat.com> - 4.16.0-1
+- New version 4.16.0
+
 * Fri Feb 09 2018 Phil Sutter <psutter@redhat.com> - 4.15.0-1
 - New version 4.15.0
 
