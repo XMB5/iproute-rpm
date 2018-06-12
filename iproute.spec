@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.16.0
+Version:            4.17.0
 Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
@@ -13,13 +13,6 @@ Source2:            avpkt
 # - We ship cbq.init-v0.7.3 as cbq binary, so have a cbq.8 man page which links
 #   to tc-cbq.8.
 Patch1:             0001-Add-cbq.8-as-an-alias-to-tc-cbq.8.patch
-# Suggested backports by Fixes: tag.
-Patch2:             0002-rdma-Ignore-unknown-netlink-attributes.patch
-Patch3:             0003-bridge-fix-typo-in-hairpin-error-message.patch
-Patch4:             0004-utils-Do-not-reset-family-for-default-any-all-addres.patch
-Patch5:             0005-iplink_geneve-correct-size-of-message-to-avoid-spuri.patch
-Patch6:             0006-ip-do-not-drop-capabilities-if-net_admin-i-is-set.patch
-Patch7:             0007-tc-allow-0-for-percent-options.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -165,6 +158,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Tue Jun 12 2018 Phil Sutter <psutter@redhat.com> - 4.17.0-1
+- New version 4.17.0
+
 * Fri Jun 01 2018 Phil Sutter <psutter@redhat.com> - 4.16.0-1
 - New version 4.16.0
 
