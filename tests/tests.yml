@@ -10,6 +10,8 @@
     - ip-neigh-sanity-test
     - ip-rule-sanity-test
     - bridge-utility
+    - ip-link-sanity-test
     required_packages:
     - iproute
     - bridge-utils
+    - python3
