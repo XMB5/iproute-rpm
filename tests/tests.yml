@@ -11,6 +11,7 @@
     - ip-rule-sanity-test
     - bridge-utility
     - ip-link-sanity-test
+    - ip-address-sanity-test
     required_packages:
     - iproute
     - bridge-utils
