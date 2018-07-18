@@ -15,6 +15,7 @@ Source2:            avpkt
 Patch1:             0001-Add-cbq.8-as-an-alias-to-tc-cbq.8.patch
 
 License:            GPLv2+ and Public Domain
+BuildRequires:  gcc
 BuildRequires:      bison
 BuildRequires:      elfutils-libelf-devel
 BuildRequires:      flex
