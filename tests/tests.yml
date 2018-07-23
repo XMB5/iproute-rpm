@@ -12,6 +12,7 @@
     - bridge-utility
     - ip-link-sanity-test
     - ip-address-sanity-test
+    - ip-address-label-sanity-test
     required_packages:
     - iproute
     - bridge-utils
