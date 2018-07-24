@@ -13,6 +13,7 @@
     - ip-link-sanity-test
     - ip-address-sanity-test
     - ip-address-label-sanity-test
+    - ip-fou-sanity-test
     required_packages:
     - iproute
     - bridge-utils
