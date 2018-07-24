@@ -14,6 +14,7 @@
     - ip-address-sanity-test
     - ip-address-label-sanity-test
     - ip-fou-sanity-test
+    - ip-token-sanity-test
     required_packages:
     - iproute
     - bridge-utils
