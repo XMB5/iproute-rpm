@@ -17,6 +17,7 @@
     - ip-token-sanity-test
     - ip-tuntap-sanity-test
     - ip-tunnel-sanity-test
+    - ip-l2tp-sanity-test
     required_packages:
     - iproute
     - bridge-utils
