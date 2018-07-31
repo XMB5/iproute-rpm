@@ -19,6 +19,7 @@
     - ip-tunnel-sanity-test
     - ip-l2tp-sanity-test
     - ip-netns-sanity-test
+    - ip-route-sanity-test
     required_packages:
     - iproute
     - bridge-utils
