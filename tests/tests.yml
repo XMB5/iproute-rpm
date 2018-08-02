@@ -20,6 +20,7 @@
     - ip-l2tp-sanity-test
     - ip-netns-sanity-test
     - ip-route-sanity-test
+    - ip-neighbor-sanity-test
     required_packages:
     - iproute
     - bridge-utils
