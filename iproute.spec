@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.18.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -13,6 +13,8 @@ Source2:            avpkt
 # - We ship cbq.init-v0.7.3 as cbq binary, so have a cbq.8 man page which links
 #   to tc-cbq.8.
 Patch1:             0001-Add-cbq.8-as-an-alias-to-tc-cbq.8.patch
+# Fix for bz#1615373
+Patch2:             0002-ss-Review-ssfilter.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:  gcc
@@ -159,6 +161,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Thu Aug 16 2018 Phil Sutter <psutter@redhat.com> - 4.18.0-2
+- Fix ss filter expressions
+
 * Tue Aug 14 2018 Phil Sutter <psutter@redhat.com> - 4.18.0-1
 - New version 4.18.0
 

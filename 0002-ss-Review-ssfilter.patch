@@ -1,0 +1,130 @@
+From 45ef10dd7b9d4337bfef9573803c1c7cadc012e6 Mon Sep 17 00:00:00 2001
+From: Phil Sutter <phil@nwl.cc>
+Date: Tue, 14 Aug 2018 14:18:06 +0200
+Subject: [PATCH] ss: Review ssfilter
+
+The original problem was ssfilter rejecting single expressions if
+enclosed in braces, such as:
+
+| sport = 22 or ( dport = 22 )
+
+This is fixed by allowing 'expr' to be an 'exprlist' enclosed in braces.
+The no longer required recursion in 'exprlist' being an 'exprlist'
+enclosed in braces is dropped.
+
+In addition to that, a few other things are changed:
+
+* Remove pointless 'null' prefix in 'appled' before 'exprlist'.
+* For simple equals matches, '=' operator was required for ports but not
+  allowed for hosts. Make this consistent by making '=' operator
+  optional in both cases.
+
+Reported-by: Samuel Mannehed <samuel@cendio.se>
+Fixes: b2038cc0b2403 ("ssfilter: Eliminate shift/reduce conflicts")
+Signed-off-by: Phil Sutter <phil@nwl.cc>
+Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+(cherry picked from commit 38d209ecf2ae966b9b25de4acb60cdffb0e06ced)
+Signed-off-by: Phil Sutter <psutter@redhat.com>
+---
+ misc/ssfilter.y | 36 +++++++++++++++++++++---------------
+ 1 file changed, 21 insertions(+), 15 deletions(-)
+
+diff --git a/misc/ssfilter.y b/misc/ssfilter.y
+index 88d4229a9b241..0413dddaa7584 100644
+--- a/misc/ssfilter.y
++++ b/misc/ssfilter.y
+@@ -42,24 +42,22 @@ static void yyerror(char *s)
+ %nonassoc '!'
+ 
+ %%
+-applet: null exprlist
++applet: exprlist
+         {
+-                *yy_ret = $2;
+-                $$ = $2;
++                *yy_ret = $1;
++                $$ = $1;
+         }
+         | null
+         ;
++
+ null:   /* NOTHING */ { $$ = NULL; }
+         ;
++
+ exprlist: expr
+         | '!' expr
+         {
+                 $$ = alloc_node(SSF_NOT, $2);
+         }
+-        | '(' exprlist ')'
+-        {
+-                $$ = $2;
+-        }
+         | exprlist '|' expr
+         {
+                 $$ = alloc_node(SSF_OR, $1);
+@@ -77,13 +75,21 @@ exprlist: expr
+         }
+         ;
+ 
+-expr:	DCOND HOSTCOND
++eq:	'='
++	| /* nothing */
++	;
++
++expr:	'(' exprlist ')'
++	{
++		$$ = $2;
++	}
++	| DCOND eq HOSTCOND
+         {
+-		$$ = alloc_node(SSF_DCOND, $2);
++		$$ = alloc_node(SSF_DCOND, $3);
+         }
+-        | SCOND HOSTCOND
++        | SCOND eq HOSTCOND
+         {
+-		$$ = alloc_node(SSF_SCOND, $2);
++		$$ = alloc_node(SSF_SCOND, $3);
+         }
+         | DPORT GEQ HOSTCOND
+         {
+@@ -101,7 +107,7 @@ expr:	DCOND HOSTCOND
+         {
+                 $$ = alloc_node(SSF_NOT, alloc_node(SSF_D_GE, $3));
+         }
+-        | DPORT '=' HOSTCOND
++        | DPORT eq HOSTCOND
+         {
+ 		$$ = alloc_node(SSF_DCOND, $3);
+         }
+@@ -126,7 +132,7 @@ expr:	DCOND HOSTCOND
+         {
+                 $$ = alloc_node(SSF_NOT, alloc_node(SSF_S_GE, $3));
+         }
+-        | SPORT '=' HOSTCOND
++        | SPORT eq HOSTCOND
+         {
+ 		$$ = alloc_node(SSF_SCOND, $3);
+         }
+@@ -134,7 +140,7 @@ expr:	DCOND HOSTCOND
+         {
+ 		$$ = alloc_node(SSF_NOT, alloc_node(SSF_SCOND, $3));
+         }
+-        | DEVNAME '=' DEVCOND
++        | DEVNAME eq DEVCOND
+         {
+ 		$$ = alloc_node(SSF_DEVCOND, $3);
+         }
+@@ -142,7 +148,7 @@ expr:	DCOND HOSTCOND
+         {
+ 		$$ = alloc_node(SSF_NOT, alloc_node(SSF_DEVCOND, $3));
+         }
+-        | FWMARK '=' MARKMASK
++        | FWMARK eq MARKMASK
+         {
+                 $$ = alloc_node(SSF_MARKMASK, $3);
+         }
+-- 
+2.18.0
+
