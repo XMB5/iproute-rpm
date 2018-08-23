@@ -1,0 +1,97 @@
+From 9aef957dfc6c46468b6469d4e0e275011546753b Mon Sep 17 00:00:00 2001
+From: Phil Sutter <phil@nwl.cc>
+Date: Wed, 15 Aug 2018 18:21:26 +0200
+Subject: [PATCH] Merge common code for conditionally colored output
+
+Instead of calling enable_color() conditionally with identical check in
+three places, introduce check_enable_color() which does it in one place.
+
+Signed-off-by: Phil Sutter <phil@nwl.cc>
+Signed-off-by: David Ahern <dsahern@gmail.com>
+(cherry picked from commit 4d82962cccc6a6b543fa2110e81621c51441f0dd)
+Signed-off-by: Phil Sutter <psutter@redhat.com>
+---
+ bridge/bridge.c | 3 +--
+ include/color.h | 1 +
+ ip/ip.c         | 3 +--
+ lib/color.c     | 9 +++++++++
+ tc/tc.c         | 3 +--
+ 5 files changed, 13 insertions(+), 6 deletions(-)
+
+diff --git a/bridge/bridge.c b/bridge/bridge.c
+index 289a157d37f03..451d684e0bcfd 100644
+--- a/bridge/bridge.c
++++ b/bridge/bridge.c
+@@ -200,8 +200,7 @@ main(int argc, char **argv)
+ 
+ 	_SL_ = oneline ? "\\" : "\n";
+ 
+-	if (color && !json)
+-		enable_color();
++	check_enable_color(color, json);
+ 
+ 	if (batch_file)
+ 		return batch(batch_file);
+diff --git a/include/color.h b/include/color.h
+index c80359d3e2e95..4f2c918db7e43 100644
+--- a/include/color.h
++++ b/include/color.h
+@@ -13,6 +13,7 @@ enum color_attr {
+ };
+ 
+ void enable_color(void);
++int check_enable_color(int color, int json);
+ void set_color_palette(void);
+ int color_fprintf(FILE *fp, enum color_attr attr, const char *fmt, ...);
+ enum color_attr ifa_family_color(__u8 ifa_family);
+diff --git a/ip/ip.c b/ip/ip.c
+index 71d5170c0cc23..38eac5ec1e17d 100644
+--- a/ip/ip.c
++++ b/ip/ip.c
+@@ -304,8 +304,7 @@ int main(int argc, char **argv)
+ 
+ 	_SL_ = oneline ? "\\" : "\n";
+ 
+-	if (color && !json)
+-		enable_color();
++	check_enable_color(color, json);
+ 
+ 	if (batch_file)
+ 		return batch(batch_file);
+diff --git a/lib/color.c b/lib/color.c
+index da1f516cb2492..edf96e5c6ecd7 100644
+--- a/lib/color.c
++++ b/lib/color.c
+@@ -77,6 +77,15 @@ void enable_color(void)
+ 	set_color_palette();
+ }
+ 
++int check_enable_color(int color, int json)
++{
++	if (color && !json) {
++		enable_color();
++		return 0;
++	}
++	return 1;
++}
++
+ void set_color_palette(void)
+ {
+ 	char *p = getenv("COLORFGBG");
+diff --git a/tc/tc.c b/tc/tc.c
+index 3bb893756f40e..e775550174473 100644
+--- a/tc/tc.c
++++ b/tc/tc.c
+@@ -515,8 +515,7 @@ int main(int argc, char **argv)
+ 
+ 	_SL_ = oneline ? "\\" : "\n";
+ 
+-	if (color && !json)
+-		enable_color();
++	check_enable_color(color, json);
+ 
+ 	if (batch_file)
+ 		return batch(batch_file);
+-- 
+2.18.0
+

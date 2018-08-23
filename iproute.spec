@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.18.0
-Release:            2%{?dist}
+Release:            3%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -15,6 +15,12 @@ Source2:            avpkt
 Patch1:             0001-Add-cbq.8-as-an-alias-to-tc-cbq.8.patch
 # Fix for bz#1615373
 Patch2:             0002-ss-Review-ssfilter.patch
+# Fix for bz#1582898
+Patch3:             0003-tc-Fix-typo-in-check-for-colored-output.patch
+Patch4:             0004-bridge-Fix-check-for-colored-output.patch
+Patch5:             0005-Merge-common-code-for-conditionally-colored-output.patch
+Patch6:             0006-Make-colored-output-configurable.patch
+Patch7:             0007-lib-Make-check_enable_color-return-boolean.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:  gcc
@@ -161,6 +167,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Thu Aug 23 2018 Phil Sutter <psutter@redhat.com> - 4.18.0-3
+- Make colored output configurable
+
 * Thu Aug 16 2018 Phil Sutter <psutter@redhat.com> - 4.18.0-2
 - Fix ss filter expressions
 
