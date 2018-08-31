@@ -1,0 +1,40 @@
+From b068329d161b5841e9e451fcf542987c3e487e70 Mon Sep 17 00:00:00 2001
+From: Stefan Bader <stefan.bader@canonical.com>
+Date: Tue, 28 Aug 2018 16:27:29 +0200
+Subject: [PATCH] iprule: Fix destination prefix output
+
+When adding support for JSON output the new code for printing
+the destination prefix adds a stray blank character before
+the bitmask. This causes some user-space parsing to fail.
+
+Current output:
+  ...: from x.x.x.x/l to y.y.y.y /l
+Previous output:
+  ...: from x.x.x.x/l to y.y.y.y/l
+
+Fixes: 0dd4ccc5 "iprule: add json support"
+Signed-off-by: Stefan Bader <stefan.bader@canonical.com>
+Acked-by: Luca Boccassi <bluca@debian.org>
+Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+(cherry picked from commit 1a75322c5a8dee6e1ed0017d76c87ef85c505b98)
+Signed-off-by: Phil Sutter <psutter@redhat.com>
+---
+ ip/iprule.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ip/iprule.c b/ip/iprule.c
+index 8b9421431c26a..744d6d88e3433 100644
+--- a/ip/iprule.c
++++ b/ip/iprule.c
+@@ -239,7 +239,7 @@ int print_rule(const struct sockaddr_nl *who, struct nlmsghdr *n, void *arg)
+ 
+ 		print_string(PRINT_FP, NULL, "to ", NULL);
+ 		print_color_string(PRINT_ANY, ifa_family_color(frh->family),
+-				   "dst", "%s ", dst);
++				   "dst", "%s", dst);
+ 		if (frh->dst_len != host_len)
+ 			print_uint(PRINT_ANY, "dstlen", "/%u ", frh->dst_len);
+ 		else
+-- 
+2.18.0
+
