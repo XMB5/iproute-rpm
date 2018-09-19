@@ -2,7 +2,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.18.0
-Release:            4%{?dist}
+Release:            5%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -23,6 +23,8 @@ Patch6:             0006-Make-colored-output-configurable.patch
 Patch7:             0007-lib-Make-check_enable_color-return-boolean.patch
 # Fix for bz#1623488
 Patch8:             0008-iprule-Fix-destination-prefix-output.patch
+# Fix for bz#1391099
+Patch9:             0009-man-ip-route-Clarify-referenced-versions-are-Linux-o.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:  gcc
@@ -169,6 +171,9 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Wed Sep 19 2018 Phil Sutter <psutter@redhat.com> - 4.18.0-5
+- man: ip-route: Clarify referenced versions are Linux ones
+
 * Fri Aug 31 2018 Phil Sutter <psutter@redhat.com> - 4.18.0-4
 - iprule: Fix destination prefix output
 
