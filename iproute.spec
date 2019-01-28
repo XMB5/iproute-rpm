@@ -3,7 +3,6 @@ Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            4.18.0
 Release:            5%{?dist}
-Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
 Source1:            cbq-0000.example
@@ -54,7 +53,6 @@ kernel.
 
 %package tc
 Summary:            Linux Traffic Control utility
-Group:              Applications/System
 License:            GPLv2+
 Obsoletes:          %{name} < 4.5.0-3
 Requires:           %{name}%{?_isa} = %{version}-%{release}
@@ -68,7 +66,6 @@ Linux.
 %if ! 0%{?_module_build}
 %package doc
 Summary:            Documentation for iproute2 utilities with examples
-Group:              Applications/System
 License:            GPLv2+
 
 %description doc
@@ -77,7 +74,6 @@ The iproute documentation contains howtos and examples of settings.
 
 %package devel
 Summary:            iproute development files
-Group:              Development/Libraries
 License:            GPLv2+
 Provides:           iproute-static = %{version}-%{release}
 
