@@ -1,36 +1,22 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.20.04.20.0
-Release:            1%{?dist}1%{?dist}
+Version:            4.20.0
+Release:            1%{?dist}
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
-Source1:            cbq-0000.example
-Source2:            avpkt
 
-# Fedora local docs changes:
-# - We ship cbq.init-v0.7.3 as cbq binary, so have a cbq.8 man page which links
-#   to tc-cbq.8.
-Patch1:             0001-Add-cbq.8-as-an-alias-to-tc-cbq.8.patch
-# Fix for bz#1615373
-Patch2:             0002-ss-Review-ssfilter.patch
-# Fix for bz#1582898
-Patch3:             0003-tc-Fix-typo-in-check-for-colored-output.patch
-Patch4:             0004-bridge-Fix-check-for-colored-output.patch
-Patch5:             0005-Merge-common-code-for-conditionally-colored-output.patch
-Patch6:             0006-Make-colored-output-configurable.patch
-Patch7:             0007-lib-Make-check_enable_color-return-boolean.patch
-# Fix for bz#1623488
-Patch8:             0008-iprule-Fix-destination-prefix-output.patch
-# Fix for bz#1391099
-Patch9:             0009-man-ip-route-Clarify-referenced-versions-are-Linux-o.patch
+Patch0:             0001-configure-fix-typo-in-check_xt_old_internal_h.patch
+Patch1:             0002-man-ss.8-more-line-breaks.patch
+Patch2:             0003-man-tc-taprio.8-fix-syntax-error.patch
 
 License:            GPLv2+ and Public Domain
-BuildRequires:  gcc
+BuildRequires:      gcc
 BuildRequires:      bison
 BuildRequires:      elfutils-libelf-devel
 BuildRequires:      flex
 BuildRequires:      iptables-devel >= 1.4.5
+BuildRequires:      libcap-devel
 BuildRequires:      libdb-devel
 BuildRequires:      libmnl-devel
 BuildRequires:      libselinux-devel
@@ -84,10 +70,10 @@ The libnetlink static library.
 %autosetup -p1 -n %{name}2-%{version}
 
 %build
-export CFLAGS="%{optflags}"
-export LDFLAGS="%{build_ldflags}"
-export LIBDIR=/%{_libdir}
-export IPT_LIB_DIR=/%{_lib}/xtables
+export CFLAGS='%{optflags}'
+export LDFLAGS='%{build_ldflags}'
+export LIBDIR='%{_libdir}'
+export IPT_LIB_DIR='/%{_lib}/xtables'
 ./configure
 make %{?_smp_mflags}
 
@@ -100,41 +86,22 @@ export CONFDIR='%{_sysconfdir}/iproute2'
 export DOCDIR='%{_docdir}'
 make install
 
-install -m755 examples/cbq.init-%{cbq_version} ${DESTDIR}/${SBINDIR}/cbq
-
-install -d -m755 %{buildroot}%{_sysconfdir}/sysconfig/cbq
-for config in \
-    %{SOURCE1} \
-    %{SOURCE2}
-    do install -m644 ${config} %{buildroot}%{_sysconfdir}/sysconfig/cbq
-done
-
-# extra man pages from Patch1, seems like these are not mainline yet
-for mp in cbq genl ifcfg ifstat; do
-        install -m644 man/man8/${mp}.8 %{buildroot}%{_mandir}/man8
-done
-
 # libnetlink
 install -D -m644 include/libnetlink.h %{buildroot}%{_includedir}/libnetlink.h
 install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
-
-# drop these files, iproute-doc package extracts files directly from _builddir
-rm -rf '%{buildroot}%{_docdir}'
 
 %files
 %dir %{_sysconfdir}/iproute2
 %{!?_licensedir:%global license %%doc}
 %license COPYING
-%doc README README.decnet README.distribution README.lnstat
+%doc README README.distribution README.lnstat
 %{_mandir}/man7/*
 %exclude %{_mandir}/man7/tc-*
 %{_mandir}/man8/*
 %exclude %{_mandir}/man8/tc*
-%exclude %{_mandir}/man8/cbq*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
 %{_sbindir}/*
 %exclude %{_sbindir}/tc
-%exclude %{_sbindir}/cbq
 
 %files tc
 %{!?_licensedir:%global license %%doc}
@@ -142,20 +109,16 @@ rm -rf '%{buildroot}%{_docdir}'
 %doc README.iproute2+tc
 %{_mandir}/man7/tc-*
 %{_mandir}/man8/tc*
-%{_mandir}/man8/cbq*
 %dir %{_libdir}/tc/
 %{_libdir}/tc/*
 %{_sbindir}/tc
-%{_sbindir}/cbq
-%dir %{_sysconfdir}/sysconfig/cbq
-%config(noreplace) %{_sysconfdir}/sysconfig/cbq/*
 %{_datadir}/bash-completion/completions/tc
 
 %if ! 0%{?_module_build}
 %files doc
 %{!?_licensedir:%global license %%doc}
 %license COPYING
-%doc examples
+%doc %{_docdir}/examples
 %endif
 
 %files devel
@@ -167,8 +130,11 @@ rm -rf '%{buildroot}%{_docdir}'
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
-* Fri Feb 01 2019 Phil Sutter <psutter@redhat.com> - 4.20.04.20.0-11
+* Fri Feb 01 2019 Phil Sutter <psutter@redhat.com> - 4.20.0-1
 - New version 4.20.0
+- Add upstream-suggested backports
+- Upstream dropped cbq script, remove it along with related configs
+- Add libcap support
 
 * Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.18.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
