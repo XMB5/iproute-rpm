@@ -1,14 +1,10 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            4.20.0
+Version:            5.0.0
 Release:            1%{?dist}
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
-
-Patch0:             0001-configure-fix-typo-in-check_xt_old_internal_h.patch
-Patch1:             0002-man-ss.8-more-line-breaks.patch
-Patch2:             0003-man-tc-taprio.8-fix-syntax-error.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      gcc
@@ -26,10 +22,6 @@ BuildRequires:      pkgconfig
 BuildRequires:      linux-atm-libs-devel
 %endif
 %endif
-# For the UsrMove transition period
-Conflicts:          filesystem < 3
-Provides:           /sbin/ip
-Obsoletes:          %{name} < 4.5.0-3
 Recommends:         %{name}-tc
 
 %description
@@ -40,7 +32,6 @@ kernel.
 %package tc
 Summary:            Linux Traffic Control utility
 License:            GPLv2+
-Obsoletes:          %{name} < 4.5.0-3
 Requires:           %{name}%{?_isa} = %{version}-%{release}
 Provides:           tc
 
@@ -130,6 +121,10 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Wed Mar 20 2019 Phil Sutter <psutter@redhat.com> - 5.0.0-1
+- New version 5.0.0
+- Get rid of old upgrade path hints
+
 * Fri Feb 01 2019 Phil Sutter <psutter@redhat.com> - 4.20.0-1
 - New version 4.20.0
 - Add upstream-suggested backports
