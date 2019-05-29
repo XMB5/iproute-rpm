@@ -1,10 +1,14 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            5.0.0
-Release:            2%{?dist}
+Version:            5.1.0
+Release:            1%{?dist}
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
+
+Patch0:             0001-m_mirred-don-t-bail-if-the-control-action-is-missing.patch
+Patch1:             0002-lib-suppress-error-msg-when-filling-the-cache.patch
+Patch2:             0003-tc-flower-fix-port-value-truncation.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      gcc
@@ -122,6 +126,9 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Wed May 29 2019 Phil Sutter <psutter@redhat.com> - 5.1.0-1
+- New version 5.1.0
+
 * Wed Mar 20 2019 Phil Sutter <psutter@redhat.com> - 5.0.0-2
 - Restore Provides: hint, at least pptp depends on it
 

@@ -1,0 +1,40 @@
+From 179024901d8760312d153ff843306eec66863a4f Mon Sep 17 00:00:00 2001
+From: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+Date: Fri, 24 May 2019 10:59:10 +0200
+Subject: [PATCH] lib: suppress error msg when filling the cache
+
+Before the patch:
+$ ip netns add foo
+$ ip link add name veth1 address 2a:a5:5c:b9:52:89 type veth peer name veth2 address 2a:a5:5c:b9:53:90 netns foo
+RTNETLINK answers: No such device
+RTNETLINK answers: No such device
+
+But the command was successful. This may break script. Let's remove those
+error messages.
+
+Fixes: 55870dfe7f8b ("Improve batch and dump times by caching link lookups")
+Reported-by: Philippe Guibert <philippe.guibert@6wind.com>
+Signed-off-by: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+(cherry picked from commit 757837230a654d39623d0b90882b695a2facd107)
+Signed-off-by: Phil Sutter <psutter@redhat.com>
+---
+ lib/ll_map.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/ll_map.c b/lib/ll_map.c
+index 2d7b65dcb8f7e..e0ed54bf77c98 100644
+--- a/lib/ll_map.c
++++ b/lib/ll_map.c
+@@ -177,7 +177,7 @@ static int ll_link_get(const char *name, int index)
+ 		addattr_l(&req.n, sizeof(req), IFLA_IFNAME, name,
+ 			  strlen(name) + 1);
+ 
+-	if (rtnl_talk(&rth, &req.n, &answer) < 0)
++	if (rtnl_talk_suppress_rtnl_errmsg(&rth, &req.n, &answer) < 0)
+ 		goto out;
+ 
+ 	/* add entry to cache */
+-- 
+2.21.0
+
