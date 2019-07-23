@@ -1,0 +1,83 @@
+From 4aaf5d7099e7b985973b49f59ceef9b1fd6f6810 Mon Sep 17 00:00:00 2001
+From: Aya Levin <ayal@mellanox.com>
+Date: Wed, 10 Jul 2019 14:03:20 +0300
+Subject: [PATCH] devlink: Fix binary values print
+
+Fix function pr_out_binary_value() to start printing the binary buffer
+from offset 0 instead of offset 1. Remove redundant new line at the
+beginning of the output
+
+Example:
+With patch:
+ mlx5e_txqsq:
+   05 00 00 00 05 00 00 00 01 00 00 00 00 00 00 00
+   00 00 00 00 00 00 00 00 8e 6e 3a 13 07 00 00 00
+   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+   c0
+Without patch
+  mlx5e_txqsq:
+
+  00 00 00 05 00 00 00 01 00 00 00 00 00 00 00 00
+  00 00 00 00 00 00 00 8e 6e 3a 13 07 00 00 00 00
+  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 c0
+
+Fixes: 844a61764c6f ("devlink: Add helper functions for name and value separately")
+Signed-off-by: Aya Levin <ayal@mellanox.com>
+Signed-off-by: Tariq Toukan <tariqt@mellanox.com>
+Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+(cherry picked from commit 1d05cca2fd70a5bc8a9f4e978aa5629dbc99a973)
+Signed-off-by: Phil Sutter <psutter@redhat.com>
+---
+ devlink/devlink.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+
+diff --git a/devlink/devlink.c b/devlink/devlink.c
+index 9c338cb4ccc84..5dff974c93c93 100644
+--- a/devlink/devlink.c
++++ b/devlink/devlink.c
+@@ -1779,29 +1779,31 @@ static void pr_out_uint64_value(struct dl *dl, uint64_t value)
+ 		pr_out(" %"PRIu64, value);
+ }
+ 
++static bool is_binary_eol(int i)
++{
++	return !(i%16);
++}
++
+ static void pr_out_binary_value(struct dl *dl, uint8_t *data, uint32_t len)
+ {
+-	int i = 1;
++	int i = 0;
+ 
+ 	if (dl->json_output)
+ 		jsonw_start_array(dl->jw);
+-	else
+-		pr_out("\n");
+ 
+ 	while (i < len) {
+-		if (dl->json_output) {
++		if (dl->json_output)
+ 			jsonw_printf(dl->jw, "%d", data[i]);
+-		} else {
+-			pr_out(" %02x", data[i]);
+-			if (!(i % 16))
+-				pr_out("\n");
+-		}
++		else
++			pr_out("%02x ", data[i]);
+ 		i++;
++		if (!dl->json_output && is_binary_eol(i))
++			__pr_out_newline();
+ 	}
+ 	if (dl->json_output)
+ 		jsonw_end_array(dl->jw);
+-	else if ((i - 1) % 16)
+-		pr_out("\n");
++	else if (!is_binary_eol(i))
++		__pr_out_newline();
+ }
+ 
+ static void pr_out_str_value(struct dl *dl, const char *value)
+-- 
+2.22.0
+

@@ -1,0 +1,41 @@
+From 8cfac8f16a88bac7453da91aeca9e2c4244ca92a Mon Sep 17 00:00:00 2001
+From: Andrea Claudi <aclaudi@redhat.com>
+Date: Tue, 9 Jul 2019 15:16:50 +0200
+Subject: [PATCH] Revert "ip6tunnel: fix 'ip -6 {show|change} dev <name>' cmds"
+
+This reverts commit ba126dcad20e6d0e472586541d78bdd1ac4f1123.
+It breaks tunnel creation when using 'dev' parameter:
+
+$ ip link add type dummy
+$ ip -6 tunnel add ip6tnl1 mode ip6ip6 remote 2001:db8:ffff:100::2 local 2001:db8:ffff:100::1 hoplimit 1 tclass 0x0 dev dummy0
+add tunnel "ip6tnl0" failed: File exists
+
+dev parameter must be used to specify the device to which
+the tunnel is binded, and not the tunnel itself.
+
+Reported-by: Jianwen Ji <jiji@redhat.com>
+Reviewed-by: Matteo Croce <mcroce@redhat.com>
+Signed-off-by: Andrea Claudi <aclaudi@redhat.com>
+Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+(cherry picked from commit ad04dbc5b41df509cd6925eab36af73000632fd2)
+Signed-off-by: Phil Sutter <psutter@redhat.com>
+---
+ ip/ip6tunnel.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/ip/ip6tunnel.c b/ip/ip6tunnel.c
+index 56fd3466ed062..999408ed801b1 100644
+--- a/ip/ip6tunnel.c
++++ b/ip/ip6tunnel.c
+@@ -298,8 +298,6 @@ static int parse_args(int argc, char **argv, int cmd, struct ip6_tnl_parm2 *p)
+ 		p->link = ll_name_to_index(medium);
+ 		if (!p->link)
+ 			return nodev(medium);
+-		else
+-			strlcpy(p->name, medium, sizeof(p->name));
+ 	}
+ 	return 0;
+ }
+-- 
+2.22.0
+

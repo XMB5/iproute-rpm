@@ -1,14 +1,20 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            5.1.0
+Version:            5.2.0
 Release:            1%{?dist}
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
 
-Patch0:             0001-m_mirred-don-t-bail-if-the-control-action-is-missing.patch
-Patch1:             0002-lib-suppress-error-msg-when-filling-the-cache.patch
-Patch2:             0003-tc-flower-fix-port-value-truncation.patch
+Patch1:  0001-Revert-ip6tunnel-fix-ip-6-show-change-dev-name-cmds.patch
+Patch2:  0002-ip-tunnel-warn-when-changing-IPv6-tunnel-without-tun.patch
+Patch3:  0003-ip-route-fix-json-formatting-for-metrics.patch
+Patch4:  0004-utils-move-parse_percent-to-tc_util.patch
+Patch5:  0005-tc-util-constrain-percentage-in-0-100-interval.patch
+Patch6:  0006-devlink-Change-devlink-health-dump-show-command-to-d.patch
+Patch7:  0007-devlink-Fix-binary-values-print.patch
+Patch8:  0008-devlink-Remove-enclosing-array-brackets-binary-print.patch
+Patch9:  0009-json-fix-backslash-escape-typo-in-jsonw_puts.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      gcc
@@ -126,6 +132,11 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Tue Jul 23 2019 Phil Sutter <psutter@redhat.com> - 5.2.0-1
+- New version 5.2.0
+- Add upstream-suggested backports
+- Fix for tunnel creation when using 'dev' parameter
+
 * Wed May 29 2019 Phil Sutter <psutter@redhat.com> - 5.1.0-1
 - New version 5.1.0
 

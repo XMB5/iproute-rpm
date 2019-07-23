@@ -1,0 +1,78 @@
+From 9da7fb1dd27624ed6ab62f5595451f43c3a07d2d Mon Sep 17 00:00:00 2001
+From: Andrea Claudi <aclaudi@redhat.com>
+Date: Mon, 8 Jul 2019 11:36:42 +0200
+Subject: [PATCH] ip-route: fix json formatting for metrics
+
+Setting metrics for routes currently lead to non-parsable
+json output. For example:
+
+$ ip link add type dummy
+$ ip route add 192.168.2.0 dev dummy0 metric 100 mtu 1000 rto_min 3
+$ ip -j route | jq
+parse error: ':' not as part of an object at line 1, column 319
+
+Fixing this opening a json object in the metrics array and using
+print_string() instead of fprintf().
+
+This is the output for the above commands applying this patch:
+
+$ ip -j route | jq
+[
+  {
+    "dst": "192.168.2.0",
+    "dev": "dummy0",
+    "scope": "link",
+    "metric": 100,
+    "flags": [],
+    "metrics": [
+      {
+        "mtu": 1000,
+        "rto_min": 3
+      }
+    ]
+  }
+]
+
+Fixes: 663c3cb23103f ("iproute: implement JSON and color output")
+Fixes: 968272e791710 ("iproute: refactor metrics print")
+Signed-off-by: Andrea Claudi <aclaudi@redhat.com>
+Reported-by: Frank Hofmann <fhofmann@cloudflare.com>
+Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+(cherry picked from commit 89ce8012d71f5689074dc4cbe3db102cbdf76460)
+Signed-off-by: Phil Sutter <psutter@redhat.com>
+---
+ ip/iproute.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/ip/iproute.c b/ip/iproute.c
+index 1669e0138259e..2f9b612b0b506 100644
+--- a/ip/iproute.c
++++ b/ip/iproute.c
+@@ -578,6 +578,7 @@ static void print_rta_metrics(FILE *fp, const struct rtattr *rta)
+ 	int i;
+ 
+ 	open_json_array(PRINT_JSON, "metrics");
++	open_json_object(NULL);
+ 
+ 	parse_rtattr(mxrta, RTAX_MAX, RTA_DATA(rta), RTA_PAYLOAD(rta));
+ 
+@@ -611,7 +612,7 @@ static void print_rta_metrics(FILE *fp, const struct rtattr *rta)
+ 			print_rtax_features(fp, val);
+ 			break;
+ 		default:
+-			fprintf(fp, "%u ", val);
++			print_uint(PRINT_ANY, mx_names[i], "%u ", val);
+ 			break;
+ 
+ 		case RTAX_RTT:
+@@ -639,6 +640,7 @@ static void print_rta_metrics(FILE *fp, const struct rtattr *rta)
+ 		}
+ 	}
+ 
++	close_json_object();
+ 	close_json_array(PRINT_JSON, NULL);
+ }
+ 
+-- 
+2.22.0
+
