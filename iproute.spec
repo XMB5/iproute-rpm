@@ -1,20 +1,12 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            5.2.0
-Release:            2%{?dist}
+Version:            5.3.0
+Release:            1%{?dist}
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
 
-Patch1:  0001-Revert-ip6tunnel-fix-ip-6-show-change-dev-name-cmds.patch
-Patch2:  0002-ip-tunnel-warn-when-changing-IPv6-tunnel-without-tun.patch
-Patch3:  0003-ip-route-fix-json-formatting-for-metrics.patch
-Patch4:  0004-utils-move-parse_percent-to-tc_util.patch
-Patch5:  0005-tc-util-constrain-percentage-in-0-100-interval.patch
-Patch6:  0006-devlink-Change-devlink-health-dump-show-command-to-d.patch
-Patch7:  0007-devlink-Fix-binary-values-print.patch
-Patch8:  0008-devlink-Remove-enclosing-array-brackets-binary-print.patch
-Patch9:  0009-json-fix-backslash-escape-typo-in-jsonw_puts.patch
+Patch1:  0001-bpf-replace-snprintf-with-asprintf-when-dealing-with.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      gcc
@@ -132,6 +124,10 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Thu Sep 26 2019 Phil Sutter <psutter@redhat.com> - 5.3.0-1
+- New version 5.3.0
+- Add upstream-suggested backports
+
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 5.2.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
