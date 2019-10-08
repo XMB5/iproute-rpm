@@ -26,6 +26,7 @@ BuildRequires:      linux-atm-libs-devel
 %endif
 Provides:           /sbin/ip
 Recommends:         %{name}-tc
+Requires:           psmisc
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for example)
