@@ -1,12 +1,12 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            5.3.0
-Release:            2%{?dist}
+Version:            5.4.0
+Release:            1%{?dist}
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
 
-Patch1:  0001-bpf-replace-snprintf-with-asprintf-when-dealing-with.patch
+Patch1:  0001-devlink-allow-full-range-of-resource-sizes.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      gcc
@@ -27,6 +27,7 @@ BuildRequires:      linux-atm-libs-devel
 Provides:           /sbin/ip
 Recommends:         %{name}-tc
 Requires:           psmisc
+Obsoletes:          iproute-doc < %{version}-%{release}
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for example)
@@ -43,15 +44,6 @@ Provides:           tc
 The Traffic Control utility manages queueing disciplines, their classes and
 attached filters and actions. It is the standard tool to configure QoS in
 Linux.
-
-%if ! 0%{?_module_build}
-%package doc
-Summary:            Documentation for iproute2 utilities with examples
-License:            GPLv2+
-
-%description doc
-The iproute documentation contains howtos and examples of settings.
-%endif
 
 %package devel
 Summary:            iproute development files
@@ -89,7 +81,7 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %dir %{_sysconfdir}/iproute2
 %{!?_licensedir:%global license %%doc}
 %license COPYING
-%doc README README.distribution README.lnstat
+%doc README
 %{_mandir}/man7/*
 %exclude %{_mandir}/man7/tc-*
 %{_mandir}/man8/*
@@ -101,20 +93,12 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %files tc
 %{!?_licensedir:%global license %%doc}
 %license COPYING
-%doc README.iproute2+tc
 %{_mandir}/man7/tc-*
 %{_mandir}/man8/tc*
 %dir %{_libdir}/tc/
 %{_libdir}/tc/*
 %{_sbindir}/tc
 %{_datadir}/bash-completion/completions/tc
-
-%if ! 0%{?_module_build}
-%files doc
-%{!?_licensedir:%global license %%doc}
-%license COPYING
-%doc %{_docdir}/examples
-%endif
 
 %files devel
 %{!?_licensedir:%global license %%doc}
@@ -125,6 +109,10 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Tue Nov 26 2019 Phil Sutter <psutter@redhat.com> - 5.4.0-1
+- New version 5.4.0
+- Drop iproute-doc package, upstream removed all non-manpage documentation
+
 * Tue Oct 08 2019 Phil Sutter <psutter@redhat.com> - 5.3.0-2
 - ifcfg script uses killall, therefore requires psmisc package
 
