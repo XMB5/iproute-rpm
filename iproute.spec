@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            5.5.0
+Version:            5.7.0
 Release:            1%{?dist}
 URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -87,6 +87,7 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
 %{_sbindir}/*
 %exclude %{_sbindir}/tc
+%{_datadir}/bash-completion/completions/devlink
 
 %files tc
 %{!?_licensedir:%global license %%doc}
@@ -107,6 +108,9 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Wed Jun 03 2020 Phil Sutter <psutter@redhat.com> - 5.7.0-1
+- New version 5.7.0
+
 * Tue Jan 28 2020 Phil Sutter <psutter@redhat.com> - 5.5.0-1
 - New version 5.5.0
 
