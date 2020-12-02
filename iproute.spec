@@ -55,21 +55,13 @@ The libnetlink static library.
 %autosetup -p1 -n %{name}2-%{version}
 
 %build
-export CFLAGS='%{optflags}'
-export LDFLAGS='%{build_ldflags}'
-export LIBDIR='%{_libdir}'
-export IPT_LIB_DIR='/%{_lib}/xtables'
-./configure
-make %{?_smp_mflags}
+%configure
+%make_build
 
 %install
-export DESTDIR='%{buildroot}'
 export SBINDIR='%{_sbindir}'
-export MANDIR='%{_mandir}'
 export LIBDIR='%{_libdir}'
-export CONFDIR='%{_sysconfdir}/iproute2'
-export DOCDIR='%{_docdir}'
-make install
+%make_install
 
 # libnetlink
 install -D -m644 include/libnetlink.h %{buildroot}%{_includedir}/libnetlink.h
