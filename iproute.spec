@@ -36,7 +36,7 @@ kernel.
 Summary:            Linux Traffic Control utility
 License:            GPLv2+
 Requires:           %{name}%{?_isa} = %{version}-%{release}
-Provides:           tc
+Provides:           /sbin/tc
 
 %description tc
 The Traffic Control utility manages queueing disciplines, their classes and
