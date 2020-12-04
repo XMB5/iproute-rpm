@@ -23,6 +23,7 @@ BuildRequires:      linux-atm-libs-devel
 %endif
 %endif
 Provides:           /sbin/ip
+Provides:           iproute-doc = %{version}-%{release}
 Recommends:         %{name}-tc
 Requires:           psmisc
 Obsoletes:          iproute-doc < %{version}-%{release}
