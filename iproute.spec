@@ -17,6 +17,7 @@ BuildRequires:      libdb-devel
 BuildRequires:      libmnl-devel
 BuildRequires:      libselinux-devel
 BuildRequires:      pkgconfig
+BuildRequires:      make
 %if ! 0%{?_module_build}
 %if 0%{?fedora}
 BuildRequires:      linux-atm-libs-devel
