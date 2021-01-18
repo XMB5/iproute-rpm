@@ -3,8 +3,8 @@ Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            5.10.0
 Release:            2%{?dist}
-URL:                http://kernel.org/pub/linux/utils/net/%{name}2/
-Source0:            http://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
+URL:                https://kernel.org/pub/linux/utils/net/%{name}2/
+Source0:            https://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      gcc
@@ -71,7 +71,6 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 
 %files
 %dir %{_sysconfdir}/iproute2
-%{!?_licensedir:%global license %%doc}
 %license COPYING
 %doc README
 %{_mandir}/man7/*
@@ -84,7 +83,6 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %{_datadir}/bash-completion/completions/devlink
 
 %files tc
-%{!?_licensedir:%global license %%doc}
 %license COPYING
 %{_mandir}/man7/tc-*
 %{_mandir}/man8/tc*
@@ -94,7 +92,6 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %{_datadir}/bash-completion/completions/tc
 
 %files devel
-%{!?_licensedir:%global license %%doc}
 %license COPYING
 %{_mandir}/man3/*
 %{_libdir}/libnetlink.a
