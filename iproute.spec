@@ -1,8 +1,8 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            5.10.0
-Release:            2%{?dist}
+Version:            5.11.0
+Release:            1%{?dist}
 URL:                https://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            https://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
 
@@ -99,6 +99,9 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Fri Feb 26 2021 Andrea Claudi <aclaudi@redhat.com> - 5.11.0-1
+- New version 5.11.0 (#1931731)
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 5.10.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
