@@ -1,7 +1,7 @@
 %global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            5.12.0
+Version:            5.13.0
 Release:            1%{?dist}
 URL:                https://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            https://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
@@ -99,6 +99,9 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Wed Jun 30 2021 Andrea Claudi <aclaudi@redhat.com> - 5.13.0-1
+- Update to 5.13.0 (#1977463)
+
 * Tue Apr 27 2021 Andrea Claudi <aclaudi@redhat.com> - 5.12.0-1
 - Update to 5.12.0 (#1954257)
 
