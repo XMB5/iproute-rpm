@@ -1,0 +1,50 @@
+From 5e6e93a55d2335b90aacb0107e962610cce64007 Mon Sep 17 00:00:00 2001
+Message-Id: <5e6e93a55d2335b90aacb0107e962610cce64007.1634733799.git.aclaudi@redhat.com>
+From: Andrea Claudi <aclaudi@redhat.com>
+Date: Wed, 20 Oct 2021 12:32:38 +0200
+Subject: [PATCH] configure: restore backward compatibility
+
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1999860
+Upstream Status: iproute2.git commit a3272b93
+
+commit a3272b93725a406bc98b67373da67a4bdf6fcdb0
+Author: Luca Boccassi <bluca@debian.org>
+Date:   Thu Sep 2 12:38:54 2021 +0100
+
+    configure: restore backward compatibility
+
+    Commit a9c3d70d902a0473ee5c13336317006a52ce8242 broke backward compatibility
+    by making 'configure' error out if parameters are passed, instead of
+    ignoring them.
+    Sometimes packaging systems detect 'configure' and assume it's from
+    autotools, and pass a bunch of options. Eg:
+
+     dh_auto_configure
+            ./configure --build=x86_64-linux-gnu --prefix=/usr --includedir=${prefix}/include --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --disable-option-checking --disable-silent-rules --libdir=${prefix}/lib/x86_64-linux-gnu --runstatedir=/run --disable-maintainer-mode --disable-dependency-tracking
+
+    Ignore unknown options again instead of erroring out.
+
+    Fixes: a9c3d70d902a ("configure: add options ability")
+
+    Signed-off-by: Luca Boccassi <bluca@debian.org>
+    Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index 0a4a0fc9..7f4f3bd9 100755
+--- a/configure
++++ b/configure
+@@ -518,7 +518,7 @@ else
+ 			"")
+ 				break ;;
+ 			*)
+-				usage 1 ;;
++				shift 1 ;;
+ 		esac
+ 	done
+ fi
+-- 
+2.31.1
+

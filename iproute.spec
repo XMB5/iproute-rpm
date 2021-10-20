@@ -1,33 +1,46 @@
-%global             cbq_version v0.7.3
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            5.13.0
-Release:            2%{?dist}
+Version:            5.14.0
+Release:            1%{?dist}%{?buildid}
+%if 0%{?rhel}
+Group:              Applications/System
+%endif
 URL:                https://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            https://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
+%if ! 0%{?fedora}
+Source1:            iproute2.sh
+Source2:            rt_dsfield.deprecated
+%endif
+Patch0:             0001-configure-restore-backward-compatibility.patch
+Patch1:             0002-configure-fix-parsing-issue-on-include_dir-option.patch
+Patch2:             0003-configure-fix-parsing-issue-on-libbpf_dir-option.patch
+Patch3:             0004-configure-fix-parsing-issue-with-more-than-one-value.patch
+Patch4:             0005-configure-simplify-options-parsing.patch
+Patch5:             0006-configure-support-param-value-style.patch
+Patch6:             0007-configure-add-the-prefix-option.patch
+Patch7:             0008-configure-add-the-libdir-option.patch
 
 License:            GPLv2+ and Public Domain
-BuildRequires:      gcc
 BuildRequires:      bison
 BuildRequires:      elfutils-libelf-devel
 BuildRequires:      flex
+BuildRequires:      gcc
 BuildRequires:      iptables-devel >= 1.4.5
+BuildRequires:      libbpf-devel
 BuildRequires:      libcap-devel
 BuildRequires:      libdb-devel
 BuildRequires:      libmnl-devel
 BuildRequires:      libselinux-devel
-BuildRequires:      pkgconfig
 BuildRequires:      make
+BuildRequires:      pkgconfig
 %if ! 0%{?_module_build}
 %if 0%{?fedora}
 BuildRequires:      linux-atm-libs-devel
 %endif
 %endif
-Provides:           /sbin/ip
-Provides:           iproute-doc = %{version}-%{release}
-Recommends:         %{name}-tc
+Requires:           libbpf
 Requires:           psmisc
-Obsoletes:          iproute-doc < %{version}-%{release}
+Provides:           /sbin/ip
 
 %description
 The iproute package contains networking utilities (ip and rtmon, for example)
@@ -36,6 +49,9 @@ kernel.
 
 %package tc
 Summary:            Linux Traffic Control utility
+%if 0%{?rhel}
+Group:              Applications/System
+%endif
 License:            GPLv2+
 Requires:           %{name}%{?_isa} = %{version}-%{release}
 Provides:           /sbin/tc
@@ -45,9 +61,26 @@ The Traffic Control utility manages queueing disciplines, their classes and
 attached filters and actions. It is the standard tool to configure QoS in
 Linux.
 
+%if ! 0%{?_module_build}
+%package doc
+Summary:            Documentation for iproute2 utilities with examples
+%if 0%{?rhel}
+Group:              Applications/System
+%endif
+License:            GPLv2+
+Requires:           %{name} = %{version}-%{release}
+
+%description doc
+The iproute documentation contains howtos and examples of settings.
+%endif
+
 %package devel
 Summary:            iproute development files
+%if 0%{?rhel}
+Group:              Development/Libraries
+%endif
 License:            GPLv2+
+Requires:           %{name} = %{version}-%{release}
 Provides:           iproute-static = %{version}-%{release}
 
 %description devel
@@ -65,18 +98,32 @@ export SBINDIR='%{_sbindir}'
 export LIBDIR='%{_libdir}'
 %make_install
 
+echo '.so man8/tc-cbq.8' > %{buildroot}%{_mandir}/man8/cbq.8
+
 # libnetlink
 install -D -m644 include/libnetlink.h %{buildroot}%{_includedir}/libnetlink.h
 install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 
+# drop these files, iproute-doc package extracts files directly from _builddir
+rm -rf '%{buildroot}%{_docdir}'
+
+# RHEL-specific stuff
+%if ! 0%{?fedora}
+# use TC_LIB_DIR environment variable
+install -D -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/profile.d/iproute2.sh
+# append deprecated values to rt_dsfield for compatibility reasons
+cat %{SOURCE2} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
+%endif
+
 %files
 %dir %{_sysconfdir}/iproute2
 %license COPYING
-%doc README
+%doc README README.devel
 %{_mandir}/man7/*
 %exclude %{_mandir}/man7/tc-*
 %{_mandir}/man8/*
 %exclude %{_mandir}/man8/tc*
+%exclude %{_mandir}/man8/cbq*
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
 %{_sbindir}/*
 %exclude %{_sbindir}/tc
@@ -84,12 +131,22 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 
 %files tc
 %license COPYING
+%if ! 0%{?fedora}
+%{_sysconfdir}/profile.d/iproute2.sh
+%endif
 %{_mandir}/man7/tc-*
 %{_mandir}/man8/tc*
+%{_mandir}/man8/cbq*
 %dir %{_libdir}/tc/
 %{_libdir}/tc/*
 %{_sbindir}/tc
 %{_datadir}/bash-completion/completions/tc
+
+%if ! 0%{?_module_build}
+%files doc
+%license COPYING
+%doc examples
+%endif
 
 %files devel
 %license COPYING
@@ -99,17 +156,25 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
-* Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 5.13.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+* Wed Oct 20 2021 Andrea Claudi <aclaudi@redhat.com> - 5.14.0-1
+- New version 5.14.0 [1999860]
 
-* Wed Jun 30 2021 Andrea Claudi <aclaudi@redhat.com> - 5.13.0-1
-- Update to 5.13.0 (#1977463)
+* Mon Aug 09 2021 Mohan Boddu <mboddu@redhat.com> - 5.13.0-4.el9
+- Rebuilt for IMA sigs, glibc 2.34, aarch64 flags
+  Related: rhbz#1991688
 
-* Tue Apr 27 2021 Andrea Claudi <aclaudi@redhat.com> - 5.12.0-1
-- Update to 5.12.0 (#1954257)
+* Fri Jul 16 2021 Andrea Claudi <aclaudi@redhat.com> - 5.13.0-3.el9
+- Fix changelog (Andrea Claudi) [1947854]
+- Add RHEL gating configuration (Aleksandra Fedorova)
 
-* Fri Feb 26 2021 Andrea Claudi <aclaudi@redhat.com> - 5.11.0-1
-- New version 5.11.0 (#1931731)
+* Thu Jul 15 2021 Andrea Claudi <aclaudi@redhat.com> - 5.13.0-2.el9
+- Remove Recommends: iproute-tc from spec file (Andrea Claudi) [1947854]
+
+* Wed Jun 30 2021 Andrea Claudi <aclaudi@redhat.com> - 5.13.0-1.el9
+- New version 5.13.0 (#1977898)
+
+* Fri Apr 16 2021 Mohan Boddu <mboddu@redhat.com> - 5.10.0-3.el9
+- Rebuilt for RHEL 9 BETA on Apr 15th 2021. Related: rhbz#1947937
 
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 5.10.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild

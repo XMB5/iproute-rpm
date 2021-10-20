@@ -1,0 +1,63 @@
+From 4f9ade07eafe74db184eb09603e8187f3ca14423 Mon Sep 17 00:00:00 2001
+Message-Id: <4f9ade07eafe74db184eb09603e8187f3ca14423.1634733799.git.aclaudi@redhat.com>
+In-Reply-To: <5e6e93a55d2335b90aacb0107e962610cce64007.1634733799.git.aclaudi@redhat.com>
+References: <5e6e93a55d2335b90aacb0107e962610cce64007.1634733799.git.aclaudi@redhat.com>
+From: Andrea Claudi <aclaudi@redhat.com>
+Date: Wed, 20 Oct 2021 12:32:38 +0200
+Subject: [PATCH] configure: fix parsing issue with more than one value per
+ option
+
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1999860
+Upstream Status: iproute2-next.git commit c330d097
+
+commit c330d0979440a1dec4a436fd742bb6e28d195526
+Author: Andrea Claudi <aclaudi@redhat.com>
+Date:   Thu Oct 14 10:50:51 2021 +0200
+
+    configure: fix parsing issue with more than one value per option
+
+    With commit a9c3d70d902a ("configure: add options ability") users are no
+    more able to provide wrong command lines like:
+
+    $ ./configure --include_dir foo bar
+
+    The script simply bails out when user provides more than one value for a
+    single option. However, in doing so, it breaks backward compatibility with
+    some packaging system, which expects unknown options to be ignored.
+
+    Commit a3272b93725a ("configure: restore backward compatibility") fix this
+    issue, but makes it possible again for users to provide wrong command lines
+    such as the one above.
+
+    This fixes the issue simply ignoring autoconf-like options such as
+    '--opt=value'.
+
+    Fixes: a3272b93725a ("configure: restore backward compatibility")
+    Signed-off-by: Andrea Claudi <aclaudi@redhat.com>
+    Acked-by: Phil Sutter <phil@nwl.cc>
+    Signed-off-by: David Ahern <dsahern@kernel.org>
+---
+ configure | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index 0f304206..9ec19a5b 100755
+--- a/configure
++++ b/configure
+@@ -517,10 +517,12 @@ else
+ 				shift 2 ;;
+ 			-h | --help)
+ 				usage 0 ;;
++			--*)
++				shift ;;
+ 			"")
+ 				break ;;
+ 			*)
+-				shift 1 ;;
++				usage 1 ;;
+ 		esac
+ 	done
+ fi
+-- 
+2.31.1
+

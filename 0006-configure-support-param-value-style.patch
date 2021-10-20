@@ -1,0 +1,53 @@
+From 6de1c71cf82d67784a185ba912bdbfa24fa6bce5 Mon Sep 17 00:00:00 2001
+Message-Id: <6de1c71cf82d67784a185ba912bdbfa24fa6bce5.1634733799.git.aclaudi@redhat.com>
+In-Reply-To: <5e6e93a55d2335b90aacb0107e962610cce64007.1634733799.git.aclaudi@redhat.com>
+References: <5e6e93a55d2335b90aacb0107e962610cce64007.1634733799.git.aclaudi@redhat.com>
+From: Andrea Claudi <aclaudi@redhat.com>
+Date: Wed, 20 Oct 2021 12:32:38 +0200
+Subject: [PATCH] configure: support --param=value style
+
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1999860
+Upstream Status: iproute2-next.git commit 4b8bca5f
+
+commit 4b8bca5f9e3e6f210b1036166dc98801e76d8ee5
+Author: Andrea Claudi <aclaudi@redhat.com>
+Date:   Thu Oct 14 10:50:53 2021 +0200
+
+    configure: support --param=value style
+
+    This commit makes it possible to specify values for configure params
+    using the common autotools configure syntax '--param=value'.
+
+    Signed-off-by: Andrea Claudi <aclaudi@redhat.com>
+    Acked-by: Phil Sutter <phil@nwl.cc>
+    Signed-off-by: David Ahern <dsahern@kernel.org>
+---
+ configure | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/configure b/configure
+index 26e06eb8..9a2645d9 100755
+--- a/configure
++++ b/configure
+@@ -504,12 +504,18 @@ else
+ 			--include_dir)
+ 				shift
+ 				INCLUDE="$1" ;;
++			--include_dir=*)
++				INCLUDE="${1#*=}" ;;
+ 			--libbpf_dir)
+ 				shift
+ 				LIBBPF_DIR="$1" ;;
++			--libbpf_dir=*)
++				LIBBPF_DIR="${1#*=}" ;;
+ 			--libbpf_force)
+ 				shift
+ 				LIBBPF_FORCE="$1" ;;
++			--libbpf_force=*)
++				LIBBPF_FORCE="${1#*=}" ;;
+ 			-h | --help)
+ 				usage 0 ;;
+ 			--*)
+-- 
+2.31.1
+

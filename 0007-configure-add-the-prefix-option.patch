@@ -1,0 +1,72 @@
+From aad7307a1ca9f2c8df26e1ed5e8a8b9816f87792 Mon Sep 17 00:00:00 2001
+Message-Id: <aad7307a1ca9f2c8df26e1ed5e8a8b9816f87792.1634733799.git.aclaudi@redhat.com>
+In-Reply-To: <5e6e93a55d2335b90aacb0107e962610cce64007.1634733799.git.aclaudi@redhat.com>
+References: <5e6e93a55d2335b90aacb0107e962610cce64007.1634733799.git.aclaudi@redhat.com>
+From: Andrea Claudi <aclaudi@redhat.com>
+Date: Wed, 20 Oct 2021 12:32:38 +0200
+Subject: [PATCH] configure: add the --prefix option
+
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1999860
+Upstream Status: iproute2-next.git commit 0ee1950b
+
+commit 0ee1950b5c38986ea896606810231f5f9d761a00
+Author: Andrea Claudi <aclaudi@redhat.com>
+Date:   Thu Oct 14 10:50:54 2021 +0200
+
+    configure: add the --prefix option
+
+    This commit add the '--prefix' option to the iproute2 configure script.
+
+    This mimics the '--prefix' option that autotools configure provides, and
+    will be used later to allow users or packagers to set the lib directory.
+
+    Signed-off-by: Andrea Claudi <aclaudi@redhat.com>
+    Acked-by: Phil Sutter <phil@nwl.cc>
+    Signed-off-by: David Ahern <dsahern@kernel.org>
+---
+ configure | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/configure b/configure
+index 9a2645d9..05e23eff 100755
+--- a/configure
++++ b/configure
+@@ -3,6 +3,7 @@
+ # This is not an autoconf generated configure
+ 
+ INCLUDE="$PWD/include"
++PREFIX="/usr"
+ 
+ # Output file which is input to Makefile
+ CONFIG=config.mk
+@@ -490,6 +491,7 @@ Usage: $0 [OPTIONS]
+ 	--libbpf_force <on|off>		Enable/disable libbpf by force. Available options:
+ 					  on: require link against libbpf, quit config if no libbpf support
+ 					  off: disable libbpf probing
++	--prefix <dir>			Path prefix of the lib files to install
+ 	-h | --help			Show this usage info
+ EOF
+ 	exit $1
+@@ -516,6 +518,11 @@ else
+ 				LIBBPF_FORCE="$1" ;;
+ 			--libbpf_force=*)
+ 				LIBBPF_FORCE="${1#*=}" ;;
++			--prefix)
++				shift
++				PREFIX="$1" ;;
++			--prefix=*)
++				PREFIX="${1#*=}" ;;
+ 			-h | --help)
+ 				usage 0 ;;
+ 			--*)
+@@ -536,6 +543,7 @@ if [ "${LIBBPF_FORCE-unused}" != "unused" ]; then
+ 		usage 1
+ 	fi
+ fi
++[ -z "$PREFIX" ] && usage 1
+ 
+ echo "# Generated config based on" $INCLUDE >$CONFIG
+ quiet_config >> $CONFIG
+-- 
+2.31.1
+
