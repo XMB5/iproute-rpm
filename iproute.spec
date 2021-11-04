@@ -1,6 +1,6 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            5.14.0
+Version:            5.15.0
 Release:            1%{?dist}%{?buildid}
 %if 0%{?rhel}
 Group:              Applications/System
@@ -8,17 +8,15 @@ Group:              Applications/System
 URL:                https://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            https://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
 %if ! 0%{?fedora}
-Source1:            iproute2.sh
-Source2:            rt_dsfield.deprecated
+Source1:            rt_dsfield.deprecated
 %endif
-Patch0:             0001-configure-restore-backward-compatibility.patch
-Patch1:             0002-configure-fix-parsing-issue-on-include_dir-option.patch
-Patch2:             0003-configure-fix-parsing-issue-on-libbpf_dir-option.patch
-Patch3:             0004-configure-fix-parsing-issue-with-more-than-one-value.patch
-Patch4:             0005-configure-simplify-options-parsing.patch
-Patch5:             0006-configure-support-param-value-style.patch
-Patch6:             0007-configure-add-the-prefix-option.patch
-Patch7:             0008-configure-add-the-libdir-option.patch
+Patch0:             0001-configure-fix-parsing-issue-on-include_dir-option.patch
+Patch1:             0002-configure-fix-parsing-issue-on-libbpf_dir-option.patch
+Patch2:             0003-configure-fix-parsing-issue-with-more-than-one-value.patch
+Patch3:             0004-configure-simplify-options-parsing.patch
+Patch4:             0005-configure-support-param-value-style.patch
+Patch5:             0006-configure-add-the-prefix-option.patch
+Patch6:             0007-configure-add-the-libdir-option.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -107,12 +105,9 @@ install -D -m644 lib/libnetlink.a %{buildroot}%{_libdir}/libnetlink.a
 # drop these files, iproute-doc package extracts files directly from _builddir
 rm -rf '%{buildroot}%{_docdir}'
 
-# RHEL-specific stuff
-%if ! 0%{?fedora}
-# use TC_LIB_DIR environment variable
-install -D -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/profile.d/iproute2.sh
 # append deprecated values to rt_dsfield for compatibility reasons
-cat %{SOURCE2} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
+%if ! 0%{?fedora}
+cat %{SOURCE1} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
 %endif
 
 %files
@@ -131,9 +126,6 @@ cat %{SOURCE2} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
 
 %files tc
 %license COPYING
-%if ! 0%{?fedora}
-%{_sysconfdir}/profile.d/iproute2.sh
-%endif
 %{_mandir}/man7/tc-*
 %{_mandir}/man8/tc*
 %{_mandir}/man8/cbq*
@@ -156,6 +148,9 @@ cat %{SOURCE2} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Thu Nov 04 2021 Andrea Claudi <aclaudi@redhat.com> - 5.15.0-1
+- New version 5.15.0 [2019267]
+
 * Wed Oct 20 2021 Andrea Claudi <aclaudi@redhat.com> - 5.14.0-1
 - New version 5.14.0 [1999860]
 

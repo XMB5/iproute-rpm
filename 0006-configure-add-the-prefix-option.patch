@@ -1,7 +1,7 @@
 From aad7307a1ca9f2c8df26e1ed5e8a8b9816f87792 Mon Sep 17 00:00:00 2001
-Message-Id: <aad7307a1ca9f2c8df26e1ed5e8a8b9816f87792.1634733799.git.aclaudi@redhat.com>
-In-Reply-To: <5e6e93a55d2335b90aacb0107e962610cce64007.1634733799.git.aclaudi@redhat.com>
-References: <5e6e93a55d2335b90aacb0107e962610cce64007.1634733799.git.aclaudi@redhat.com>
+Message-Id: <aad7307a1ca9f2c8df26e1ed5e8a8b9816f87792.1636047125.git.aclaudi@redhat.com>
+In-Reply-To: <5e6e93a55d2335b90aacb0107e962610cce64007.1636047125.git.aclaudi@redhat.com>
+References: <5e6e93a55d2335b90aacb0107e962610cce64007.1636047125.git.aclaudi@redhat.com>
 From: Andrea Claudi <aclaudi@redhat.com>
 Date: Wed, 20 Oct 2021 12:32:38 +0200
 Subject: [PATCH] configure: add the --prefix option
