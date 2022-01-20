@@ -1,7 +1,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            5.15.0
-Release:            1%{?dist}%{?buildid}
+Release:            2%{?dist}%{?buildid}
 %if 0%{?rhel}
 Group:              Applications/System
 %endif
@@ -148,6 +148,9 @@ cat %{SOURCE1} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 5.15.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Thu Nov 04 2021 Andrea Claudi <aclaudi@redhat.com> - 5.15.0-1
 - New version 5.15.0 [2019267]
 
