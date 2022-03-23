@@ -1,7 +1,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            5.15.0
-Release:            2%{?dist}%{?buildid}
+Version:            5.17.0
+Release:            1%{?dist}%{?buildid}
 %if 0%{?rhel}
 Group:              Applications/System
 %endif
@@ -10,13 +10,6 @@ Source0:            https://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{v
 %if ! 0%{?fedora}
 Source1:            rt_dsfield.deprecated
 %endif
-Patch0:             0001-configure-fix-parsing-issue-on-include_dir-option.patch
-Patch1:             0002-configure-fix-parsing-issue-on-libbpf_dir-option.patch
-Patch2:             0003-configure-fix-parsing-issue-with-more-than-one-value.patch
-Patch3:             0004-configure-simplify-options-parsing.patch
-Patch4:             0005-configure-support-param-value-style.patch
-Patch5:             0006-configure-add-the-prefix-option.patch
-Patch6:             0007-configure-add-the-libdir-option.patch
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -148,6 +141,9 @@ cat %{SOURCE1} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Wed Mar 23 2022 Andrea Claudi <aclaudi@redhat.com> - 5.17.0-1
+- New version 5.17.0 [2039103]
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 5.15.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
