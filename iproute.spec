@@ -1,7 +1,7 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
 Version:            5.17.0
-Release:            1%{?dist}%{?buildid}
+Release:            2%{?dist}%{?buildid}
 %if 0%{?rhel}
 Group:              Applications/System
 %endif
@@ -115,6 +115,7 @@ cat %{SOURCE1} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/iproute2/*
 %{_sbindir}/*
 %exclude %{_sbindir}/tc
+%exclude %{_sbindir}/routel
 %{_datadir}/bash-completion/completions/devlink
 
 %files tc
@@ -141,6 +142,9 @@ cat %{SOURCE1} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Wed Mar 30 2022 Andrea Claudi <aclaudi@redhat.com> - 5.17.0-2
+- iproute.spec: do not ship routel (Andrea Claudi) [2068118]
+
 * Wed Mar 23 2022 Andrea Claudi <aclaudi@redhat.com> - 5.17.0-1
 - New version 5.17.0 [2039103]
 
