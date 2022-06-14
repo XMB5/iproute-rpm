@@ -1,15 +1,13 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               iproute
-Version:            5.17.0
-Release:            2%{?dist}%{?buildid}
+Version:            5.18.0
+Release:            1%{?dist}%{?buildid}
 %if 0%{?rhel}
 Group:              Applications/System
 %endif
 URL:                https://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            https://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
-%if ! 0%{?fedora}
-Source1:            rt_dsfield.deprecated
-%endif
+
 
 License:            GPLv2+ and Public Domain
 BuildRequires:      bison
@@ -142,6 +140,9 @@ cat %{SOURCE1} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
 %{_includedir}/iproute2/bpf_elf.h
 
 %changelog
+* Tue Jun 14 2022 Andrea Claudi <aclaudi@redhat.com> - 5.18.0-1
+- New version 5.18.0 [2090930]
+
 * Wed Mar 30 2022 Andrea Claudi <aclaudi@redhat.com> - 5.17.0-2
 - iproute.spec: do not ship routel (Andrea Claudi) [2068118]
 
