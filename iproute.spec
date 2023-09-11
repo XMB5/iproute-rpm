@@ -7,6 +7,10 @@ Group:              Applications/System
 %endif
 URL:                https://kernel.org/pub/linux/utils/net/%{name}2/
 Source0:            https://kernel.org/pub/linux/utils/net/%{name}2/%{name}2-%{version}.tar.xz
+Source100:          colorip.sh
+Source101:          colorip.csh
+Source102:          colortc.sh
+Source103:          colortc.csh
 
 
 License:            GPL-2.0-or-later AND NIST-PD
@@ -86,6 +90,14 @@ echo -e "\nPREFIX=%{_prefix}\nCONFDIR:=%{_sysconfdir}/iproute2\nSBINDIR=%{_sbind
 %install
 %make_install
 
+# ip command colorization
+%global profiledir %{_sysconfdir}/profile.d
+mkdir -p %{buildroot}%{profiledir}
+install -p -m 644 %{SOURCE100} %{buildroot}%{profiledir}
+install -p -m 644 %{SOURCE101} %{buildroot}%{profiledir}
+install -p -m 644 %{SOURCE102} %{buildroot}%{profiledir}
+install -p -m 644 %{SOURCE103} %{buildroot}%{profiledir}
+
 echo '.so man8/tc-cbq.8' > %{buildroot}%{_mandir}/man8/cbq.8
 
 # libnetlink
@@ -114,6 +126,7 @@ cat %{SOURCE1} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
 %exclude %{_sbindir}/tc
 %exclude %{_sbindir}/routel
 %{_datadir}/bash-completion/completions/devlink
+%{profiledir}/colorip.*
 
 %files tc
 %license COPYING
@@ -124,6 +137,7 @@ cat %{SOURCE1} >>%{buildroot}%{_sysconfdir}/iproute2/rt_dsfield
 %{_libdir}/tc/*
 %{_sbindir}/tc
 %{_datadir}/bash-completion/completions/tc
+%{profiledir}/colortc.*
 
 %if ! 0%{?_module_build}
 %files doc
